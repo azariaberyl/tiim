@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { MdEdit, MdDelete } from 'react-icons/md';
-import Modal from '../Modal';
 import Timer from '../Timer';
 import Header from './Header';
 
@@ -8,7 +6,7 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>) {
   console.log('~Render ClockCard');
 
   const [isStartTimer, setStartTimer] = useState<boolean>(false);
-  const [title, category, time] = ['Asignment', 'Project', '25:00'];
+  const [title, category] = ['Asignment', 'Project', '25:00'];
 
   const startHandler = () => setStartTimer((prev) => !prev);
 

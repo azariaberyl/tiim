@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
+import { IoChevronDown } from 'react-icons/io5';
 import Modal from '../Modal';
+import Pagination from './Pagination';
 
 function Header() {
   const [isReportOpen, setReportOpen] = useState<boolean>(false);
@@ -25,13 +27,22 @@ function Header() {
         </Modal>
       )}
 
-      <div className='w-full flex justify-end mr-4 gap-1'>
-        <button onClick={editButtonHandler} title='Edit Timer' type='button'>
-          <MdEdit className='text-primary-dark text-2xl' />
-        </button>
-        <button title='Delete' type='button'>
-          <MdDelete className='text-primary-dark text-2xl' />
-        </button>
+      <div className='w-full flex justify-end px-4 mb-6'>
+        <div className='flex items-center w-1/5'>
+          <button className='flex gap-1 text-secondary-dark hover:text-inherit  items-center'>
+            <p className='uppercase text-sm font-medium'>Project</p>
+            <IoChevronDown />
+          </button>
+        </div>
+        <Pagination />
+        <div className='w-1/5 items-center justify-end flex gap-2'>
+          <button onClick={editButtonHandler} title='Edit Timer' type='button'>
+            <MdEdit className='text-2xl' />
+          </button>
+          <button title='Delete' type='button'>
+            <MdDelete className='text-2xl' />
+          </button>
+        </div>
       </div>
     </>
   );

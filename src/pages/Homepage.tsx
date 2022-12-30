@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import ClockCard from '../components/ClockCard';
 
 const Homepage = () => {
