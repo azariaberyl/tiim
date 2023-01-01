@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import TimersContext from '../contexts/TimersContext';
 import { secondToString, toSeconds } from '../utils';
 
 function Timer({ isStart }: { isStart: boolean }) {

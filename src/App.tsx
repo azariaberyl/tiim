@@ -3,8 +3,6 @@ import TopBar from './components/TopBar';
 import Homepage from './pages/Homepage';
 
 function App() {
-  console.log(crypto.randomUUID());
-
   return (
     <>
       <TopBar />

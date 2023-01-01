@@ -4,7 +4,6 @@ interface Timer {
   project: string;
   id: number;
   isSelected?: boolean;
-  isStart?: boolean;
 }
 
 export type { Timer };

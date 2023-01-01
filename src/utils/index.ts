@@ -1,3 +1,5 @@
+import { Timer } from '../types';
+
 const toMilliseconds = (hrs: number = 0, min: number = 0, sec: number = 0) =>
   (hrs * 60 * 60 + min * 60 + sec) * 1000;
 
@@ -14,4 +16,42 @@ const secondToString = (sec: number) => {
     .padStart(2, '0')}`;
 };
 
-export { toMilliseconds, toSeconds, secondToString };
+function setTimers(timers: Timer[]) {
+  const timersString = JSON.stringify(timers);
+  try {
+    localStorage.setItem('timers', timersString);
+    return { success: true };
+  } catch (e) {
+    return e;
+  }
+}
+
+function getTimers(): Timer[] {
+  const timers = localStorage.getItem('timers');
+  return timers ? JSON.parse(timers) : [];
+}
+
+function setSelectedTimers(timerId: number) {
+  const selectedTimerId = JSON.stringify(timerId);
+  try {
+    localStorage.setItem('selected_timer', selectedTimerId);
+    return { success: true };
+  } catch (e) {
+    return e;
+  }
+}
+
+function getSelectedTimers(): number {
+  const selectedTimerId = localStorage.getItem('selected_timer');
+  return selectedTimerId ? JSON.parse(selectedTimerId) : -1;
+}
+
+export {
+  toMilliseconds,
+  toSeconds,
+  secondToString,
+  setTimers,
+  getTimers,
+  getSelectedTimers,
+  setSelectedTimers,
+};
