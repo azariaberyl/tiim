@@ -2,8 +2,11 @@
 # Tiimz
 
 
-Tiimz is a clock timer but you can track how long you have been using it.
-This project inspired by [Pomofocus.io](https://pomofocus.io/) but has more reports and flexibility
+Tiimz is a customable and flexible web-based Pomodoro timer application that helps users manage their time effectively using the Pomodoro Technique. The Pomodoro Technique is a time management method that breaks down work into intervals, traditionally 25 minutes in length, separated by short breaks. These intervals are known as "Pomodoros."
+
+With Tiimz, users can set custom Pomodoro and break durations, track their progress, and receive notifications to stay on track. They can also customize the look and feel of the application to suit their preferences. In addition, Tiimz allows users to view reports of the timers they have created, providing a comprehensive overview of their time management efforts.
+
+Whether you are a student looking to boost your study efficiency, a freelancer trying to increase your productivity, or a professional seeking to improve your time management skills, Tiimz is a helpful and flexible tool to have in your toolkit.
 ## Features
 
 - [x] Light/dark mode toggle
