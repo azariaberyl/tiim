@@ -1,9 +1,8 @@
 interface Timer {
-  time: number;
+  seconds: number;
+  minutes: number;
   title: string;
-  project: string;
-  id: number;
-  isSelected?: boolean;
+  category: string;
 }
 
 export type { Timer };

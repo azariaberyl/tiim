@@ -4,26 +4,31 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './styles/index.css';
-import { getTimers, setTimers } from './utils';
+import {
+  getSelectedTimer,
+  getTimers,
+  setSelectedTimer,
+  setTimers,
+} from './utils';
 
-getTimers()
+!getTimers()
   ? setTimers([
       {
-        id: 1,
-        project: 'Project',
-        time: 1200,
+        category: 'Project',
+        seconds: 0,
+        minutes: 2,
         title: 'Focus',
-        isSelected: true,
       },
     ])
   : console.log('Sudah ada timers');
+!getSelectedTimer() ? setSelectedTimer(0) : console.log('Sudah ada timers');
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider value='light'>
-        <App />
-      </ThemeProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <ThemeProvider value='light'>
+      <App />
+    </ThemeProvider>
+  </BrowserRouter>
+  // </React.StrictMode>
 );

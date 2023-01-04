@@ -2,9 +2,9 @@ import React, { useCallback, useState, useMemo } from 'react';
 import { TimersProvider } from '../../contexts/TimersContext';
 import { Timer as TimerType } from '../../types';
 import {
-  getSelectedTimers,
+  getSelectedTimer,
   getTimers,
-  setSelectedTimers,
+  setSelectedTimer,
   setTimers as setLocalStorageTimers,
 } from '../../utils';
 import Timer from '../Timer';
@@ -14,30 +14,38 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>) {
   console.log('~Render ClockCard');
 
   const [timers, setTimers] = useState(getTimers());
-  const [selected, setSelected] = useState(getSelectedTimers());
+  const [selected, setSelected] = useState(getSelectedTimer());
   const [isStartTimer, setStartTimer] = useState<boolean>(false);
+  const [refresh, setRefresh] = useState<boolean>(false);
 
-  const selectedTimer = useMemo(() => timers[selected], [selected]);
+  const { minutes, seconds, category, title } = useMemo(
+    () => timers[selected],
+    [selected, timers]
+  );
 
-  const onTimerChange = useCallback((id: number, timer: TimerType) => {
-    const newTimers = timers.map((t) => (t.id === id ? timer : t));
+  const onTimerChange = useCallback((index: number, timer: TimerType) => {
+    const newTimers = timers.map((t, i) => (i === index ? timer : t));
     setLocalStorageTimers(newTimers);
-    setTimers(newTimers);
+    setTimers(getTimers());
   }, []);
 
   const onChangeSelected = useCallback((newId: number) => {
-    setSelectedTimers(newId);
+    setSelectedTimer(newId);
     setSelected(newId);
   }, []);
 
+  const startHandler = () => setStartTimer((prev) => !prev);
+
   const contextVal = React.useMemo(
-    () => ({ timers, selected, onTimerChange, onChangeSelected }),
+    () => ({
+      timers,
+      selected,
+      onTimerChange,
+      onChangeSelected,
+      timer: { minutes, seconds, category, title },
+    }),
     [timers]
   );
-
-  const [title, category] = ['Asignment', 'Project', '25:00'];
-
-  const startHandler = () => setStartTimer((prev) => !prev);
 
   return (
     <div {...props}>
@@ -48,7 +56,12 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>) {
         >
           <Header />
 
-          <Timer isStart={isStartTimer} />
+          <Timer
+            isStart={isStartTimer}
+            seconds={seconds}
+            minutes={minutes}
+            refresh={refresh}
+          />
 
           <div className='gap-1 my-4 flex justify-center flex-col items-center'>
             <p className='w-fit font-medium text-2xl'>{title}</p>
@@ -64,6 +77,7 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>) {
             >
               {isStartTimer ? 'PAUSE' : 'START'}
             </button>
+            <button onClick={() => setRefresh((prev) => !prev)}>refresh</button>
           </div>
         </div>
       </TimersProvider>

@@ -1,29 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { IoChevronDown } from 'react-icons/io5';
 import Modal from '../Modal';
 import Pagination from './Pagination';
+import TimersContext from '../../contexts/TimersContext';
+import { Timer } from '../../types';
 
 function Header() {
-  const [isReportOpen, setReportOpen] = useState<boolean>(false);
-  const [text, setText] = useState('');
-  console.log('Render Header');
+  const { timer, onTimerChange, selected } = useContext(TimersContext);
+
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+
+  const [title, category, minutes, seconds] = [
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+  ];
 
   const editButtonHandler = () => {
-    setReportOpen((prevState) => !prevState);
+    setModalOpen((prevState) => !prevState);
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    editButtonHandler();
+    const newTimer: Timer = {
+      category: category.current?.value ? category.current?.value : '',
+      title: title.current?.value ? title.current?.value : '',
+      minutes: minutes.current?.value ? +minutes.current?.value : 0,
+      seconds: seconds.current?.value ? +seconds.current?.value : 0,
+    };
+    onTimerChange(selected, newTimer);
   };
 
   return (
     <>
-      {isReportOpen && (
+      {isModalOpen && (
         <Modal onClose={editButtonHandler}>
-          <div className='bg-white w-fit h-36'>
+          <form
+            onSubmit={onSubmit}
+            className='bg-white w-fit flex flex-col py-5 px-10 gap-2 rounded'
+          >
+            <label htmlFor='title'>Title</label>
             <input
+              id='title'
+              ref={title}
               className='border border-black outline-none p-1'
               type='text'
-              onChange={(e) => setText(e.target.value)}
+              defaultValue={timer?.title}
             />
-          </div>
+            <label htmlFor='category'>Category</label>
+            <input
+              id='category'
+              ref={category}
+              className='border border-black outline-none p-1'
+              defaultValue={timer?.category}
+              type='text'
+            />
+            <label htmlFor='minutes'>Minutes</label>
+            <input
+              id='minutes'
+              ref={minutes}
+              className='border border-black outline-none p-1'
+              type='number'
+              min={0}
+              max={99}
+              step={1}
+              defaultValue={timer?.minutes}
+            />
+            <label htmlFor='seconds'>Second</label>
+            <input
+              id='seconds'
+              ref={seconds}
+              className='border border-black outline-none p-1'
+              defaultValue={timer?.seconds}
+              type='number'
+              min={0}
+              max={59}
+              step={1}
+            />
+            <button type='submit'>Ok</button>
+          </form>
         </Modal>
       )}
 

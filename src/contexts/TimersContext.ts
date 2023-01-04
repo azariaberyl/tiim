@@ -5,19 +5,19 @@ type TimerId = number;
 interface TimersContext {
   timers: Timer[];
   selected: TimerId;
-  onTimerChange: Function;
-  onChangeSelected: Function;
+  onTimerChange: (index: number, timer: Timer) => void;
+  onChangeSelected: (newId: number) => void;
+  timer?: Timer;
 }
 
 const TimersContext = createContext<TimersContext>({
   timers: [],
-  selected: 1,
+  selected: 0,
   onTimerChange: () => {},
   onChangeSelected: () => {},
 });
 
 const TimersProvider = TimersContext.Provider;
-const TimersConsumer = TimersContext.Consumer;
 
-export { TimersProvider, TimersConsumer };
+export { TimersProvider };
 export default TimersContext;

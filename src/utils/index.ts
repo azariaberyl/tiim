@@ -31,7 +31,7 @@ function getTimers(): Timer[] {
   return timers ? JSON.parse(timers) : [];
 }
 
-function setSelectedTimers(timerId: number) {
+function setSelectedTimer(timerId: number) {
   const selectedTimerId = JSON.stringify(timerId);
   try {
     localStorage.setItem('selected_timer', selectedTimerId);
@@ -41,9 +41,9 @@ function setSelectedTimers(timerId: number) {
   }
 }
 
-function getSelectedTimers(): number {
+function getSelectedTimer(): number {
   const selectedTimerId = localStorage.getItem('selected_timer');
-  return selectedTimerId ? JSON.parse(selectedTimerId) : -1;
+  return selectedTimerId ? JSON.parse(selectedTimerId) : 0;
 }
 
 export {
@@ -52,6 +52,6 @@ export {
   secondToString,
   setTimers,
   getTimers,
-  getSelectedTimers,
-  setSelectedTimers,
+  getSelectedTimer,
+  setSelectedTimer,
 };

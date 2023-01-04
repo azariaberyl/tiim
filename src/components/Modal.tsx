@@ -6,14 +6,11 @@ interface Modal {
 }
 
 function Modal({ children, onClose }: Modal) {
-  console.log('Render Modal');
-
   return (
-    <div
-      className='modal justify-center content-center flex'
-      onClick={() => onClose()}
-    >
-      <div onClick={(e) => e.stopPropagation()}>{children}</div>
+    <div className='modal content-center flex' onClick={() => onClose()}>
+      <div className='overflow-auto mt-16' onClick={(e) => e.stopPropagation()}>
+        {children}
+      </div>
     </div>
   );
 }
