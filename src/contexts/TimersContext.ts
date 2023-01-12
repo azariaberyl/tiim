@@ -3,16 +3,16 @@ import { Timer } from '../types';
 
 type TimerId = number;
 interface TimersContext {
-  timers: Timer[];
   selected: TimerId;
+  reports: number[];
   onTimerChange: (index: number, timer: Timer) => void;
   onChangeSelected: (newId: number) => void;
   timer?: Timer;
 }
 
 const TimersContext = createContext<TimersContext>({
-  timers: [],
   selected: 0,
+  reports: [],
   onTimerChange: () => {},
   onChangeSelected: () => {},
 });

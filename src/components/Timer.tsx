@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { secondToString, toSeconds } from '../utils';
 
-function Timer({
-  isStart,
-  seconds,
-  minutes,
-  refresh,
-}: {
+interface Timer {
   isStart: boolean;
   seconds: number;
   minutes: number;
   refresh: boolean;
-}) {
+  onStart: Function;
+  report: number;
+}
+
+function Timer({ isStart, seconds, minutes, refresh, onStart, report }: Timer) {
   const [time, setTime] = useState(toSeconds(minutes, seconds));
-  console.log('Render Timer', time);
+  const [reportstate, setReport] = useState(report - 2);
 
   useEffect(() => {
     if (!isStart) return;
     const interval = setInterval(() => {
       setTime((prev) => {
-        const a = prev > 0 ? prev - 1 : 0;
+        const a = prev - 1;
         document.title = secondToString(a);
         return a;
       });
@@ -29,7 +28,19 @@ function Timer({
   }, [isStart]);
 
   useEffect(() => {
+    if (time === 0) {
+      document.title = 'Tiimz - Finish!!';
+      onStart();
+      setTime(toSeconds(minutes, seconds));
+      return;
+    }
+
+    setReport((prev) => prev + 1);
+  }, [time]);
+
+  useEffect(() => {
     setTime(toSeconds(minutes, seconds));
+    document.title = 'Tiimz';
   }, [refresh]);
 
   return (

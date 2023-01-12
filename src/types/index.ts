@@ -5,4 +5,10 @@ interface Timer {
   category: string;
 }
 
-export type { Timer };
+interface TimersData {
+  selected: number;
+  timers: Timer[];
+  reports: number[];
+}
+
+export type { Timer, TimersData };

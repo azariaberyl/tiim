@@ -1,4 +1,4 @@
-import { Timer } from '../types';
+import { Timer, TimersData } from '../types';
 
 const toMilliseconds = (hrs: number = 0, min: number = 0, sec: number = 0) =>
   (hrs * 60 * 60 + min * 60 + sec) * 1000;
@@ -15,6 +15,15 @@ const secondToString = (sec: number) => {
     .toString()
     .padStart(2, '0')}`;
 };
+
+function getTimersData(): TimersData {
+  const data = localStorage.getItem('td');
+  return data ? JSON.parse(data) : null;
+}
+
+function setTimersData(TimersData: TimersData) {
+  const data = localStorage.setItem('td', JSON.stringify(TimersData));
+}
 
 function setTimers(timers: Timer[]) {
   const timersString = JSON.stringify(timers);
@@ -50,8 +59,6 @@ export {
   toMilliseconds,
   toSeconds,
   secondToString,
-  setTimers,
-  getTimers,
-  getSelectedTimer,
-  setSelectedTimer,
+  getTimersData,
+  setTimersData,
 };

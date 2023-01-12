@@ -1,13 +1,16 @@
+import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import TopBar from './components/TopBar';
-import Homepage from './pages/Homepage';
+import { Homepage, Report } from './pages';
 
 function App() {
   return (
     <>
       <TopBar />
       <Routes>
-        <Route path='/' element={<Homepage />} />
+        <Route path='/' element={<Homepage />}>
+          <Route path='report' element={<Report />} />
+        </Route>
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </>
