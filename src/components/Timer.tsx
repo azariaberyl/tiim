@@ -7,12 +7,21 @@ interface Timer {
   minutes: number;
   refresh: boolean;
   onStart: Function;
+  onReportChange: Function;
   report: number;
 }
 
-function Timer({ isStart, seconds, minutes, refresh, onStart, report }: Timer) {
+function Timer({
+  isStart,
+  seconds,
+  minutes,
+  refresh,
+  onStart,
+  report,
+  onReportChange,
+}: Timer) {
   const [time, setTime] = useState(toSeconds(minutes, seconds));
-  const [reportstate, setReport] = useState(report - 2);
+  const [reportstate, setReport] = useState(report);
 
   useEffect(() => {
     if (!isStart) return;
@@ -34,8 +43,10 @@ function Timer({ isStart, seconds, minutes, refresh, onStart, report }: Timer) {
       setTime(toSeconds(minutes, seconds));
       return;
     }
-
-    setReport((prev) => prev + 1);
+    if (isStart) {
+      setReport((prev) => prev + 1);
+      onReportChange(reportstate);
+    }
   }, [time]);
 
   useEffect(() => {

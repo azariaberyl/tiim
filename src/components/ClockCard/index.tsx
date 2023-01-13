@@ -12,7 +12,6 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>) {
   const fetchedTimers = useMemo(() => getTimersData(), [refresh]);
 
   const [timers, setTimers] = useState(fetchedTimers.timers);
-  const [reports, setReports] = useState(fetchedTimers.reports);
   const [selected, setSelected] = useState(fetchedTimers.selected);
   const [isStartTimer, setStartTimer] = useState<boolean>(false);
 
@@ -32,13 +31,19 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>) {
     setTimersData({ ...fetchedTimers, selected: newId });
   }, []);
 
+  const onReportChange = useCallback((num: number) => {
+    fetchedTimers.reports[selected] = num + 1;
+    const newTimers = fetchedTimers;
+    setTimersData(newTimers);
+  }, []);
+
   const startHandler = () => setStartTimer((prev) => !prev);
 
   const onRefresh = () => setRefresh((prev) => !prev);
 
   const contextVal = React.useMemo(
     () => ({
-      reports,
+      reports: fetchedTimers.reports,
       selected,
       onTimerChange,
       onChangeSelected,
@@ -62,7 +67,8 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>) {
             minutes={minutes}
             refresh={refresh}
             onStart={startHandler}
-            report={reports[selected]}
+            report={fetchedTimers.reports[selected]}
+            onReportChange={onReportChange}
           />
 
           <div className='gap-1 my-4 flex justify-center flex-col items-center'>

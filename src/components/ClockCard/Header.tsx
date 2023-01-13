@@ -26,7 +26,7 @@ const Input = forwardRef<HTMLInputElement, Input>((props, ref) => (
     </label>
     <input
       id={props.title}
-      className='outline-none p-2 border border-gray-200 bg-gray-50 rounded'
+      className='outline-none p-2 border border-gray-200 rounded'
       ref={ref}
       {...props}
     />
@@ -120,7 +120,7 @@ function Header() {
         <div className='w-1/5 items-center justify-end flex gap-2'>
           <Link
             to='report'
-            className='flex items-center gap-1 bg-gray-50 p-1 rounded text-gray-500 hover:text-[#1E1E1E] hover:bg-gray-200'
+            className='flex items-center gap-1 bg-gray-50 p-1 rounded text-primary-dark hover:text-[#1E1E1E] hover:bg-gray-200'
           >
             <IoBarChart className='text-xl' />
             <p className='font-medium'>Report</p>
