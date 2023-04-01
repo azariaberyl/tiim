@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { secondToString, toSeconds } from '../utils';
+import { secondToString, toSeconds } from '../../utils';
 
 interface Timer {
   isStart: boolean;
@@ -11,15 +11,7 @@ interface Timer {
   report: number;
 }
 
-function Timer({
-  isStart,
-  seconds,
-  minutes,
-  refresh,
-  onStart,
-  report,
-  onReportChange,
-}: Timer) {
+function Timer({ isStart, seconds, minutes, refresh, onStart, report, onReportChange }: Timer) {
   const [time, setTime] = useState(toSeconds(minutes, seconds));
   const [reportstate, setReport] = useState(report);
 
@@ -54,9 +46,7 @@ function Timer({
     document.title = 'Tiimz';
   }, [refresh]);
 
-  return (
-    <p className='w-fit font-medium text-8xl my-4'>{secondToString(time)}</p>
-  );
+  return <p className='w-fit font-medium text-8xl my-4'>{secondToString(time)}</p>;
 }
 
 export default Timer;

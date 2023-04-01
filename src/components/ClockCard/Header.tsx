@@ -1,14 +1,8 @@
-import React, {
-  useState,
-  useContext,
-  useRef,
-  forwardRef,
-  InputHTMLAttributes,
-} from 'react';
+import React, { useState, useContext, useRef, forwardRef, InputHTMLAttributes } from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { IoBarChart, IoChevronDown } from 'react-icons/io5';
 import Modal from '../Modal';
-import TimersContext from '../../contexts/TimersContext';
+import TimersContext from '../../contexts/TimerContext/TimersContext';
 import { Timer } from '../../types';
 import { Link, Outlet } from 'react-router-dom';
 
@@ -18,18 +12,10 @@ interface Input extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input = forwardRef<HTMLInputElement, Input>((props, ref) => (
   <div className='flex justify-between gap-10 items-center border-t py-7'>
-    <label
-      className='text-xl font-semibold text-gray-800'
-      htmlFor={props.title}
-    >
+    <label className='text-xl font-semibold text-gray-800' htmlFor={props.title}>
       {props.title}
     </label>
-    <input
-      id={props.title}
-      className='outline-none p-2 border border-gray-200 rounded'
-      ref={ref}
-      {...props}
-    />
+    <input id={props.title} className='outline-none p-2 border border-gray-200 rounded' ref={ref} {...props} />
   </div>
 ));
 
@@ -65,24 +51,11 @@ function Header() {
     <>
       {isEditOpen && (
         <Modal onClose={editButtonHandler}>
-          <form
-            onSubmit={onSubmit}
-            className='bg-white w-fit flex flex-col py-5 px-10 gap-2 rounded'
-          >
+          <form onSubmit={onSubmit} className='bg-white w-fit flex flex-col py-5 px-10 gap-2 rounded'>
             <p className='m-auto text-xl font-semibold mb-2'>EDIT TIMER</p>
             <div className='flex flex-col'>
-              <Input
-                type='text'
-                title='Title'
-                ref={title}
-                defaultValue={timer?.title}
-              />
-              <Input
-                type='text'
-                title='Category'
-                ref={category}
-                defaultValue={timer?.category}
-              />
+              <Input type='text' title='Title' ref={title} defaultValue={timer?.title} />
+              <Input type='text' title='Category' ref={category} defaultValue={timer?.category} />
               <Input
                 type='number'
                 title='Minutes'
@@ -118,13 +91,10 @@ function Header() {
         {/* <Pagination /> */}
 
         <div className='w-1/5 items-center justify-end flex gap-2'>
-          <Link
-            to='report'
-            className='flex items-center gap-1 bg-gray-50 p-1 rounded text-primary-dark hover:text-[#1E1E1E] hover:bg-gray-200'
-          >
+          <button className='flex items-center gap-1 bg-gray-50 p-1 rounded text-primary-dark hover:text-[#1E1E1E] hover:bg-gray-200'>
             <IoBarChart className='text-xl' />
             <p className='font-medium'>Report</p>
-          </Link>
+          </button>
           <button onClick={editButtonHandler} title='Edit Timer' type='button'>
             <MdEdit className='text-2xl text-primary-dark hover:text-gray-900' />
           </button>

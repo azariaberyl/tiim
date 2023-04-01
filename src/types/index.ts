@@ -6,9 +6,8 @@ interface Timer {
 }
 
 interface TimersData {
-  selected: number;
-  timers: Timer[];
-  reports: number[];
+  timer: Timer;
+  report: number;
 }
 
 export type { Timer, TimersData };

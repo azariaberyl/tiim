@@ -1,13 +1,7 @@
-import ClockCard from '../components/ClockCard';
+import React from 'react';
 
-const Homepage = () => {
-  return (
-    <div className='flex CONTAINER flex-col bg-inherit gap-5'>
-      <div className='w-[600px] m-auto'>
-        <ClockCard className='w-full' />
-      </div>
-    </div>
-  );
-};
+function Homepage() {
+  return <div>Homepage</div>;
+}
 
 export default Homepage;

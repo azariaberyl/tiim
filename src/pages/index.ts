@@ -1,4 +1,4 @@
+import Tiimz from './Tiimz';
 import Homepage from './Homepage';
-import Report from './Report';
 
-export { Homepage, Report };
+export { Tiimz, Homepage };

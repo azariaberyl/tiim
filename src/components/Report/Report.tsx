@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Modal from '../components/Modal';
-import TimersContext from '../contexts/TimersContext';
+import Modal from '../Modal';
+import TimersContext from '../../contexts/TimerContext/TimersContext';
 
 function Report() {
   const { timer, reports, selected } = useContext(TimersContext);
