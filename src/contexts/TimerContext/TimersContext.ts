@@ -1,22 +1,9 @@
-import React, { createContext } from 'react';
-import { Timer } from '../../types';
-import { getTimersData } from '../../utils';
+import React, { createContext, useDebugValue } from 'react';
 
-interface TimersContext {
-  report: number;
-  timer?: Timer;
-
-  /**
-   * Refresh fetch
-   */
-  onRefresh?: () => void;
-}
-
-const TimersContext = createContext<TimersContext>({
+const TimersContext = createContext({
   report: 0,
   onRefresh: undefined,
-  timer: undefined,
+  timer: {category: '', minutes: 0, seconds: 0, title: ''},
 });
-// export const TimersProvider = TimersContext.Provider;
 
 export default TimersContext;
