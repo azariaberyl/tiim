@@ -5,6 +5,7 @@ import Modal from '../Modal';
 import TimersContext from '../../contexts/TimerContext/TimersContext';
 import { Timer } from '../../types';
 import { Link, Outlet } from 'react-router-dom';
+import useContextMemo from '../../hooks/useContextMemo';
 
 interface Input extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
@@ -19,8 +20,13 @@ const Input = forwardRef<HTMLInputElement, Input>((props, ref) => (
   </div>
 ));
 
-function Header() {
-  const { timer, onTimerChange, selected } = useContext(TimersContext);
+/**
+ *
+ * @returns {JSX.Element} Contain menu of the timer like edit, report, etc
+ */
+
+function Menu() {
+  const { timer, onTimerChange } = useContextMemo(TimersContext);
 
   const [isEditOpen, setEditOpen] = useState<boolean>(false);
 
@@ -44,7 +50,7 @@ function Header() {
       minutes: minutes.current?.value ? +minutes.current?.value : 0,
       seconds: seconds.current?.value ? +seconds.current?.value : 0,
     };
-    onTimerChange(selected, newTimer);
+    onTimerChange(newTimer);
   };
 
   return (
@@ -88,8 +94,6 @@ function Header() {
           </button>
         </div>
 
-        {/* <Pagination /> */}
-
         <div className='w-1/5 items-center justify-end flex gap-2'>
           <button className='flex items-center gap-1 bg-gray-50 p-1 rounded text-primary-dark hover:text-[#1E1E1E] hover:bg-gray-200'>
             <IoBarChart className='text-xl' />
@@ -108,4 +112,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default Menu;

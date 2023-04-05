@@ -1,29 +1,34 @@
 import { Children, PropsWithChildren, useEffect, useState } from 'react';
 import TimersContext from './TimersContext';
 import { getTimersData } from '../../utils';
-import { TimersData } from '../../types';
+import { Timer, TimersData } from '../../types';
 
 const defaulValue = {
   report: 0,
   timer: {
     category: 'My Project',
-    minutes: 25,
-    seconds: 0,
+    minutes: 0,
+    seconds: 10,
     title: 'My Project',
   },
 };
 
-function TimerContextProvider({ children }: PropsWithChildren) {
-  const [refresh, setRefresh] = useState<boolean>(false);
-  const [timerData, setTimerData] = useState<TimersData>(getTimersData() || defaulValue);
+const initialValue = getTimersData() || defaulValue;
 
-  const onRefresh = () => setRefresh((val) => !val);
+function TimerContextProvider({ children }: PropsWithChildren) {
+  const [timer, setTimer] = useState<Timer>(initialValue.timer);
+  const [report, setReport] = useState(initialValue.report);
+
+  const onReportChange = () => setReport((state) => state + 1);
+  const onTimerChange = (newTimer: Timer) => setTimer(newTimer);
 
   useEffect(() => {
     const fetchTimer = async () => {};
   }, []);
 
-  return <TimersContext.Provider value={{ ...timerData, onRefresh }}>{children}</TimersContext.Provider>;
+  return (
+    <TimersContext.Provider value={{ timer, report, onTimerChange, onReportChange }}>{children}</TimersContext.Provider>
+  );
 }
 
 export default TimerContextProvider;

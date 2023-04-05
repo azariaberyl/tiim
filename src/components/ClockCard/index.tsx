@@ -1,69 +1,32 @@
-import React, { useCallback, useState, useMemo, useContext } from 'react';
-import { MdOutlineReplay } from 'react-icons/md';
+import React, { useContext, useMemo } from 'react';
 import TimersContext from '../../contexts/TimerContext/TimersContext';
-import { getTimersData, setTimersData } from '../../utils';
 import Timer from './Timer';
-import Header from './Header';
+import Menu from './Menu';
 import useBoolean from '../../hooks/useBoolean';
+import useContextMemo from '../../hooks/useContextMemo';
+import Description from './Description';
+import Control from './Control';
 
 function ClockCard(props: React.HTMLProps<HTMLDivElement>) {
   console.log('~Render ClockCard');
 
-  const { report, timer, onRefresh } = useContext(TimersContext);
+  const { timer } = useContextMemo(TimersContext);
   const [isStartTimer, isStartTimerHandler] = useBoolean(false);
-  const { minutes, seconds, category, title } = timer;
-
-
-  // const onReportChange = useCallback((num: number) => {
-  //   fetchedTimers.report = num + 1;
-  //   const newTimers = fetchedTimers;
-  //   setTimersData(newTimers);
-  // }, []);
-
-  // const onRefresh = () => setRefresh((prev) => !prev);
-
-  // const contextVal = React.useMemo(
-  //   () => ({
-  //     report: fetchedTimers.report,
-  //     timer: { minutes, seconds, category, title },
-  //   }),
-  //   [timers]
-  // );
 
   return (
     <div {...props}>
-      {/* <TimersProvider value={contextVal}> */}
       <div className=' bg-white flex flex-col items-center p-3 shadow border-gray-100 border rounded-xl overflow-hidden'>
-        <Header />
+        <Menu />
+        <Timer
+          isStart={isStartTimer}
+          seconds={timer.seconds}
+          minutes={timer.minutes}
+          isStartHandler={isStartTimerHandler}
+        />
+        <Description category={timer.category} title={timer.title} />
 
-        {/* <Timer
-            isStart={isStartTimer}
-            seconds={seconds}
-            minutes={minutes}
-            refresh={refresh}
-            onStart={startHandler}
-            report={fetchedTimers.report}
-            onReportChange={onReportChange}
-          /> */}
-
-        <div className='gap-1 my-4 flex justify-center flex-col items-center'>
-          {/* <p className='w-fit font-medium text-3xl capitalize'>{title || 'My Project'}</p>
-          <p className='w-fit font-medium text-secondary-dark text-xl capitalize'>{category || 'My Project'}</p> */}
-        </div>
-
-        <div className='flex w-full items-center justify-center my-2 relative z-0'>
-          <button
-            onClick={() => isStartTimerHandler()}
-            className='px-20 py-3 font-medium bg-primary-dark rounded text-primary-light text-3xl hover:bg-neutral-600 hover:drop-shadow-md'
-          >
-            {isStartTimer ? 'PAUSE' : 'START'}
-          </button>
-          <button className='absolute top-3 right-24 z-0' onClick={onRefresh} title='Refresh'>
-              <MdOutlineReplay className='text-4xl text-primary-dark hover:text-gray-900' />
-            </button>
-        </div>
+        <Control isStartTimer={isStartTimer} isStartTimerHandler={isStartTimerHandler} />
       </div>
-      {/* </TimersProvider> */}
     </div>
   );
 }

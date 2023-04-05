@@ -4,7 +4,7 @@ import TimerContextProvider from '../contexts/TimerContext';
 const Tiimz = () => {
   return (
     <TimerContextProvider>
-      <ClockCard className=' w-[600px] mx-auto my-5' />;
+      <ClockCard className=' w-[600px] mx-auto my-5' />
     </TimerContextProvider>
   );
 };

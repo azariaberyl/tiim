@@ -1,52 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { secondToString, toSeconds } from '../../utils';
+import { useMemo } from 'react';
+import { toSeconds } from '../../utils';
+import useTimer from '../../hooks/useTimer';
+import useContextMemo from '../../hooks/useContextMemo';
+import TimersContext from '../../contexts/TimerContext/TimersContext';
+
+function DisplayTimer({ time }: { time: string }) {
+  return <p className='w-fit font-medium text-8xl my-4'>{time}</p>;
+}
 
 interface Timer {
   isStart: boolean;
   seconds: number;
   minutes: number;
-  refresh: boolean;
-  onStart: Function;
-  onReportChange: Function;
-  report: number;
+  isStartHandler: (val?: boolean) => void;
 }
+/**
+ * The timer clock itself, example 25:00
+ * @param isStart is the timer started or not
+ */
 
-function Timer({ isStart, seconds, minutes, refresh, onStart, report, onReportChange }: Timer) {
-  const [time, setTime] = useState(toSeconds(minutes, seconds));
-  const [reportstate, setReport] = useState(report);
+function Timer({ isStart, seconds, minutes, isStartHandler }: Timer) {
+  const initialValue = useMemo(() => toSeconds(minutes, seconds), []);
+  const { onReportChange } = useContextMemo(TimersContext);
+  const time = useTimer(initialValue, isStart, isStartHandler, onReportChange);
 
-  useEffect(() => {
-    if (!isStart) return;
-    const interval = setInterval(() => {
-      setTime((prev) => {
-        const a = prev - 1;
-        document.title = secondToString(a);
-        return a;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [isStart]);
-
-  useEffect(() => {
-    if (time === 0) {
-      document.title = 'Tiimz - Finish!!';
-      onStart();
-      setTime(toSeconds(minutes, seconds));
-      return;
-    }
-    if (isStart) {
-      setReport((prev) => prev + 1);
-      onReportChange(reportstate);
-    }
-  }, [time]);
-
-  useEffect(() => {
-    setTime(toSeconds(minutes, seconds));
-    document.title = 'Tiimz';
-  }, [refresh]);
-
-  return <p className='w-fit font-medium text-8xl my-4'>{secondToString(time)}</p>;
+  return <DisplayTimer time={time} />;
 }
 
 export default Timer;
