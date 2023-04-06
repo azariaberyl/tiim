@@ -10,4 +10,6 @@ interface TimersData {
   report: number;
 }
 
-export type { Timer, TimersData };
+type ModalType = 'edit' | 'report' | '';
+
+export type { Timer, TimersData, ModalType };

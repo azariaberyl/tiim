@@ -8,7 +8,7 @@ function DisplayTimer({ time }: { time: string }) {
   return <p className='w-fit font-medium text-8xl my-4'>{time}</p>;
 }
 
-interface Timer {
+interface props {
   isStart: boolean;
   seconds: number;
   minutes: number;
@@ -19,7 +19,7 @@ interface Timer {
  * @param isStart is the timer started or not
  */
 
-function Timer({ isStart, seconds, minutes, isStartHandler }: Timer) {
+function Timer({ isStart, seconds, minutes, isStartHandler }: props) {
   const initialValue = useMemo(() => toSeconds(minutes, seconds), []);
   const { onReportChange } = useContextMemo(TimersContext);
   const time = useTimer(initialValue, isStart, isStartHandler, onReportChange);
