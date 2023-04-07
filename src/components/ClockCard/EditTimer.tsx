@@ -1,7 +1,8 @@
 import React, { useRef, forwardRef, InputHTMLAttributes } from 'react';
 import useContextMemo from '../../hooks/useContextMemo';
-import TimersContext from '../../contexts/TimerContext/TimersContext';
+import TimersContext from '../../contexts/TimerStore';
 import { ModalType, Timer } from '../../types';
+import useTimerStore from '../../contexts/TimerStore';
 
 interface Input extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
@@ -21,7 +22,7 @@ interface props {
 }
 
 function EditTimer({ editButtonHandler }: props) {
-  const { timer, onTimerChange } = useContextMemo(TimersContext);
+  const { timer, onTimerChange } = useTimerStore();
 
   const [title, category, minutes, seconds] = [
     useRef<HTMLInputElement>(null),

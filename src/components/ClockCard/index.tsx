@@ -1,16 +1,17 @@
 import React, { useContext, useMemo } from 'react';
-import TimersContext from '../../contexts/TimerContext/TimersContext';
+import TimersContext from '../../contexts/TimerStore';
 import Timer from './Timer';
 import Menu from './Menu';
 import useBoolean from '../../hooks/useBoolean';
 import useContextMemo from '../../hooks/useContextMemo';
 import Description from './Description';
 import Control from './Control';
+import useTimerStore from '../../contexts/TimerStore';
 
 function ClockCard(props: React.HTMLProps<HTMLDivElement>) {
   console.log('~Render ClockCard');
 
-  const { timer } = useContextMemo(TimersContext);
+  const timer = useTimerStore((s) => s.timer);
   const [isStartTimer, isStartTimerHandler] = useBoolean(false);
 
   return (

@@ -8,7 +8,12 @@ import { secondToString } from '../utils';
  * @param isStartHandler handler function to change the start state
  * @param onReportChange handler function to add report to the context
  */
-function useTimer(sec: number, isStart: boolean, isStartHandler: (val?: boolean) => void, onReportChange: () => void) {
+function useTimerCountdown(
+  sec: number,
+  isStart: boolean,
+  isStartHandler: (val?: boolean) => void,
+  onReportChange: () => void
+) {
   const [time, setTime] = useState(sec);
 
   useEffect(() => {
@@ -40,4 +45,4 @@ function useTimer(sec: number, isStart: boolean, isStartHandler: (val?: boolean)
   return secondToString(time);
 }
 
-export default useTimer;
+export default useTimerCountdown;

@@ -5,10 +5,9 @@ interface props {
   category: string;
 }
 /**
- *
+ * Component of title and category
  * @param title The title of the component
  * @param category The category of the component
- * @returns {React.ReactNode} TSX component of title and category
  */
 function Description({ title, category }: props) {
   return (

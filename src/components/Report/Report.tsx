@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Modal from '../Modal';
-import TimersContext from '../../contexts/TimerContext/TimersContext';
+import TimersContext from '../../contexts/TimerStore';
+import useReportStore from '../../contexts/ReportStore';
+import useTimerStore from '../../contexts/TimerStore';
 
 function Report() {
-  const { timer, report } = useContext(TimersContext);
+  const report = useReportStore((state) => state.report);
+  const timer = useTimerStore((state) => state.timer);
   const minutes = Math.round(report / 60);
 
   return (
