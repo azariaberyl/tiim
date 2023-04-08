@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 interface props {
   title: string;
@@ -18,4 +18,4 @@ function Description({ title, category }: props) {
   );
 }
 
-export default Description;
+export default memo(Description);

@@ -1,6 +1,4 @@
 import React, { useRef, forwardRef, InputHTMLAttributes } from 'react';
-import useContextMemo from '../../hooks/useContextMemo';
-import TimersContext from '../../contexts/TimerStore';
 import { ModalType, Timer } from '../../types';
 import useTimerStore from '../../contexts/TimerStore';
 

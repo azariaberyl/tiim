@@ -1,7 +1,6 @@
-import { useMemo } from 'react';
-import { toSeconds } from '../../utils';
+import React, { useMemo } from 'react';
+import { toSeconds } from '../../utils/timer';
 import useTimerCountdown from '../../hooks/useTimerCountdown';
-import useContextMemo from '../../hooks/useContextMemo';
 import TimersContext from '../../contexts/TimerStore';
 import useReportStore from '../../contexts/ReportStore';
 
@@ -21,11 +20,11 @@ interface props {
  */
 
 function Timer({ isStart, seconds, minutes, isStartHandler }: props) {
-  const initialValue = useMemo(() => toSeconds(minutes, seconds), []);
+  const initialValue = useMemo(() => toSeconds(minutes, seconds), [seconds, minutes]);
   const onReportChange = useReportStore((state) => state.onReportChange);
   const time = useTimerCountdown(initialValue, isStart, isStartHandler, onReportChange);
 
   return <DisplayTimer time={time} />;
 }
 
-export default Timer;
+export default React.memo(Timer);

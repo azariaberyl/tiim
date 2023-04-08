@@ -1,3 +1,4 @@
+import React, { memo } from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { IoBarChart, IoChevronDown } from 'react-icons/io5';
 import { Outlet } from 'react-router-dom';
@@ -66,4 +67,4 @@ function DeleteButton() {
   );
 }
 
-export default Menu;
+export default memo(Menu);

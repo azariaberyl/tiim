@@ -1,7 +1,11 @@
 import ClockCard from '../components/ClockCard';
 
 const Tiimz = () => {
-  return <ClockCard className=' w-[600px] mx-auto my-5' />;
+  return (
+    <div className='w-[600px] flex flex-col justify-center h-full mx-auto'>
+      <ClockCard />
+    </div>
+  );
 };
 
 export default Tiimz;

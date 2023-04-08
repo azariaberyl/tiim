@@ -7,7 +7,7 @@ function App() {
   console.log(process.env.NODE_ENV);
 
   return (
-    <div className='w-full min-h-screen overflow-hidden '>
+    <div className='w-full h-screen flex flex-col'>
       <TopBar />
       <Routes>
         <Route path='/' element={<Tiimz />} />

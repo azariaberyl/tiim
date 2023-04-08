@@ -24,4 +24,4 @@ function Control({ isStartTimer, isStartTimerHandler }: props) {
   );
 }
 
-export default Control;
+export default React.memo(Control);

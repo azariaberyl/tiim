@@ -1,23 +1,19 @@
-import React, { createContext, useDebugValue } from 'react';
+import React from 'react';
 import { create } from 'zustand';
 import { Timer } from '../types';
+import { getTimer, setTimer } from '../utils/timer';
 
-// const TimersContext = createContext({
-//   report: 0,
-//   timer: { category: '', minutes: 0, seconds: 0, title: '' },
-//   onReportChange: () => {},
-//   onTimerChange: (newTimer: Timer) => {},
-// });
-
-// export default TimersContext;
 interface ITimerStore {
   timer: Timer;
   onTimerChange: (newTimer: Timer) => void;
 }
 
-const useTimerStore = create<ITimerStore>((set) => ({
-  timer: { category: '', minutes: 25, seconds: 0, title: '' },
-  onTimerChange: (newTimer: Timer) => set((state) => ({ timer: newTimer })),
+const useTimerStore = create<ITimerStore>()((set) => ({
+  timer: getTimer(),
+  onTimerChange: (newTimer: Timer) => {
+    setTimer(newTimer);
+    set(() => ({ timer: newTimer }));
+  },
 }));
 
 export default useTimerStore;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { secondToString } from '../utils';
+import { secondToString } from '../utils/timer';
 
 /**
  * Count down logic
@@ -41,6 +41,8 @@ function useTimerCountdown(
       onReportChange();
     }
   }, [time]);
+
+  useEffect(() => setTime(sec), [sec]);
 
   return secondToString(time);
 }
