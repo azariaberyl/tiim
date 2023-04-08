@@ -13,7 +13,7 @@ function Control({ isStartTimer, isStartTimerHandler }: props) {
     <div className='flex w-full items-center justify-center my-2 relative z-0'>
       <button
         onClick={() => isStartTimerHandler()}
-        className='px-20 py-3 font-medium bg-primary-dark rounded text-primary-light text-3xl hover:bg-neutral-600 hover:drop-shadow-md'
+        className='px-20 py-3 font-semibold bg-default-dark rounded text-default-light text-3xl hover:bg-black hover:drop-shadow-xl'
       >
         {isStartTimer ? 'PAUSE' : 'START'}
       </button>

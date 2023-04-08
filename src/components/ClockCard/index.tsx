@@ -12,7 +12,7 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>) {
   const [isStartTimer, isStartTimerHandler] = useBoolean(false);
 
   return (
-    <div className=' bg-[#CCFFDE]/90 flex flex-col items-center p-3 rounded-xl overflow-hidden'>
+    <div className=' bg-[#CCFFDE]/90 flex flex-col items-center p-3 rounded-xl overflow-hidden shadow-xl shadow-default-light'>
       <Menu />
       <Timer
         isStart={isStartTimer}
@@ -20,7 +20,7 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>) {
         minutes={timer.minutes}
         isStartHandler={isStartTimerHandler}
       />
-      <Description category={timer.category} title={timer.title} />
+      <Description title={timer.title} />
 
       <Control isStartTimer={isStartTimer} isStartTimerHandler={isStartTimerHandler} />
     </div>

@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+  --default-black: #1c1f1c;
+}
 
 * {
   font-family: 'Roboto', sans-serif;
@@ -9,7 +12,7 @@
 }
 body,
 main {
-  color: #1c1f1c;
+  color: var(--default-black);
   /* background-color: #fff; */
   background: rgb(126, 231, 140);
   background: linear-gradient(

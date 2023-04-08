@@ -45,7 +45,7 @@ function ReportButton({ reportButtonHandler }: { reportButtonHandler: (val: Moda
   return (
     <button
       onClick={() => reportButtonHandler('report')}
-      className='flex items-center gap-1 bg-gray-50 p-1 rounded text-primary-dark hover:text-[#1E1E1E] hover:bg-gray-200'
+      className='flex items-center gap-1 p-1 rounded text-primary-dark hover:text-black'
     >
       <IoBarChart className='text-xl' />
       <p className='font-medium'>Report</p>
@@ -55,7 +55,7 @@ function ReportButton({ reportButtonHandler }: { reportButtonHandler: (val: Moda
 function EditButton({ editButtonHandler }: { editButtonHandler: (val: ModalType) => void }) {
   return (
     <button onClick={() => editButtonHandler('edit')} title='Edit Timer' type='button'>
-      <MdEdit className='text-2xl text-primary-dark hover:text-gray-900' />
+      <MdEdit className='text-2xl text-primary-dark hover:text-black' />
     </button>
   );
 }
