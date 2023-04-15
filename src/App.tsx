@@ -7,7 +7,7 @@ function App() {
   console.log(process.env.NODE_ENV);
 
   return (
-    <div className='w-full h-screen flex flex-col'>
+    <div className='w-full items-center h-screen flex flex-col'>
       <TopBar />
       <Routes>
         <Route path='/' element={<Tiimz />} />
