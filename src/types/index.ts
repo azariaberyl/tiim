@@ -10,8 +10,13 @@ interface TimersData {
   report: number;
 }
 
+interface BreakTime {
+  min: number;
+  sec: number;
+}
+
 export type tab = 1 | 2 | 3;
 
 type ModalType = 'edit' | 'report' | '';
 
-export type { Timer, TimersData, ModalType };
+export type { Timer, TimersData, ModalType, BreakTime };

@@ -9,7 +9,8 @@ import useTimerStore from '../../contexts/TimerStore';
 
 function ClockCard(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>) {
   const timer = useTimerStore((s) => s.timer);
-  const [isStartTimer, isStartTimerHandler] = useBoolean(false);
+  const isStartTimer = useTimerStore((s) => s.isStart);
+  const isStartTimerHandler = useTimerStore((s) => s.onStartChange);
 
   return (
     <div ref={ref} {...props}>

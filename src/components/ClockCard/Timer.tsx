@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
-import { toSeconds } from '../../utils/timer';
+import { secondToString, toSeconds } from '../../utils/timer';
 import useTimerCountdown from '../../hooks/useTimerCountdown';
 import TimersContext from '../../contexts/TimerStore';
 import useReportStore from '../../contexts/ReportStore';
+import useTabStore from '../../contexts/TabStore';
+import useTimerBreakStore from '../../contexts/TimeBreakStore';
 
 function DisplayTimer({ time }: { time: string }) {
   return <p className='w-fit font-medium text-8xl my-4'>{time}</p>;
@@ -20,10 +22,23 @@ interface props {
  */
 
 function Timer({ isStart, seconds, minutes, isStartHandler }: props) {
-  const initialValue = useMemo(() => toSeconds(minutes, seconds), [seconds, minutes]);
-  const onReportChange = useReportStore((state) => state.onReportChange);
-  const time = useTimerCountdown(initialValue, isStart, isStartHandler, onReportChange);
+  const currentTab = useTabStore((state) => state.tab);
+  if (currentTab === 1) {
+    const onReportChange = useReportStore((state) => state.onReportChange);
+    const initialValue = toSeconds(minutes, seconds);
+    const time = useTimerCountdown(initialValue, isStart, isStartHandler, onReportChange);
+    return <DisplayTimer time={time} />;
+  }
 
+  const { longBreak, shortBreak } = useTimerBreakStore();
+  if (currentTab === 2) {
+    const initialValue = toSeconds(shortBreak.min, shortBreak.sec);
+    const time = useTimerCountdown(initialValue, isStart, isStartHandler);
+    return <DisplayTimer time={time} />;
+  }
+
+  const initialValue = toSeconds(longBreak.min, longBreak.sec);
+  const time = useTimerCountdown(initialValue, isStart, isStartHandler);
   return <DisplayTimer time={time} />;
 }
 

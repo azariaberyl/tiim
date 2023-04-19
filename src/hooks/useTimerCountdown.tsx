@@ -12,13 +12,13 @@ function useTimerCountdown(
   sec: number,
   isStart: boolean,
   isStartHandler: (val?: boolean) => void,
-  onReportChange: () => void
+  onReportChange?: () => void
 ) {
   const [time, setTime] = useState(sec);
 
+  // Handle timer countdown when it is started
   useEffect(() => {
     if (!isStart) return;
-
     const interval = setInterval(() => {
       setTime((prev) => {
         const a = prev - 1;
@@ -26,10 +26,10 @@ function useTimerCountdown(
         return a;
       });
     }, 1000);
-
     return () => clearInterval(interval);
   }, [isStart]);
 
+  //Handle if the timer finish and reporting
   useEffect(() => {
     if (time === 0) {
       document.title = 'Tiimz - Finish!!';
@@ -38,10 +38,11 @@ function useTimerCountdown(
       return;
     }
     if (isStart) {
-      onReportChange();
+      if (onReportChange !== undefined) onReportChange();
     }
   }, [time]);
 
+  //Handle if the sec parameter change
   useEffect(() => setTime(sec), [sec]);
 
   return secondToString(time);

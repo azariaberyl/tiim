@@ -7,7 +7,7 @@ const Tiimz = () => {
   const clock = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // console.log(clock.current?.getBoundingClientRect());
+    console.log(clock.current?.getBoundingClientRect());
   }, []);
 
   return (

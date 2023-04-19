@@ -10,7 +10,7 @@ interface props {
  */
 function Description({ title }: props) {
   return (
-    <div className='gap-1 my-4 h-16 flex justify-center flex-col items-center'>
+    <div className='gap-1 mb-4 h-16 flex justify-center flex-col items-center'>
       <p className='w-fit font-medium text-3xl capitalize'>{title}</p>
     </div>
   );

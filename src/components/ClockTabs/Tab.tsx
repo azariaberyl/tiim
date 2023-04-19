@@ -1,24 +1,34 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import useTabStore from '../../contexts/TabStore';
 import { tab } from '../../types';
+import useTimerStore from '../../contexts/TimerStore';
+import TabButton from './TabButton';
 
 interface props {
   id: tab;
   name: string;
 }
 
-function Tab({ id: key, name }: props) {
+function Tab({ id, name }: props) {
   const { onChangeTab, tab } = useTabStore();
+  const onStartChange = useTimerStore((s) => s.onStartChange);
+  const isStart = useTimerStore((s) => s.isStart);
+  const isCurrentTab = tab === id;
+
+  // Create diffettent function bellow
+
+  const onClick = () => {
+    if (!isCurrentTab) {
+      onChangeTab(id);
+      onStartChange(false);
+      document.title = 'Tiimz';
+    }
+  };
 
   return (
-    <button
-      onClick={() => onChangeTab(key)}
-      className={`px-4 py-1 font-bold text-white/90 bg-default-light/20 hover:bg-default-light/40 hover:text-white rounded ${
-        tab === key && 'text-white bg-default-light/40'
-      }`}
-    >
+    <TabButton isCurrentTab={isCurrentTab} isStart={isStart} onClick={onClick}>
       {name}
-    </button>
+    </TabButton>
   );
 }
 
