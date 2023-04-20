@@ -4,7 +4,7 @@ function DisabledButton({ children, isCurrentTab }: { children: React.ReactNode;
   return (
     <button
       disabled
-      className={`px-4 py-1 font-bold text-white/50 bg-default-light/20 hover:cursor-not-allowed ${
+      className={`px-4 py-1 font-bold text-white/50 bg-default-light/20 hover:cursor-not-allowed rounded ${
         isCurrentTab && 'text-white bg-default-light/40'
       }`}
     >

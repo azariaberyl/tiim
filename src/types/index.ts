@@ -2,7 +2,13 @@ interface Timer {
   seconds: number;
   minutes: number;
   title: string;
-  category: string;
+  id: string;
+}
+
+interface TimerReport {
+  id: string;
+  name: string;
+  report: any;
 }
 
 interface TimersData {
@@ -19,4 +25,4 @@ export type tab = 1 | 2 | 3;
 
 type ModalType = 'edit' | 'report' | '';
 
-export type { Timer, TimersData, ModalType, BreakTime };
+export type { Timer, TimersData, ModalType, BreakTime, TimerReport };

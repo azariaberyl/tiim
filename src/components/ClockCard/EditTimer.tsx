@@ -22,8 +22,7 @@ interface props {
 function EditTimer({ editButtonHandler }: props) {
   const { timer, onTimerChange } = useTimerStore();
 
-  const [title, category, minutes, seconds] = [
-    useRef<HTMLInputElement>(null),
+  const [title, minutes, seconds] = [
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
@@ -33,10 +32,10 @@ function EditTimer({ editButtonHandler }: props) {
     e.preventDefault();
     editButtonHandler('');
     const newTimer: Timer = {
-      category: category.current?.value ? category.current?.value : '',
       title: title.current?.value ? title.current?.value : '',
       minutes: minutes.current?.value ? +minutes.current?.value : 0,
       seconds: seconds.current?.value ? +seconds.current?.value : 0,
+      id: timer.id,
     };
     onTimerChange(newTimer);
   };
@@ -46,7 +45,6 @@ function EditTimer({ editButtonHandler }: props) {
       <p className='m-auto text-xl font-semibold mb-2'>EDIT TIMER</p>
       <div className='flex flex-col'>
         <Input type='text' title='Title' ref={title} defaultValue={timer?.title} />
-        <Input type='text' title='Category' ref={category} defaultValue={timer?.category} />
         <Input type='number' title='Minutes' min={0} max={99} ref={minutes} step={1} defaultValue={timer?.minutes} />
         <Input type='number' title='Seconds' ref={seconds} defaultValue={timer?.seconds} min={0} max={59} step={1} />
       </div>

@@ -11,7 +11,7 @@ const Tiimz = () => {
   }, []);
 
   return (
-    <div className='w-full flex flex-col justify-center h-full absolute items-center'>
+    <div className='w-full flex flex-col justify-center h-full absolute items-center -mt-8'>
       <div>
         <ReportButton />
         <ClockTabs />

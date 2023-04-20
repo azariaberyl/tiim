@@ -2,6 +2,7 @@ import React from 'react';
 import { create } from 'zustand';
 import { Timer } from '../types';
 import { getTimer, setTimer } from '../utils/timer';
+import { jsonComparer } from '../utils';
 
 interface ITimerStore {
   timer: Timer;
@@ -13,13 +14,14 @@ interface ITimerStore {
 const useTimerStore = create<ITimerStore>()((set, get) => ({
   timer: getTimer(),
   onTimerChange: (newTimer: Timer) => {
+    if (jsonComparer(get().timer, newTimer)) return;
     setTimer(newTimer);
     set(() => ({ timer: newTimer }));
   },
 
   isStart: false,
   onStartChange(val = !get().isStart) {
-    set(() => ({isStart: val}))
+    set(() => ({ isStart: val }));
   },
 }));
 
