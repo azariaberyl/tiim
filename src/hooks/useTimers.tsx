@@ -13,8 +13,10 @@ function useTimers() {
     async function init() {
       const data = await fetchTimers();
       const selected = await fetchSelectedTimer();
-      onColectionChange('timers', data);
-      onTimerChange(data.find((t) => t.id == selected) || DEFAULT_TIMER);
+      console.log(data, selected);
+      onColectionChange('timers', data); // Update timers
+      onColectionChange('selected', selected); // Update selected
+      onTimerChange(data.find((t) => t.id == selected) || data[0]);
     }
 
     init();

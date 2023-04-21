@@ -7,7 +7,10 @@ import Description from './Description';
 import Control from './Control';
 import useTimerStore from '../../contexts/TimerStore';
 
-function ClockCard(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>) {
+function ClockCard(
+  props: React.HTMLProps<HTMLDivElement>,
+  ref: React.ForwardedRef<HTMLDivElement>
+) {
   const timer = useTimerStore((s) => s.timer);
   const isStartTimer = useTimerStore((s) => s.isStart);
   const isStartTimerHandler = useTimerStore((s) => s.onStartChange);
@@ -22,9 +25,12 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedR
           minutes={timer.minutes}
           isStartHandler={isStartTimerHandler}
         />
-        <Description title={timer.title} />
+        <Description id={timer.id} />
 
-        <Control isStartTimer={isStartTimer} isStartTimerHandler={isStartTimerHandler} />
+        <Control
+          isStartTimer={isStartTimer}
+          isStartTimerHandler={isStartTimerHandler}
+        />
       </div>
     </div>
   );

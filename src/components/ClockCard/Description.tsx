@@ -2,6 +2,7 @@ import React, { memo, useMemo } from 'react';
 import useBoolean from '../../hooks/useBoolean';
 import Dropwdown from '../Dropdown';
 import { Timer } from '../../types';
+import useTimers from '../../hooks/useTimers';
 
 const exampleData: Timer[] = [
   {
@@ -24,14 +25,15 @@ const exampleData: Timer[] = [
   },
 ];
 interface props {
-  title: string;
+  id: string;
 }
 /**
  * Component of title and category
  * @param title The title of the component
  * @param category The category of the component
  */
-function Description({ title }: props) {
+function Description({ id }: props) {
+  const timers = useTimers();
   const ContentElement = useMemo(
     () =>
       ({ children }: { children: React.ReactNode }) =>
@@ -42,7 +44,7 @@ function Description({ title }: props) {
   return (
     <div className='gap-1 mb-4 h-16 flex justify-center flex-col items-center'>
       {/* <p className='w-fit font-medium text-3xl capitalize'>{title}</p> */}
-      <Dropwdown data={exampleData} ContentElement={ContentElement} />
+      <Dropwdown currentId={id} data={timers} ContentElement={ContentElement} />
     </div>
   );
 }

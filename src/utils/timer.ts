@@ -1,7 +1,8 @@
 import { Timer, TimersData } from '../types';
 import { DEFAULT_TIMER } from './constants';
 
-const toMilliseconds = (hrs: number = 0, min: number = 0, sec: number = 0) => (hrs * 60 * 60 + min * 60 + sec) * 1000;
+const toMilliseconds = (hrs: number = 0, min: number = 0, sec: number = 0) =>
+  (hrs * 60 * 60 + min * 60 + sec) * 1000;
 
 const toSeconds = (min: number = 0, sec: number = 0) => min * 60 + sec;
 
@@ -11,7 +12,9 @@ const secondToString = (sec: number) => {
   for (second; second >= 60; second -= 60) {
     minutes++;
   }
-  return `${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`;
+  return `${minutes.toString().padStart(2, '0')}:${second
+    .toString()
+    .padStart(2, '0')}`;
 };
 
 function getTimerData(): TimersData {
@@ -25,7 +28,7 @@ export function setTimerData(TimersData: TimersData) {
 
 export function getTimer() {
   const timer = getTimerData()?.timer;
-  return timer || { minutes: 25, seconds: 0, title: 'My Project', id: '999' };
+  return timer || DEFAULT_TIMER;
 }
 
 export function setTimer(timer: Timer) {
@@ -44,13 +47,17 @@ export function setReport(report: number) {
 }
 
 export async function fetchTimers() {
-  const data: Timer[] = JSON.parse(localStorage.getItem('timers') || '') || [DEFAULT_TIMER];
+  const dataSjon = localStorage.getItem('timers');
+  const data: Timer[] =
+    dataSjon === null
+      ? [{ id: '-1', minutes: 5, seconds: 0, title: 'My Project' }]
+      : JSON.parse(dataSjon);
 
   return data;
 }
 
 export async function fetchSelectedTimer() {
-  const data: string = localStorage.getItem('selectedTimer') || '';
+  const data: string = localStorage.getItem('selectedTimer') || '-1';
 
   return data;
 }

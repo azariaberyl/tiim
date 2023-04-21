@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { Timer, TimerReport } from '../types';
+import { DEFAULT_TIMER } from '../utils/constants';
 
 type TimerColectionState = 'timers' | 'selected' | 'reports';
 
@@ -12,7 +13,7 @@ interface props {
 }
 
 const useTimerColectionStore = create<props>()((set, get) => ({
-  timers: [{ id: '999', minutes: 10, seconds: 0, title: 'My Project' }],
+  timers: [DEFAULT_TIMER],
   reports: [],
   selected: '999',
   onChange(type, val) {
