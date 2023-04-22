@@ -1,5 +1,5 @@
-import { Timer, TimersData } from '../types';
-import { DEFAULT_TIMER } from './constants';
+import { Timer, TimerReport, TimersData } from '../types';
+import { DEFAULT_REPORT, DEFAULT_TIMER } from './constants';
 
 const toMilliseconds = (hrs: number = 0, min: number = 0, sec: number = 0) =>
   (hrs * 60 * 60 + min * 60 + sec) * 1000;
@@ -38,10 +38,10 @@ export function setTimer(timer: Timer) {
 
 export function getReport() {
   const report = getTimerData()?.report;
-  return report || 0;
+  return report || DEFAULT_REPORT;
 }
 
-export function setReport(report: number) {
+export function setReport(report: TimerReport) {
   const data = getTimerData();
   setTimerData({ ...data, report });
 }

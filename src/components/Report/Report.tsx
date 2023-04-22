@@ -1,12 +1,10 @@
 import React, { useContext } from 'react';
-import TimersContext from '../../contexts/TimerStore';
-import useReportStore from '../../contexts/ReportStore';
 import useTimerStore from '../../contexts/TimerStore';
+import useTimerColectionStore from '../../contexts/TimerColectionStore';
 
 function Report() {
-  const report = useReportStore((state) => state.report);
+  const reports = useTimerColectionStore((state) => state.reports);
   const timer = useTimerStore((state) => state.timer);
-  const minutes = Math.round(report / 60);
 
   return (
     <div className='bg-white px-5 py-3 rounded'>
@@ -16,10 +14,14 @@ function Report() {
           <p className='pr-24 py-1'>TITLE</p>
           <p className='px-5 py-1'>MIN</p>
         </div>
-        <div className='flex text-primary-dark text-base gap-3 justify-between'>
-          <p>{timer?.title}</p>
-          <p className=' text-end px-5'>{minutes}</p>
-        </div>
+        {reports.map((report) =>
+          report.report.map((val) => (
+            <div className='flex text-primary-dark text-base gap-3 justify-between'>
+              <p>{report.name}</p>
+              <p className=' text-end px-5'>{val.report}</p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

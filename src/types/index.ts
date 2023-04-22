@@ -8,12 +8,12 @@ interface Timer {
 interface TimerReport {
   id: string;
   name: string;
-  report: any;
+  report: { date: Date; report: number }[];
 }
 
 interface TimersData {
   timer: Timer;
-  report: number;
+  report: TimerReport;
 }
 
 interface BreakTime {
