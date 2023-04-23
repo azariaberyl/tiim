@@ -38,7 +38,9 @@ function useTimerCountdown(
       return;
     }
     if (isStart) {
-      if (onReportChange !== undefined) onReportChange();
+      if (onReportChange !== undefined) {
+        onReportChange();
+      }
     }
   }, [time]);
 

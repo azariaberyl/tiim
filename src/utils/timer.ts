@@ -46,6 +46,13 @@ export function setReport(report: TimerReport) {
   setTimerData({ ...data, report });
 }
 
+export async function fetchReports(): Promise<TimerReport[] | null> {
+  const data = localStorage.getItem('reports');
+  const dataJson: TimerReport[] | null =
+    data === null ? null : JSON.parse(data);
+  return dataJson;
+}
+
 export async function fetchTimers() {
   const dataSjon = localStorage.getItem('timers');
   const data: Timer[] =
@@ -57,7 +64,7 @@ export async function fetchTimers() {
 }
 
 export async function fetchSelectedTimer() {
-  const data: string = localStorage.getItem('selectedTimer') || '-1';
+  const data: string | null = localStorage.getItem('selectedTimer');
 
   return data;
 }

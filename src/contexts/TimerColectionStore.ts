@@ -9,13 +9,16 @@ interface props {
   selected: string; // Select string id
   reports: TimerReport[];
 
-  onChange: (type: TimerColectionState, val: Timer[] | string | TimerReport[]) => void;
+  onChange: (
+    type: TimerColectionState,
+    val: Timer[] | string | TimerReport[]
+  ) => void;
 }
 
 const useTimerColectionStore = create<props>()((set, get) => ({
   timers: [DEFAULT_TIMER],
   reports: [],
-  selected: '999',
+  selected: '-1',
   onChange(type, val) {
     set(() => ({ [type]: val }));
   },
