@@ -8,7 +8,7 @@ interface Timer {
 interface TimerReport {
   id: string;
   name: string;
-  report: { date: Date; report: number }[];
+  report: { date: string; report: number }[];
 }
 
 interface TimersData {
