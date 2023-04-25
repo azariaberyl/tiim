@@ -11,3 +11,5 @@ export const DEFAULT_REPORT: TimerReport = {
   name: DEFAULT_TIMER.title,
   report: [],
 };
+
+export const TODAY_STRING_DATE = new Date().toDateString();

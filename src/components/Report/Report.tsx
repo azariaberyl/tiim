@@ -4,10 +4,11 @@ import useTimerColectionStore from '../../contexts/TimerColectionStore';
 
 function Report() {
   const reports = useTimerColectionStore((state) => state.reports);
+
   const element = reports.map((report) =>
     report.report.map((val) => (
       <div key={val.date} className='flex text-primary-dark text-base gap-3 justify-between'>
-        <p>{report.name}</p>
+        <p>{`${report.name} (${val.date})`}</p>
         <p className=' text-end px-5'>{val.report}</p>
       </div>
     ))

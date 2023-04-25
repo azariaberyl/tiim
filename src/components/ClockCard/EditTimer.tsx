@@ -1,6 +1,7 @@
 import React, { useRef, forwardRef, InputHTMLAttributes } from 'react';
 import { ModalType, Timer } from '../../types';
 import useTimerStore from '../../contexts/TimerStore';
+import { getTimers, setTimers } from '../../utils/timer';
 
 interface Input extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
@@ -8,18 +9,10 @@ interface Input extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input = forwardRef<HTMLInputElement, Input>((props, ref) => (
   <div className='flex justify-between gap-10 items-center border-t py-7'>
-    <label
-      className='text-xl font-semibold text-gray-800'
-      htmlFor={props.title}
-    >
+    <label className='text-xl font-semibold text-gray-800' htmlFor={props.title}>
       {props.title}
     </label>
-    <input
-      id={props.title}
-      className='outline-none p-2 border border-gray-200 rounded'
-      ref={ref}
-      {...props}
-    />
+    <input id={props.title} className='outline-none p-2 border border-gray-200 rounded' ref={ref} {...props} />
   </div>
 ));
 
@@ -46,39 +39,16 @@ function EditTimer({ editButtonHandler }: props) {
       id: timer.id,
     };
     onTimerChange(newTimer);
+    setTimers(newTimer);
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className='bg-white w-fit flex flex-col py-5 px-10 gap-2 rounded'
-    >
+    <form onSubmit={onSubmit} className='bg-white w-fit flex flex-col py-5 px-10 gap-2 rounded'>
       <p className='m-auto text-xl font-semibold mb-2'>EDIT TIMER</p>
       <div className='flex flex-col'>
-        <Input
-          type='text'
-          title='Title'
-          ref={title}
-          defaultValue={timer?.title}
-        />
-        <Input
-          type='number'
-          title='Minutes'
-          min={0}
-          max={99}
-          ref={minutes}
-          step={1}
-          defaultValue={timer?.minutes}
-        />
-        <Input
-          type='number'
-          title='Seconds'
-          ref={seconds}
-          defaultValue={timer?.seconds}
-          min={0}
-          max={59}
-          step={1}
-        />
+        <Input type='text' title='Title' ref={title} defaultValue={timer?.title} />
+        <Input type='number' title='Minutes' min={0} max={99} ref={minutes} step={1} defaultValue={timer?.minutes} />
+        <Input type='number' title='Seconds' ref={seconds} defaultValue={timer?.seconds} min={0} max={59} step={1} />
       </div>
       <button type='submit'>Ok</button>
     </form>

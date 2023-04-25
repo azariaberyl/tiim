@@ -1,8 +1,7 @@
-import { Timer, TimerReport, TimersData } from '../types';
+import { Timer, TimerReport, ITimerColectionLS } from '../types';
 import { DEFAULT_REPORT, DEFAULT_TIMER } from './constants';
 
-const toMilliseconds = (hrs: number = 0, min: number = 0, sec: number = 0) =>
-  (hrs * 60 * 60 + min * 60 + sec) * 1000;
+const toMilliseconds = (hrs: number = 0, min: number = 0, sec: number = 0) => (hrs * 60 * 60 + min * 60 + sec) * 1000;
 
 const toSeconds = (min: number = 0, sec: number = 0) => min * 60 + sec;
 
@@ -12,60 +11,75 @@ const secondToString = (sec: number) => {
   for (second; second >= 60; second -= 60) {
     minutes++;
   }
-  return `${minutes.toString().padStart(2, '0')}:${second
-    .toString()
-    .padStart(2, '0')}`;
+  return `${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`;
 };
 
-function getTimerData(): TimersData {
-  const data = localStorage.getItem('td');
-  return data ? JSON.parse(data) : null;
-}
+// Cloud
 
-export function setTimerData(TimersData: TimersData) {
-  const data = localStorage.setItem('td', JSON.stringify(TimersData));
-}
-
-export function getTimer() {
-  const timer = getTimerData()?.timer;
-  return timer || DEFAULT_TIMER;
-}
-
-export function setTimer(timer: Timer) {
-  const data = getTimerData();
-  setTimerData({ ...data, timer });
-}
-
-export function getReport() {
-  const report = getTimerData()?.report;
-  return report || DEFAULT_REPORT;
-}
-
-export function setReport(report: TimerReport) {
-  const data = getTimerData();
-  setTimerData({ ...data, report });
-}
+/**
+ * Update timer in colection in cloud
+ */
+const updateTimer = () => {};
 
 export async function fetchReports(): Promise<TimerReport[] | null> {
+  //Mock fetch data
   const data = localStorage.getItem('reports');
-  const dataJson: TimerReport[] | null =
-    data === null ? null : JSON.parse(data);
+  const dataJson: TimerReport[] | null = data === null ? null : JSON.parse(data);
   return dataJson;
 }
 
 export async function fetchTimers() {
+  //Mock fetch data
   const dataSjon = localStorage.getItem('timers');
-  const data: Timer[] =
-    dataSjon === null
-      ? [{ id: '-1', minutes: 5, seconds: 0, title: 'My Project' }]
-      : JSON.parse(dataSjon);
-
+  const data: Timer[] | null = dataSjon === null ? null : JSON.parse(dataSjon);
   return data;
 }
 
 export async function fetchSelectedTimer() {
   const data: string | null = localStorage.getItem('selectedTimer');
+  return data;
+}
 
+export async function postReports(reports: TimerReport[]) {
+  const dataString = JSON.stringify(reports);
+  localStorage.setItem('reports', dataString);
+}
+
+//Local Storage
+function getTimerColectionLS(): ITimerColectionLS {
+  const data = localStorage.getItem('tc');
+  return data ? JSON.parse(data) : null;
+}
+
+export function setTimerColectionLS(TimersData: ITimerColectionLS) {
+  const data = localStorage.setItem('tc', JSON.stringify(TimersData));
+}
+
+export function getTimers() {
+  const timer = getTimerColectionLS()?.timers;
+  return timer || [DEFAULT_TIMER];
+}
+
+export function setTimers(timer: Timer) {
+  const data = getTimerColectionLS();
+  const isExist = data.timers.some((val) => val.id === timer.id);
+  const timers = isExist ? data.timers.map((val) => (val.id == timer.id ? timer : val)) : [...data.timers, timer];
+  updateTimer();
+  setTimerColectionLS({ ...data, timers });
+}
+
+export function getReports() {
+  const report = getTimerColectionLS()?.reports;
+  return report || [DEFAULT_REPORT];
+}
+
+export function setReports(reports: TimerReport[]) {
+  const data = getTimerColectionLS();
+  setTimerColectionLS({ ...data, reports });
+}
+
+export function getSelected() {
+  const data = getTimerColectionLS()?.selected;
   return data;
 }
 

@@ -1,8 +1,9 @@
 import React from 'react';
 import { create } from 'zustand';
 import { Timer } from '../types';
-import { getTimer, setTimer } from '../utils/timer';
 import { jsonComparer } from '../utils';
+import { DEFAULT_TIMER } from '../utils/constants';
+import { getSelected, getTimers } from '../utils/timer';
 
 interface ITimerStore {
   timer: Timer;
@@ -13,10 +14,13 @@ interface ITimerStore {
 }
 
 const useTimerStore = create<ITimerStore>()((set, get) => ({
-  timer: getTimer(),
+  timer: getTimers().find((val) => val.id === getSelected()) || DEFAULT_TIMER,
   onTimerChange: (newTimer: Timer) => {
+    /**
+     * TODO
+     * Add function if timer changed, change the colection
+     */
     if (jsonComparer(get().timer, newTimer)) return; // Compare if there is new change if not the do nothing
-    setTimer(newTimer);
     set(() => ({ timer: newTimer }));
   },
 

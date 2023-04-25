@@ -1,12 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
-import { secondToString, toSeconds } from '../../utils/timer';
+import { postReports, setReports, toSeconds } from '../../utils/timer';
 import useTimerCountdown from '../../hooks/useTimerCountdown';
 import TimersContext from '../../contexts/TimerStore';
 import useReportStore from '../../contexts/ReportStore';
 import useTabStore from '../../contexts/TabStore';
 import useTimerBreakStore from '../../contexts/TimeBreakStore';
 import useTimerColectionStore from '../../contexts/TimerColectionStore';
-import useReports from '../../hooks/useReports';
 
 function DisplayTimer({ time }: { time: string }) {
   return <p className='w-fit font-medium text-8xl my-4'>{time}</p>;
@@ -25,7 +24,6 @@ interface props {
 
 function Timer({ isStart, seconds, minutes, isStartHandler }: props) {
   const currentTab = useTabStore((state) => state.tab);
-  const reportColectionHandler = useReports();
 
   if (currentTab === 1) {
     const [onReportChange, report] = useReportStore((state) => [state.onReportChange, state.report]);
@@ -34,24 +32,23 @@ function Timer({ isStart, seconds, minutes, isStartHandler }: props) {
     const reportUpdateHandler = useCallback(() => {
       onReportChange((newReport) => {
         const isReportExist = reports.some((val) => val.id === newReport.id);
+        console.log(isReportExist);
         if (isReportExist) {
-          onChangeTimerColection(
-            'reports',
-            reports.map((val) => {
-              return val.id !== newReport.id ? val : newReport;
-            })
-          );
+          const newReports = reports.map((val) => {
+            return val.id !== newReport.id ? val : newReport;
+          });
+          onChangeTimerColection('reports', newReports, postReports);
+          setReports(newReports);
           return;
         }
-        onChangeTimerColection('reports', [...reports, newReport]);
+        const newReports = [...reports, newReport];
+        onChangeTimerColection('reports', newReports);
+        setReports(newReports);
       });
-
-      console.log(report);
     }, [report]);
 
     const initialValue = toSeconds(minutes, seconds);
     const time = useTimerCountdown(initialValue, isStart, isStartHandler, reportUpdateHandler);
-    console.log(report);
     return <DisplayTimer time={time} />;
   }
 
