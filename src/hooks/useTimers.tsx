@@ -26,8 +26,9 @@ function useTimers() {
         onColectionChange('timers', data); // Update timers
         onColectionChange('selected', selected || data[0].id); // Update selected
         onColectionChange('reports', reports || [{ id: data[0].id, name: data[0].title, report: [] }]); // Update reports
-        onTimerChange(data.find((t) => t.id == selected) || data[0]);
-        onReportUpdate(reports?.find((t) => t.id == selected) || { id: data[0].id, name: data[0].title, report: [] });
+
+        onTimerChange(data.find((t) => t.id == selected) || data[0]); // update TimerStore
+        onReportUpdate(reports?.find((t) => t.id == selected) || { id: data[0].id, name: data[0].title, report: [] }); // update ReportStore
       } catch {
         return;
       }

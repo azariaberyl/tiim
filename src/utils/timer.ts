@@ -61,11 +61,12 @@ export function getTimers() {
 }
 
 export function setTimers(timer: Timer) {
-  const data = getTimerColectionLS();
-  const isExist = data.timers.some((val) => val.id === timer.id);
-  const timers = isExist ? data.timers.map((val) => (val.id == timer.id ? timer : val)) : [...data.timers, timer];
+  const dataTimerColection = getTimerColectionLS();
+  const data = dataTimerColection?.timers || [DEFAULT_TIMER];
+  const isExist = data.some((val) => val.id === timer.id);
+  const timers = isExist ? data.map((val) => (val.id == timer.id ? timer : val)) : [...data, timer];
   updateTimer();
-  setTimerColectionLS({ ...data, timers });
+  setTimerColectionLS({ ...dataTimerColection, timers });
 }
 
 export function getReports() {

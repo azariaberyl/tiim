@@ -32,7 +32,6 @@ function Timer({ isStart, seconds, minutes, isStartHandler }: props) {
     const reportUpdateHandler = useCallback(() => {
       onReportChange((newReport) => {
         const isReportExist = reports.some((val) => val.id === newReport.id);
-        console.log(isReportExist);
         if (isReportExist) {
           const newReports = reports.map((val) => {
             return val.id !== newReport.id ? val : newReport;

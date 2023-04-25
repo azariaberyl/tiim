@@ -1,8 +1,7 @@
 import React, { memo, useMemo } from 'react';
-import useBoolean from '../../hooks/useBoolean';
-import Dropwdown from '../Dropdown';
 import { Timer } from '../../types';
 import useTimers from '../../hooks/useTimers';
+import Dropdown from '../Dropdown';
 
 const exampleData: Timer[] = [
   {
@@ -46,7 +45,7 @@ function Description({ id }: props) {
   return (
     <div className='gap-1 mb-4 h-16 flex justify-center flex-col items-center'>
       {/* <p className='w-fit font-medium text-3xl capitalize'>{title}</p> */}
-      <Dropwdown currentId={id} data={timers} ContentElement={ContentElement} />
+      <Dropdown currentId={id} data={timers} ContentElement={ContentElement} />
     </div>
   );
 }

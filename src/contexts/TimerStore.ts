@@ -14,7 +14,7 @@ interface ITimerStore {
 }
 
 const useTimerStore = create<ITimerStore>()((set, get) => ({
-  timer: getTimers().find((val) => val.id === getSelected()) || DEFAULT_TIMER,
+  timer: getTimers().find((val) => val.id === (getSelected() || DEFAULT_TIMER.id)) || DEFAULT_TIMER,
   onTimerChange: (newTimer: Timer) => {
     /**
      * TODO

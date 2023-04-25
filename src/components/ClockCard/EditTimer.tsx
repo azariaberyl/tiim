@@ -2,6 +2,7 @@ import React, { useRef, forwardRef, InputHTMLAttributes } from 'react';
 import { ModalType, Timer } from '../../types';
 import useTimerStore from '../../contexts/TimerStore';
 import { getTimers, setTimers } from '../../utils/timer';
+import useTimerColectionStore from '../../contexts/TimerColectionStore';
 
 interface Input extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
@@ -22,6 +23,7 @@ interface props {
 
 function EditTimer({ editButtonHandler }: props) {
   const { timer, onTimerChange } = useTimerStore();
+  const onChangeTimerColection = useTimerColectionStore((s) => s.onChange);
 
   const [title, minutes, seconds] = [
     useRef<HTMLInputElement>(null),
@@ -40,6 +42,7 @@ function EditTimer({ editButtonHandler }: props) {
     };
     onTimerChange(newTimer);
     setTimers(newTimer);
+    onChangeTimerColection('timers', getTimers());
   };
 
   return (
