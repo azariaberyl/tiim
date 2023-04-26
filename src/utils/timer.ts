@@ -96,4 +96,12 @@ export function setSelected(selectedId: string) {
   setTimerColectionLS({ ...data, selected: selectedId });
 }
 
+/**
+ * update localstorage as well as cloud
+ */
+export function setSelectedAll(selectedId: string) {
+  setSelected(selectedId);
+  postSelected(selectedId);
+}
+
 export { toMilliseconds, toSeconds, secondToString };

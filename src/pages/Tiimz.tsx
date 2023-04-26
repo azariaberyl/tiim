@@ -6,9 +6,7 @@ import React, { useRef, useEffect } from 'react';
 const Tiimz = () => {
   const clock = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // console.log(clock.current?.getBoundingClientRect());
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className='w-full flex flex-col justify-center h-full absolute items-center -mt-8'>

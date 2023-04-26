@@ -3,26 +3,12 @@ import { Timer } from '../../types';
 import useTimers from '../../hooks/useTimers';
 import Dropdown from '../Dropdown';
 
-const exampleData: Timer[] = [
-  {
-    minutes: 10,
-    seconds: 0,
-    title: 'Dicoba',
-    id: '1',
-  },
-  {
-    minutes: 10,
-    seconds: 0,
-    title: 'Cek',
-    id: '2',
-  },
-  {
-    minutes: 10,
-    seconds: 0,
-    title: 'Cek 1 2',
-    id: '3',
-  },
-];
+function ContentElement({ children, id }: { children: React.ReactNode; id: string }) {
+  const onClick = () => {};
+
+  return <button>{children}</button>;
+}
+
 interface props {
   id: string;
 }
@@ -33,14 +19,6 @@ interface props {
  */
 function Description({ id }: props) {
   const timers = useTimers();
-
-  // This is element for content
-  const ContentElement = useMemo(
-    () =>
-      ({ children }: { children: React.ReactNode }) =>
-        <div>{children}</div>,
-    []
-  );
 
   return (
     <div className='gap-1 mb-4 h-16 flex justify-center flex-col items-center'>

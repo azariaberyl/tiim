@@ -5,12 +5,13 @@ import Add from './Add';
 
 interface IContentElement {
   children: React.ReactNode;
+  id: string;
 }
 
 interface props<T extends { title: string; id: string }> {
   data: T[];
   currentId: string;
-  ContentElement: ({ children }: IContentElement) => JSX.Element;
+  ContentElement: ({ children, id }: IContentElement) => JSX.Element;
 }
 /**
  *
@@ -28,7 +29,14 @@ function Dropwdown<T extends { title: string; id: string }>({ data, ContentEleme
       </button>
       {isOpen && (
         <ContentContainer>
-          {data.map((val) => val.id !== currentId && <ContentElement key={val.id}>{val.title}</ContentElement>)}
+          {data.map(
+            (val) =>
+              val.id !== currentId && (
+                <ContentElement id={val.id} key={val.id}>
+                  {val.title}
+                </ContentElement>
+              )
+          )}
           <Add />
         </ContentContainer>
       )}
