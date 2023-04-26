@@ -2,11 +2,28 @@ import React, { memo, useMemo } from 'react';
 import { Timer } from '../../types';
 import useTimers from '../../hooks/useTimers';
 import Dropdown from '../Dropdown';
+import { getReports, getTimers, setSelectedAll } from '../../utils/timer';
+import useTimerStore from '../../contexts/TimerStore';
+import useReportStore from '../../contexts/ReportStore';
+import { DEFAULT_REPORT } from '../../utils/constants';
 
 function ContentElement({ children, id }: { children: React.ReactNode; id: string }) {
-  const onClick = () => {};
+  const onTimerChange = useTimerStore((s) => s.onTimerChange);
+  const onReportUpdate = useReportStore((s) => s.reportUpdate);
+  const onClick = () => {
+    // Change selected
+    setSelectedAll(id);
+    // Change TimerStore to new selected timer
+    onTimerChange(getTimers().find((val) => val.id === id) || getTimers()[0]);
+    // Change report to current timer
+    onReportUpdate(getReports().find((val) => val.id === id) || { ...DEFAULT_REPORT, id: getTimers()[0].id });
+  };
 
-  return <button>{children}</button>;
+  return (
+    <button className='w-full border-b border-b-default-light' onClick={onClick}>
+      {children}
+    </button>
+  );
 }
 
 interface props {

@@ -24,7 +24,7 @@ function Dropwdown<T extends { title: string; id: string }>({ data, ContentEleme
 
   return (
     <div className='relative'>
-      <button onClick={() => setIsOpen()} className='p-1'>
+      <button onClick={() => setIsOpen()} className='p-1 w-40'>
         {data.find((val) => val.id === currentId)?.title}
       </button>
       {isOpen && (

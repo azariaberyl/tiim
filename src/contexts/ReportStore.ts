@@ -25,9 +25,7 @@ const useReportStore = create<IReport>()((set, get) => ({
         const newState = {
           report: {
             ...state.report,
-            report: state.report.report.map((val) =>
-              val.date !== state.today ? val : { ...val, report: val.report + num }
-            ),
+            report: state.report.report.map((val) => (val.date !== today ? val : { ...val, report: val.report + num })),
           },
         };
         onUpdateReport(newState.report);
