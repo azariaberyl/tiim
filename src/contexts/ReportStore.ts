@@ -41,7 +41,6 @@ const useReportStore = create<IReport>()((set, get) => ({
   reportUpdate(val) {
     if (jsonComparer(get().report, val)) return;
     set(() => ({ report: val }));
-    // setReport(val);
   },
 }));
 

@@ -1,8 +1,9 @@
 import React, { useRef, forwardRef, InputHTMLAttributes } from 'react';
 import { ModalType, Timer } from '../../types';
 import useTimerStore from '../../contexts/TimerStore';
-import { getTimers, setTimers } from '../../utils/timer';
+import { getReports, getTimers, postReports, postTimers, setReports, setTimers } from '../../utils/timer';
 import useTimerColectionStore from '../../contexts/TimerColectionStore';
+import useReportStore from '../../contexts/ReportStore';
 
 interface Input extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
@@ -24,6 +25,7 @@ interface props {
 function EditTimer({ editButtonHandler }: props) {
   const { timer, onTimerChange } = useTimerStore();
   const onChangeTimerColection = useTimerColectionStore((s) => s.onChange);
+  const [onReportUpdate, report] = useReportStore((s) => [s.reportUpdate, s.report]);
 
   const [title, minutes, seconds] = [
     useRef<HTMLInputElement>(null),
@@ -40,9 +42,20 @@ function EditTimer({ editButtonHandler }: props) {
       seconds: seconds.current?.value ? +seconds.current?.value : 0,
       id: timer.id,
     };
-    onTimerChange(newTimer);
+    const newReports = getReports().map((val) => (val.id === newTimer.id ? { ...val, name: newTimer.title } : val));
+
+    // LS
     setTimers(newTimer);
+    setReports(newReports);
+    // Update current timer and report
+    onTimerChange(newTimer);
+    onReportUpdate({ ...report, name: newTimer.title });
+    // Update TimerColection
     onChangeTimerColection('timers', getTimers());
+    onChangeTimerColection('reports', newReports);
+    // Update Cloud
+    postTimers(getTimers());
+    postReports(newReports);
   };
 
   return (
