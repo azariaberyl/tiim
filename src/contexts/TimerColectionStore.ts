@@ -21,10 +21,6 @@ const useTimerColectionStore = create<props>()((set, get) => ({
     set(() => ({ [type]: val }));
     if (setLS !== undefined) setLS(get()[type]);
   },
-  /**
-   * TODO
-   * If anything changed, update the cloud as well
-   */
 }));
 
 export default useTimerColectionStore;

@@ -14,7 +14,7 @@ const secondToString = (sec: number) => {
   return `${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`;
 };
 
-// Cloud
+// Cloud, mock fetch data
 
 /**
  * Update timer in colection in cloud
@@ -22,14 +22,12 @@ const secondToString = (sec: number) => {
 const updateTimer = () => {};
 
 export async function fetchReports(): Promise<TimerReport[] | null> {
-  //Mock fetch data
   const data = localStorage.getItem('reports');
   const dataJson: TimerReport[] | null = data === null ? null : JSON.parse(data);
   return dataJson;
 }
 
 export async function fetchTimers() {
-  //Mock fetch data
   const dataSjon = localStorage.getItem('timers');
   const data: Timer[] | null = dataSjon === null ? null : JSON.parse(dataSjon);
   return data;
@@ -43,6 +41,15 @@ export async function fetchSelectedTimer() {
 export async function postReports(reports: TimerReport[]) {
   const dataString = JSON.stringify(reports);
   localStorage.setItem('reports', dataString);
+}
+
+export async function postSelected(id: string) {
+  localStorage.setItem('selectedTimer', id);
+}
+
+export async function postTimers(timers: Timer[]) {
+  const timersString = JSON.stringify(timers);
+  localStorage.setItem('timers', timersString);
 }
 
 //Local Storage
@@ -82,6 +89,11 @@ export function setReports(reports: TimerReport[]) {
 export function getSelected() {
   const data = getTimerColectionLS()?.selected;
   return data;
+}
+
+export function setSelected(selectedId: string) {
+  const data = getTimerColectionLS();
+  setTimerColectionLS({ ...data, selected: selectedId });
 }
 
 export { toMilliseconds, toSeconds, secondToString };
