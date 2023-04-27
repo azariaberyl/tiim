@@ -18,6 +18,7 @@ interface ITimerColectionLS {
 }
 
 interface BreakTime {
+  id: number;
   min: number;
   sec: number;
 }

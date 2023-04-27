@@ -3,6 +3,7 @@ import useTabStore from '../../contexts/TabStore';
 import { tab } from '../../types';
 import useTimerStore from '../../contexts/TimerStore';
 import TabButton from './TabButton';
+import useTimerBreakStore from '../../contexts/TimeBreakStore';
 
 interface props {
   id: tab;
@@ -11,8 +12,8 @@ interface props {
 
 function Tab({ id, name }: props) {
   const { onChangeTab, tab } = useTabStore();
-  const onStartChange = useTimerStore((s) => s.onStartChange);
-  const isStart = useTimerStore((s) => s.isStart);
+  const [onStartChange, onTimerChange, isStart] = useTimerStore((s) => [s.onStartChange, s.onTimerChange, s.isStart]);
+  const [shortBreak, longBreak] = useTimerBreakStore((s) => [s.shortBreak, s.longBreak]);
   const isCurrentTab = tab === id;
 
   // Create diffettent function bellow
@@ -21,6 +22,7 @@ function Tab({ id, name }: props) {
     if (!isCurrentTab) {
       onChangeTab(id);
       onStartChange(false);
+
       document.title = 'Tiimz';
     }
   };

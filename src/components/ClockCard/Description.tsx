@@ -8,11 +8,12 @@ import useReportStore from '../../contexts/ReportStore';
 import { DEFAULT_REPORT } from '../../utils/constants';
 
 function ContentElement({ children, id }: { children: React.ReactNode; id: string }) {
-  const onTimerChange = useTimerStore((s) => s.onTimerChange);
+  const [onTimerChange, onStartChange] = useTimerStore((s) => [s.onTimerChange, s.onStartChange]);
   const onReportUpdate = useReportStore((s) => s.reportUpdate);
   const onClick = () => {
     // Change selected
     setSelectedAll(id);
+    onStartChange(false);
     // Change TimerStore to new selected timer
     onTimerChange(getTimers().find((val) => val.id === id) || getTimers()[0]);
     // Change report to current timer

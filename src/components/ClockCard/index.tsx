@@ -6,12 +6,12 @@ import useBoolean from '../../hooks/useBoolean';
 import Description from './Description';
 import Control from './Control';
 import useTimerStore from '../../contexts/TimerStore';
+import useTabStore from '../../contexts/TabStore';
 
 function ClockCard(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>) {
-  const timer = useTimerStore((s) => s.timer);
+  const [isStartTimer, isStartTimerHandler, timer] = useTimerStore((s) => [s.isStart, s.onStartChange, s.timer]);
+  const tab = useTabStore((s) => s.tab);
   console.log(timer);
-  const isStartTimer = useTimerStore((s) => s.isStart);
-  const isStartTimerHandler = useTimerStore((s) => s.onStartChange);
 
   return (
     <div ref={ref} {...props}>
@@ -22,6 +22,7 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedR
           seconds={timer.seconds}
           minutes={timer.minutes}
           isStartHandler={isStartTimerHandler}
+          tab={tab}
         />
         <Description id={timer.id} />
 

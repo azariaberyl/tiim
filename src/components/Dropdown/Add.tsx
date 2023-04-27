@@ -8,13 +8,14 @@ import useReportStore from '../../contexts/ReportStore';
 function Add() {
   const [onChangeTimerColection, timers] = useTimerColectionStore((s) => [s.onChange, s.timers]);
   const onReportUpdate = useReportStore((s) => s.reportUpdate);
-  const onTimerChange = useTimerStore((s) => s.onTimerChange);
+  const [onTimerChange, onStartChange] = useTimerStore((s) => [s.onTimerChange, s.onStartChange]);
   console.log(timers);
 
   const onClick = () => {
     const id = '' + +new Date();
     const newTimer = { ...DEFAULT_TIMER, id };
     const newTimers = [...timers, newTimer];
+    onStartChange(false);
     // Update TimerColectionStore
     onChangeTimerColection('timers', newTimers);
     onChangeTimerColection('selected', newTimer.id);
