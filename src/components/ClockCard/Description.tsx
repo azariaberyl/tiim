@@ -7,17 +7,27 @@ import useTimerStore from '../../contexts/TimerStore';
 import useReportStore from '../../contexts/ReportStore';
 import { DEFAULT_REPORT } from '../../utils/constants';
 
-function ContentElement({ children, id }: { children: React.ReactNode; id: string }) {
+function ContentElement({
+  children,
+  id,
+  openDropdownHandler,
+}: {
+  children: React.ReactNode;
+  id: string;
+  openDropdownHandler: (val?: boolean) => void;
+}) {
   const [onTimerChange, onStartChange] = useTimerStore((s) => [s.onTimerChange, s.onStartChange]);
   const onReportUpdate = useReportStore((s) => s.reportUpdate);
   const onClick = () => {
+    onStartChange(false);
     // Change selected
     setSelectedAll(id);
-    onStartChange(false);
     // Change TimerStore to new selected timer
-    onTimerChange(getTimers().find((val) => val.id === id) || getTimers()[0]);
+    const newTimer = getTimers().find((val) => val.id === id) || getTimers()[0];
+    onTimerChange(newTimer);
     // Change report to current timer
     onReportUpdate(getReports().find((val) => val.id === id) || { ...DEFAULT_REPORT, id: getTimers()[0].id });
+    openDropdownHandler(false);
   };
 
   return (

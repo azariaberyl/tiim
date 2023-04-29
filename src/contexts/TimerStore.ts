@@ -20,7 +20,8 @@ const useTimerStore = create<ITimerStore>()((set, get) => ({
      * TODO
      * Add function if timer changed, change the colection
      */
-    if (jsonComparer(get().timer, newTimer)) return; // Compare if there is new change if not the do nothing
+    if (jsonComparer(get().timer, newTimer)) return;
+    console.log('Changed'); // Compare if there is new change if not the do nothing
     set(() => ({ timer: newTimer }));
   },
 

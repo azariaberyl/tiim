@@ -12,6 +12,7 @@ function useTimerCountdown(
   sec: number,
   isStart: boolean,
   isStartHandler: (val?: boolean) => void,
+  id: string,
   onReportChange?: () => void
 ) {
   const [time, setTime] = useState(sec);
@@ -45,7 +46,10 @@ function useTimerCountdown(
   }, [time]);
 
   //Handle if the sec parameter change
-  useEffect(() => setTime(sec), [sec]);
+  useEffect(() => {
+    setTime(sec);
+    console.log('sec changed');
+  }, [sec, id]);
 
   return secondToString(time);
 }

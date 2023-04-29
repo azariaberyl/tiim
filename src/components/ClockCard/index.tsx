@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useMemo } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import TimersContext from '../../contexts/TimerStore';
 import Timer from './Timer';
 import Menu from './Menu';

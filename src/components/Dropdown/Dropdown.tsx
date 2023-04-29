@@ -6,12 +6,13 @@ import Add from './Add';
 interface IContentElement {
   children: React.ReactNode;
   id: string;
+  openDropdownHandler: (val?: boolean) => void;
 }
 
 interface props<T extends { title: string; id: string }> {
   data: T[];
   currentId: string;
-  ContentElement: ({ children, id }: IContentElement) => JSX.Element;
+  ContentElement: ({ children, id, openDropdownHandler }: IContentElement) => JSX.Element;
 }
 /**
  *
@@ -32,7 +33,7 @@ function Dropwdown<T extends { title: string; id: string }>({ data, ContentEleme
           {data.map(
             (val) =>
               val.id !== currentId && (
-                <ContentElement id={val.id} key={val.id}>
+                <ContentElement id={val.id} key={val.id} openDropdownHandler={setIsOpen}>
                   {val.title}
                 </ContentElement>
               )

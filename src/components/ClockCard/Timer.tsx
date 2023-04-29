@@ -28,6 +28,7 @@ function Timer({ isStart, seconds, minutes, isStartHandler, tab }: props) {
   const [onReportChange, report] = useReportStore((state) => [state.onReportChange, state.report]);
   const [onChangeTimerColection, reports] = useTimerColectionStore((s) => [s.onChange, s.reports]);
   const { longBreak, shortBreak } = useTimerBreakStore();
+  console.log(isStart, seconds, minutes);
 
   const reportUpdateHandler = useCallback(() => {
     onReportChange((newReport) => {
@@ -48,18 +49,19 @@ function Timer({ isStart, seconds, minutes, isStartHandler, tab }: props) {
 
   if (tab === 1) {
     const initialValue = toSeconds(minutes, seconds);
-    const time = useTimerCountdown(initialValue, isStart, isStartHandler, reportUpdateHandler);
+    console.log(initialValue);
+    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id, reportUpdateHandler);
     return <DisplayTimer time={time} />;
   }
 
   if (tab === 2) {
     const initialValue = toSeconds(shortBreak.min, shortBreak.sec);
-    const time = useTimerCountdown(initialValue, isStart, isStartHandler);
+    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id);
     return <DisplayTimer time={time} />;
   }
 
   const initialValue = toSeconds(longBreak.min, longBreak.sec);
-  const time = useTimerCountdown(initialValue, isStart, isStartHandler);
+  const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id);
   return <DisplayTimer time={time} />;
 }
 
