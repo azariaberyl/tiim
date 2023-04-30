@@ -38,7 +38,7 @@ function Dropwdown<T extends { title: string; id: string }>({ data, ContentEleme
                 </ContentElement>
               )
           )}
-          <Add />
+          <Add setIsOpen={setIsOpen} />
         </ContentContainer>
       )}
     </div>

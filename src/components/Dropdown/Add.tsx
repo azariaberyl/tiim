@@ -5,7 +5,7 @@ import { postSelected, postTimers, setSelected, setTimers } from '../../utils/ti
 import useTimerStore from '../../contexts/TimerStore';
 import useReportStore from '../../contexts/ReportStore';
 
-function Add() {
+function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
   const [onChangeTimerColection, timers] = useTimerColectionStore((s) => [s.onChange, s.timers]);
   const onReportUpdate = useReportStore((s) => s.reportUpdate);
   const [onTimerChange, onStartChange] = useTimerStore((s) => [s.onTimerChange, s.onStartChange]);
@@ -27,6 +27,7 @@ function Add() {
     // Update cloud
     postTimers(newTimers);
     postSelected(id);
+    setIsOpen(false);
   };
 
   return (
