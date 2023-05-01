@@ -12,8 +12,7 @@ interface props {
 
 function Tab({ id, name }: props) {
   const { onChangeTab, tab } = useTabStore();
-  const [onStartChange, onTimerChange, isStart] = useTimerStore((s) => [s.onStartChange, s.onTimerChange, s.isStart]);
-  const [shortBreak, longBreak] = useTimerBreakStore((s) => [s.shortBreak, s.longBreak]);
+  const [onStartChange, isStart] = useTimerStore((s) => [s.onStartChange, s.isStart]);
   const isCurrentTab = tab === id;
 
   // Create diffettent function bellow
@@ -22,7 +21,6 @@ function Tab({ id, name }: props) {
     if (!isCurrentTab) {
       onChangeTab(id);
       onStartChange(false);
-
       document.title = 'Tiimz';
     }
   };

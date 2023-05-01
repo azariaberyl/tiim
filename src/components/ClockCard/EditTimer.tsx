@@ -25,7 +25,7 @@ interface props {
 function EditTimer({ editButtonHandler }: props) {
   const { timer, onTimerChange } = useTimerStore();
   const onChangeTimerColection = useTimerColectionStore((s) => s.onChange);
-  const [onReportUpdate, report] = useReportStore((s) => [s.reportUpdate, s.report]);
+  const [onReportChange, report] = useReportStore((s) => [s.reportChange1, s.report]);
 
   const [title, minutes, seconds] = [
     useRef<HTMLInputElement>(null),
@@ -49,7 +49,7 @@ function EditTimer({ editButtonHandler }: props) {
     setReports(newReports);
     // Update current timer and report
     onTimerChange(newTimer);
-    onReportUpdate({ ...report, name: newTimer.title });
+    onReportChange({ ...report, name: newTimer.title });
     // Update TimerColection
     onChangeTimerColection('timers', getTimers());
     onChangeTimerColection('reports', newReports);

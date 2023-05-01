@@ -9,16 +9,19 @@ interface IReport {
   today: string;
 
   onReportChange: (onUpdateReport: (newReport: TimerReport) => void, num?: number) => void;
-  reportUpdate: (val: TimerReport) => void;
+  reportChange1: (val: TimerReport) => void;
 }
+
+const getReportFromLocalStorage = () =>  getReports().find((val) => val.id === (getSelected() ? getSelected() : DEFAULT_TIMER.id)) || DEFAULT_REPORT;
 
 const useReportStore = create<IReport>()((set, get) => ({
   today: TODAY_STRING_DATE,
-  report: getReports().find((val) => val.id === (getSelected() ? getSelected() : DEFAULT_TIMER.id)) || DEFAULT_REPORT,
+  report: getReportFromLocalStorage(),
 
   onReportChange: (onUpdateReport, num = 1) => {
     const timerReport = get().report.report;
     const today = TODAY_STRING_DATE;
+
     const isTodayReportExist = timerReport.some((val) => val.date == today);
     if (isTodayReportExist) {
       set((state) => {
@@ -28,15 +31,16 @@ const useReportStore = create<IReport>()((set, get) => ({
             report: state.report.report.map((val) => (val.date !== today ? val : { ...val, report: val.report + num })),
           },
         };
-        onUpdateReport(newState.report);
+        onUpdateReport(newState.report); // Update the cloud
         return newState;
       });
       return;
     }
+    
     set((s) => ({ report: { ...s.report, report: [...s.report.report, { date: today, report: num }] } }));
   },
 
-  reportUpdate(val) {
+  reportChange1(val) {
     if (jsonComparer(get().report, val)) return;
     set(() => ({ report: val }));
   },

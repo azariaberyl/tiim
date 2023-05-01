@@ -25,32 +25,12 @@ interface props {
  */
 
 function Timer({ isStart, seconds, minutes, isStartHandler, tab }: props) {
-  const [onReportChange, report] = useReportStore((state) => [state.onReportChange, state.report]);
-  const [onChangeTimerColection, reports] = useTimerColectionStore((s) => [s.onChange, s.reports]);
+  const [report] = useReportStore((state) => [state.report]);
   const { longBreak, shortBreak } = useTimerBreakStore();
-  console.log(isStart, seconds, minutes);
-
-  const reportUpdateHandler = useCallback(() => {
-    onReportChange((newReport) => {
-      const isReportExist = reports.some((val) => val.id === newReport.id);
-      if (isReportExist) {
-        const newReports = reports.map((val) => {
-          return val.id !== newReport.id ? val : newReport;
-        });
-        onChangeTimerColection('reports', newReports, postReports);
-        setReports(newReports);
-        return;
-      }
-      const newReports = [...reports, newReport];
-      onChangeTimerColection('reports', newReports);
-      setReports(newReports);
-    });
-  }, [report]);
 
   if (tab === 1) {
     const initialValue = toSeconds(minutes, seconds);
-    console.log(initialValue);
-    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id, reportUpdateHandler);
+    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id, true);
     return <DisplayTimer time={time} />;
   }
 

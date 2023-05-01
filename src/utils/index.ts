@@ -4,3 +4,9 @@ export function jsonComparer(json1: {}, json2: {}) {
 
   return sJson1 == sJson2;
 }
+
+export function findValueBasedOnId<T extends {id: string}>(dataArray: T[] | null, id: string | null) {
+  if (dataArray === null) return null
+  if (id === null) return null
+  return dataArray.find((val) => val.id === id)
+}

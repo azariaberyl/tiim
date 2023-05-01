@@ -7,7 +7,7 @@ import useReportStore from '../../contexts/ReportStore';
 
 function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
   const [onChangeTimerColection, timers] = useTimerColectionStore((s) => [s.onChange, s.timers]);
-  const onReportUpdate = useReportStore((s) => s.reportUpdate);
+  const onReportChange1 = useReportStore((s) => s.reportChange1);
   const [onTimerChange, onStartChange] = useTimerStore((s) => [s.onTimerChange, s.onStartChange]);
 
   const onClick = () => {
@@ -20,7 +20,7 @@ function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
     onChangeTimerColection('selected', newTimer.id);
     // Update current timer and report
     onTimerChange(newTimer);
-    onReportUpdate({ id: newTimer.id, name: newTimer.title, report: [] });
+    onReportChange1({ id: newTimer.id, name: newTimer.title, report: [] });
     // Set Local Storage
     setSelected(id);
     setTimers(newTimer);

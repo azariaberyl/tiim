@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import { AiFillSetting } from 'react-icons/ai';
 import { IoBarChart, IoChevronDown } from 'react-icons/io5';
-import { Outlet } from 'react-router-dom';
 import useModal from '../../hooks/useModal';
 import { ModalType } from '../../types';
 
@@ -17,10 +16,9 @@ function Menu(): JSX.Element {
     <>
       <ModalComponent />
 
-      <div className='w-full flex justify-end px-2 mb-6'>
+      <MenuContainer>
         <EditButton editButtonHandler={isModalOpenHandler} />
-      </div>
-      <Outlet />
+      </MenuContainer>
     </>
   );
 }
@@ -31,6 +29,10 @@ function EditButton({ editButtonHandler }: { editButtonHandler: (val: ModalType)
       <AiFillSetting className='text-2xl text-primary-dark hover:text-black' />
     </button>
   );
+}
+
+function MenuContainer({ children }: { children: React.ReactNode }) {
+  return <div className='w-full flex justify-end px-2 mb-6'>{children}</div>
 }
 
 export default memo(Menu);
