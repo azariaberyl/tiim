@@ -11,6 +11,7 @@ import useTabStore from '../../contexts/TabStore';
 function ClockCard(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>) {
   const [isStartTimer, isStartTimerHandler, timer] = useTimerStore((s) => [s.isStart, s.onStartChange, s.timer]);
   const tab = useTabStore((s) => s.tab);
+  console.log(timer);
 
   return (
     <div ref={ref} {...props}>

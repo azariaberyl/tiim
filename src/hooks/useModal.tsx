@@ -10,9 +10,7 @@ import Modal from '../components/Modal';
  * @returns
  */
 
-function useModal(
-  initial: ModalType = ''
-): [() => JSX.Element | null, (val: ModalType) => void] {
+function useModal(initial: ModalType = ''): [() => JSX.Element | null, (val: ModalType) => void] {
   const [modal, setModal] = useState<ModalType>(initial);
 
   const onChange = (val: ModalType) => setModal(val);
@@ -22,7 +20,7 @@ function useModal(
       case 'edit':
         return (
           <Modal onClose={onChange}>
-            <EditTimer editButtonHandler={onChange} />
+            <EditTimer editButtonHandler={onChange} closeModal={onChange} />
           </Modal>
         );
       case 'report':

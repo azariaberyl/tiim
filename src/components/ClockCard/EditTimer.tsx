@@ -1,12 +1,12 @@
 import React, { useRef, forwardRef, InputHTMLAttributes, useCallback } from 'react';
 import { ModalType, Timer } from '../../types';
 import useTimerStore from '../../contexts/TimerStore';
-import { getReports, getTimers, postReports, postTimers, setReports, setTimers } from '../../utils/timer';
+import { getReports, getTimers, setReports, setSelected, setTimers } from '../../utils/timer';
 import useTimerColectionStore from '../../contexts/TimerColectionStore';
 import useReportStore from '../../contexts/ReportStore';
 import { DEFAULT_REPORT } from '../../utils/constants';
 
-function EditTimer({ editButtonHandler }: props) {
+function EditTimer({ editButtonHandler, closeModal }: props) {
   const { timer, onTimerChange } = useTimerStore();
   const [onChangeTimerColection, timers, reports] = useTimerColectionStore((s) => [s.onChange, s.timers, s.reports]);
   const [onReportChange, report] = useReportStore((s) => [s.reportChange1, s.report]);
@@ -19,31 +19,30 @@ function EditTimer({ editButtonHandler }: props) {
 
   const onRemoveTimerClick = useCallback(
     (selected: string) => {
-      /**
-       * TODO
-       * Change timerStore
-       * Change reportStore
-       * Remove selected timer from colection
-       * Remove selected timer from timers and reports cloud
-       */
-      const newSelected = timers[0].id;
       const newTimers = timers.filter((timer) => timer.id !== selected);
       const newReports = reports.filter((report) => report.id !== selected);
-
+      const newSelected = newTimers[0].id;
+      console.log(newTimers, newReports, newSelected);
+      //Update Colection
       onChangeTimerColection('selected', newSelected);
       onChangeTimerColection('timers', newTimers);
       onChangeTimerColection('reports', newReports);
-
+      // Update local storage
+      setSelected(newSelected);
+      setTimers(newTimers);
+      setReports(newReports);
+      // Change timer and report store
       const newTimer = timers[0];
       const newReport = newReports.find((report) => report.id == newSelected);
-
       onTimerChange(newTimer);
       onReportChange(newReport || { ...DEFAULT_REPORT, id: newSelected });
+      closeModal('');
     },
     [timer]
   );
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log('onSubmit');
     e.preventDefault();
     editButtonHandler('');
     const newTimer: Timer = {
@@ -52,10 +51,11 @@ function EditTimer({ editButtonHandler }: props) {
       seconds: seconds.current?.value ? +seconds.current?.value : 0,
       id: timer.id,
     };
-    const newReports = getReports().map((val) => (val.id === newTimer.id ? { ...val, name: newTimer.title } : val));
+    const newReports = reports.map((val) => (val.id === newTimer.id ? { ...val, name: newTimer.title } : val));
+    const newTimers = timers.map((val) => (val.id === newTimer.id ? newTimer : val));
 
     // LS
-    setTimers(newTimer);
+    setTimers(newTimers);
     setReports(newReports);
     // Update current timer and report
     onTimerChange(newTimer);
@@ -63,9 +63,6 @@ function EditTimer({ editButtonHandler }: props) {
     // Update TimerColection
     onChangeTimerColection('timers', getTimers());
     onChangeTimerColection('reports', newReports);
-    // Update Cloud
-    postTimers(getTimers());
-    postReports(newReports);
   };
 
   return (
@@ -75,11 +72,11 @@ function EditTimer({ editButtonHandler }: props) {
         <Input type='text' title='Title' ref={title} defaultValue={timer?.title} />
         <Input type='number' title='Minutes' min={0} max={99} ref={minutes} step={1} defaultValue={timer?.minutes} />
         <Input type='number' title='Seconds' ref={seconds} defaultValue={timer?.seconds} min={0} max={59} step={1} />
-        <button className='p-1 bg-red-600 text-white'>DELETE</button>
+        <button type='button' onClick={() => onRemoveTimerClick(timer.id)} className='p-1 bg-red-600 text-white'>
+          DELETE
+        </button>
       </div>
-      <button onClick={() => onRemoveTimerClick(timer.id)} type='submit'>
-        Ok
-      </button>
+      <button type='submit'>Ok</button>
     </form>
   );
 }
@@ -101,4 +98,5 @@ const Input = forwardRef<HTMLInputElement, Input>((props, ref) => (
 
 interface props {
   editButtonHandler: (val: ModalType) => void;
+  closeModal: (val: ModalType) => void;
 }
