@@ -12,17 +12,23 @@ interface IReport {
   reportChange1: (val: TimerReport) => void;
 }
 
-const getReportFromLocalStorage = () =>  getReports().find((val) => val.id === (getSelected() ? getSelected() : DEFAULT_TIMER.id)) || DEFAULT_REPORT;
+const getReportFromLocalStorage = () => {
+  const val = getReports().find((val) => {
+    return val.id === (getSelected() ? getSelected() : DEFAULT_TIMER.id);
+  });
+  return val || DEFAULT_REPORT;
+};
+const defaultReport = getReportFromLocalStorage();
 
 const useReportStore = create<IReport>()((set, get) => ({
   today: TODAY_STRING_DATE,
-  report: getReportFromLocalStorage(),
+  report: defaultReport,
 
   onReportChange: (onUpdateReport, num = 1) => {
-    const timerReport = get().report.report;
     const today = TODAY_STRING_DATE;
-
+    const timerReport = get().report.report;
     const isTodayReportExist = timerReport.some((val) => val.date == today);
+
     if (isTodayReportExist) {
       set((state) => {
         const newState = {
@@ -36,7 +42,7 @@ const useReportStore = create<IReport>()((set, get) => ({
       });
       return;
     }
-    
+
     set((s) => ({ report: { ...s.report, report: [...s.report.report, { date: today, report: num }] } }));
   },
 

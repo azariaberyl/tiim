@@ -13,3 +13,5 @@ export const DEFAULT_REPORT: TimerReport = {
 };
 
 export const TODAY_STRING_DATE = new Date().toDateString();
+
+export const DEFAULT_INTERVAL = 4;

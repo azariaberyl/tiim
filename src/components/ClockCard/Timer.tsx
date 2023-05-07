@@ -30,18 +30,18 @@ function Timer({ isStart, seconds, minutes, isStartHandler, tab }: props) {
 
   if (tab === 1) {
     const initialValue = toSeconds(minutes, seconds);
-    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id, true);
+    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id, tab, true);
     return <DisplayTimer time={time} />;
   }
 
   if (tab === 2) {
     const initialValue = toSeconds(shortBreak.min, shortBreak.sec);
-    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id);
+    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id, tab);
     return <DisplayTimer time={time} />;
   }
 
   const initialValue = toSeconds(longBreak.min, longBreak.sec);
-  const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id);
+  const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id, tab);
   return <DisplayTimer time={time} />;
 }
 

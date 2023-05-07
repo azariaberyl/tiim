@@ -16,12 +16,7 @@ interface ITimerStore {
 const useTimerStore = create<ITimerStore>()((set, get) => ({
   timer: getTimers().find((val) => val.id === (getSelected() || DEFAULT_TIMER.id)) || DEFAULT_TIMER,
   onTimerChange: (newTimer: Timer) => {
-    /**
-     * TODO
-     * Add function if timer changed, change the colection
-     */
     if (jsonComparer(get().timer, newTimer)) return;
-    console.log('Changed'); // Compare if there is new change if not the do nothing
     set(() => ({ timer: newTimer }));
   },
 

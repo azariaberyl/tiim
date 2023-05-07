@@ -52,6 +52,16 @@ export async function postTimers(timers: Timer[]) {
   localStorage.setItem('timers', timersString);
 }
 
+export async function postInterval(interval: number) {
+  localStorage.setItem('interval', String(interval));
+}
+
+export async function fetchInterval() {
+  const intervalString = localStorage.getItem('interval');
+  if (intervalString !== null) return Number(intervalString);
+  return false;
+}
+
 //Local Storage
 function getTimerColectionLS(): ITimerColectionLS {
   const data = localStorage.getItem('tc');
@@ -86,8 +96,8 @@ export function setReports(reports: TimerReport[]) {
   setTimerColectionLS({ ...data, reports });
 }
 
-export function getSelected() {
-  const data = getTimerColectionLS()?.selected;
+export function getSelected(): string | undefined {
+  const data: string | undefined = getTimerColectionLS()?.selected;
   return data;
 }
 
