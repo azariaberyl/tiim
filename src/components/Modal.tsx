@@ -7,8 +7,8 @@ interface Modal {
 
 function Modal({ children, onClose }: Modal) {
   return (
-    <div className='modal content-center flex' onClick={() => onClose('')}>
-      <div className='overflow-auto mt-16 h-fit' onClick={(e) => e.stopPropagation()}>
+    <div className='fixed z-50 top-0 left-0 w-screen h-screen bg-[#00000059]' onClick={() => onClose('')}>
+      <div className='overflow-auto max-h-full mt-4 w-fit mx-auto' onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
     </div>

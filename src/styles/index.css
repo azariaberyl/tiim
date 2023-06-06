@@ -52,7 +52,7 @@ main {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: #00000059;
   justify-content: center;
 }
 
