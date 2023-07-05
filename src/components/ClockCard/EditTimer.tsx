@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, HTMLProps, InputHTMLAttributes, forwardRef } from 'react';
-import { ModalType, Timer } from '../../types';
+import { ModalType, Reports, Timer } from '../../types';
 import useTimerStore from '../../contexts/TimerStore';
-import { getTimers, setReports, setSelected, setTimers } from '../../utils/timer';
+import { postReports, postTimers } from '../../utils/timer';
 import useTimerColectionStore from '../../contexts/TimerColectionStore';
 import useReportStore from '../../contexts/ReportStore';
 import { DEFAULT_REPORT } from '../../utils/constants';
@@ -29,22 +29,18 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
   const onRemoveTimerClick = useCallback(
     (selected: string) => {
       const newTimers = timers.filter((timer) => timer.id !== selected);
-      const newReports = reports.filter((report) => report.id !== selected);
+      const newReports = reports.filter((report) => report.id_timer !== selected);
       const newSelected = newTimers[0].id;
       console.log(newTimers, newReports, newSelected);
       //Update Colection
       onChangeTimerColection('selected', newSelected);
       onChangeTimerColection('timers', newTimers);
       onChangeTimerColection('reports', newReports);
-      // Update local storage
-      setSelected(newSelected);
-      setTimers(newTimers);
-      setReports(newReports);
       // Change timer and report store
       const newTimer = timers[0];
-      const newReport = newReports.find((report) => report.id == newSelected);
+      const newReport = newReports.find((report) => report.id_timer == newSelected);
       onTimerChange(newTimer);
-      onReportChange(newReport || { ...DEFAULT_REPORT, id: newSelected });
+      onReportChange(newReport || { ...DEFAULT_REPORT, id_timer: newSelected });
       closeModal('');
     },
     [timer]
@@ -60,17 +56,19 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
       seconds: seconds.current?.value ? +seconds.current?.value : 0,
       id: timer.id,
     };
-    const newReports = reports.map((val) => (val.id === newTimer.id ? { ...val, name: newTimer.title } : val));
+    const newReports: Reports = reports.map((val) =>
+      val.id_timer === newTimer.id ? { ...val, title: newTimer.title } : val
+    );
     const newTimers = timers.map((val) => (val.id === newTimer.id ? newTimer : val));
 
-    // LS
-    setTimers(newTimers);
-    setReports(newReports);
+    // Cloud
+    postTimers(newTimers);
+    postReports(newReports);
     // Update current timer and report
     onTimerChange(newTimer);
-    onReportChange({ ...report, name: newTimer.title });
+    onReportChange({ ...report, title: newTimer.title });
     // Update TimerColection
-    onChangeTimerColection('timers', getTimers());
+    onChangeTimerColection('timers', newTimers);
     onChangeTimerColection('reports', newReports);
     // Break Change
     const shortbreakVal = shortbreakMin.current?.value;
@@ -92,11 +90,11 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
       <p className='w-full text-center text-xl font-semibold mb-2'>EDIT TIMER</p>
       <div className='flex flex-col'>
         <div className='flex items-center py-5'>
-          <Input title='Title' ref={title} defaultValue={timer?.title} />
+          <Input title='Title' ref={title} defaultValue={timer.title} />
         </div>
         <div className='flex items-center py-5'>
-          <Input type='number' title='Minutes' min={0} max={99} ref={minutes} step={1} defaultValue={timer?.minutes} />
-          <Input type='number' ref={seconds} defaultValue={timer?.seconds} min={0} max={59} step={1} />
+          <Input type='number' title='Time' min={0} max={99} ref={minutes} step={1} defaultValue={timer.minutes} />
+          <Input type='number' ref={seconds} defaultValue={timer.seconds} min={0} max={59} step={1} />
         </div>
         <div className='flex items-center py-5'>
           <Input

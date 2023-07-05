@@ -4,14 +4,12 @@ import TopBar from './components/TopBar';
 import { Homepage, Tiimz } from './pages';
 
 function App() {
-  console.log(process.env.NODE_ENV);
-
   return (
     <div className='w-full items-center h-screen flex flex-col'>
       <TopBar />
       <Routes>
         <Route path='/' element={<Tiimz />} />
-        <Route path='/product' element={<Homepage />} />
+        <Route path='/home' element={<Homepage />} />
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </div>

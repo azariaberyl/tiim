@@ -1,40 +1,32 @@
 import { create } from 'zustand';
-import { TimerReport } from '../types';
+import { Report, Timer } from '../types';
 import { jsonComparer } from '../utils';
-import { DEFAULT_REPORT, DEFAULT_TIMER, TODAY_STRING_DATE } from '../utils/constants';
-import { getReports, getSelected } from '../utils/timer';
+import { DEFAULT_REPORT, TODAY_STRING_DATE } from '../utils/constants';
 
 interface IReport {
-  report: TimerReport;
+  report: Report;
   today: string;
 
-  onReportChange: (onUpdateReport: (newReport: TimerReport) => void, num?: number) => void;
-  reportChange1: (val: TimerReport) => void;
+  onReportChange: (onUpdateReport: (newReport: Report) => void, timer: Timer, num?: number) => void;
+  reportChange1: (val: Report) => void;
 }
-
-const getReportFromLocalStorage = () => {
-  const val = getReports().find((val) => {
-    return val.id === (getSelected() ? getSelected() : DEFAULT_TIMER.id);
-  });
-  return val || DEFAULT_REPORT;
-};
-const defaultReport = getReportFromLocalStorage();
 
 const useReportStore = create<IReport>()((set, get) => ({
   today: TODAY_STRING_DATE,
-  report: defaultReport,
+  report: DEFAULT_REPORT,
 
-  onReportChange: (onUpdateReport, num = 1) => {
+  onReportChange: (onUpdateReport, timer, num = 1) => {
     const today = TODAY_STRING_DATE;
-    const timerReport = get().report.report;
-    const isTodayReportExist = timerReport.some((val) => val.date == today);
+    const prevReport = get().report;
+    console.log(prevReport);
+    const isTodayReportExist = prevReport?.date === today;
 
     if (isTodayReportExist) {
-      set((state) => {
-        const newState = {
+      set(() => {
+        const newState: { report: Report } = {
           report: {
-            ...state.report,
-            report: state.report.report.map((val) => (val.date !== today ? val : { ...val, report: val.report + num })),
+            ...prevReport,
+            report: prevReport.report + num,
           },
         };
         onUpdateReport(newState.report); // Update the cloud
@@ -43,11 +35,20 @@ const useReportStore = create<IReport>()((set, get) => ({
       return;
     }
 
-    set((s) => ({ report: { ...s.report, report: [...s.report.report, { date: today, report: num }] } }));
+    set((s) => ({
+      report: {
+        date: new Date().toDateString(),
+        id_timer: timer.id,
+        report: 0,
+        title: timer.title,
+        id: '' + +new Date(),
+      },
+    }));
   },
 
   reportChange1(val) {
-    if (jsonComparer(get().report, val)) return;
+    const prevReport = get().report;
+    if (jsonComparer(prevReport, val)) return;
     set(() => ({ report: val }));
   },
 }));

@@ -1,5 +1,3 @@
-import { TimerReport } from '../types';
-
 export function jsonComparer(json1: {}, json2: {}) {
   const sJson1 = JSON.stringify(json1);
   const sJson2 = JSON.stringify(json2);

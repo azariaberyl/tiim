@@ -1,9 +1,10 @@
 import React, { memo, useState } from 'react';
 import useTimerColectionStore from '../../contexts/TimerColectionStore';
 import { DEFAULT_TIMER } from '../../utils/constants';
-import { setReports, setSelected, setTimers } from '../../utils/timer';
 import useTimerStore from '../../contexts/TimerStore';
 import useReportStore from '../../contexts/ReportStore';
+import { Report } from '../../types';
+import { postSelected } from '../../utils/timer';
 
 function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
   const [onChangeTimerColection, timers, reports] = useTimerColectionStore((s) => [s.onChange, s.timers, s.reports]);
@@ -15,8 +16,16 @@ function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
     const id = '' + +new Date();
     const newTimer = { ...DEFAULT_TIMER, id };
     const newTimers = [...timers, newTimer];
-    const newReport = { id: newTimer.id, name: newTimer.title, report: [] };
+    const newReport: Report = {
+      id_timer: newTimer.id,
+      title: newTimer.title,
+      report: 0,
+      date: new Date().toDateString(),
+      id: '' + +new Date(),
+    };
     const newReports = [...reports, newReport];
+    setIsOpen(false);
+
     // Update TimerColectionStore
     onChangeTimerColection('timers', newTimers);
     onChangeTimerColection('selected', newTimer.id);
@@ -24,11 +33,8 @@ function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
     // Update current timer and report
     onTimerChange(newTimer);
     onReportChange1(newReport);
-    // Set Local Storage
-    setSelected(id);
-    setTimers(newTimers);
-    setReports(newReports);
-    setIsOpen(false);
+    //Update Selected
+    postSelected(newTimer.id);
   };
 
   return (

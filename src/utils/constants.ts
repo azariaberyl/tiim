@@ -1,4 +1,4 @@
-import { Timer, TimerReport } from '../types';
+import { Timer, Report } from '../types';
 
 export const DEFAULT_TIMER: Timer = {
   id: '-1',
@@ -6,10 +6,12 @@ export const DEFAULT_TIMER: Timer = {
   seconds: 0,
   title: 'My Project',
 };
-export const DEFAULT_REPORT: TimerReport = {
-  id: '-1',
-  name: DEFAULT_TIMER.title,
-  report: [],
+export const DEFAULT_REPORT: Report = {
+  id_timer: '-1',
+  title: DEFAULT_TIMER.title,
+  date: new Date().toDateString(),
+  report: 0,
+  id: '' + +new Date(),
 };
 
 export const TODAY_STRING_DATE = new Date().toDateString();

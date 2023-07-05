@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import useTimerColectionStore from '../contexts/TimerColectionStore';
-import { fetchInterval, fetchReports, fetchSelectedTimer, fetchTimers } from '../utils/timer';
+import { fetchInterval, fetchReports, fetchSelectedTimer, fetchTimers, postTimers } from '../utils/timer';
 import useTimerStore from '../contexts/TimerStore';
 import useReportStore from '../contexts/ReportStore';
 import { findValueBasedOnId } from '../utils';
-import { Timer } from '../types';
+import { Reports, Timer } from '../types';
 import useIntervalStore from '../contexts/IntervalStore';
+import { DEFAULT_TIMER, TODAY_STRING_DATE } from '../utils/constants';
 
 /**
  * function that fetches initial TimersColection from cloud
@@ -27,20 +28,25 @@ function useTimers() {
         const interval = await fetchInterval();
 
         if (interval) updateInterval(interval);
+        if (selected) onColectionChange('selected', selected);
         if (reports !== null) onColectionChange('reports', reports); // Update reports
-        if (timersData === null) return;
+        if (timersData === null) {
+          postTimers([DEFAULT_TIMER]);
+          return;
+        }
         // Variable of updated data
         const newSelected = selected || timersData[0].id;
-        const newReports = reports || [{ id: timersData[0].id, name: timersData[0].title, report: [] }];
+        const newReports: Reports = reports || [
+          { id_timer: timersData[0].id, title: timersData[0].title, date: TODAY_STRING_DATE, report: 0 },
+        ];
+
         // Update Colection
         onColectionChange('timers', timersData); // Update timers
         onColectionChange('selected', newSelected); // Update selected
         onColectionChange('reports', newReports); // Update reports
         //Update individual store based on fetched data
-        onTimerChange(findValueBasedOnId(timers, newSelected) || timersData[0]); // update TimerStore
-        onReportChange1(
-          findValueBasedOnId(newReports, newSelected) || { id: timersData[0].id, name: timersData[0].title, report: [] }
-        ); // update ReportStore
+        onTimerChange(findValueBasedOnId(timersData, newSelected) || timersData[0]); // update TimerStore
+        onReportChange1(newReports.find((report) => report.id_timer === selected) || newReports[0]); // update ReportStore
         // Update Local Storage
       } catch {
         return;

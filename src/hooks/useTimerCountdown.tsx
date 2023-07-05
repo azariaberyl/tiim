@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import { postReports, secondToString, setReports } from '../utils/timer';
+import { postReports, secondToString } from '../utils/timer';
 import useReportStore from '../contexts/ReportStore';
-import { TimerReport, tab } from '../types';
+import { tab } from '../types';
 import useTimerColectionStore from '../contexts/TimerColectionStore';
 import useIntervalStore from '../contexts/IntervalStore';
 import useTabStore from '../contexts/TabStore';
+import useTimerStore from '../contexts/TimerStore';
 
 /**
  * Count down logic
@@ -26,24 +27,25 @@ function useTimerCountdown(
   const onChangeTab = useTabStore((s) => s.onChangeTab);
   const [onChangeTimerColection, reports] = useTimerColectionStore((s) => [s.onChange, s.reports]);
   const [updateInterval, interval] = useIntervalStore((s) => [s.updateInterval, s.interval]);
+  const timer = useTimerStore((s) => s.timer);
 
   const reportUpdateHandler = useCallback(() => {
     onReportUpdate((newReport) => {
-      const isReportExist = reports.some((val) => val.id === newReport.id);
+      const isReportExist = reports.some((val) => val.id_timer === newReport.id_timer);
+
       if (isReportExist) {
         const newReports = reports.map((val) => {
-          return val.id !== newReport.id ? val : newReport;
+          return val.id_timer !== newReport.id_timer ? val : newReport;
         });
         onChangeTimerColection('reports', newReports);
         postReports(newReports);
-        setReports(newReports);
         return;
       }
+
       const newReports = [...reports, newReport];
       // Update the cloud and local storage
       onChangeTimerColection('reports', newReports);
-      setReports(newReports);
-    });
+    }, timer);
   }, [reports]);
 
   // Handle timer countdown when it is started

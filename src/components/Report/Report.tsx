@@ -5,14 +5,12 @@ import useTimerColectionStore from '../../contexts/TimerColectionStore';
 function Report() {
   const reports = useTimerColectionStore((state) => state.reports);
 
-  const element = reports.map((report) =>
-    report.report.map((val) => (
-      <div key={val.date} className='flex text-primary-dark text-base gap-3 justify-between'>
-        <p>{`${report.name} (${val.date})`}</p>
-        <p className=' text-end px-5'>{val.report}</p>
-      </div>
-    ))
-  );
+  const element = reports.map((val) => (
+    <div key={val.id} className='flex text-primary-dark text-base gap-3 justify-between'>
+      <p>{`${val.title} (${val.date})`}</p>
+      <p className=' text-end px-5'>{val.report}</p>
+    </div>
+  ));
 
   return (
     <div className='bg-white px-5 py-3 rounded'>

@@ -1,22 +1,21 @@
 import { create } from 'zustand';
-import { Timer, TimerReport } from '../types';
+import { Reports, Timer } from '../types';
 import { DEFAULT_REPORT, DEFAULT_TIMER } from '../utils/constants';
-import { getReports, getSelected, getTimers } from '../utils/timer';
 
 type TimerColectionState = 'timers' | 'selected' | 'reports';
 
 interface props {
   timers: Timer[];
   selected: string; // Select string id
-  reports: TimerReport[];
+  reports: Reports;
 
-  onChange: (type: TimerColectionState, val: Timer[] | string | TimerReport[]) => void;
+  onChange: (type: TimerColectionState, val: Timer[] | string | Reports) => void;
 }
 
 const useTimerColectionStore = create<props>()((set, get) => ({
-  timers: getTimers() || [DEFAULT_TIMER],
-  reports: getReports() || [DEFAULT_REPORT],
-  selected: getSelected() || DEFAULT_TIMER.id,
+  timers: [DEFAULT_TIMER],
+  reports: [],
+  selected: DEFAULT_TIMER.id,
   onChange(type, val) {
     set(() => ({ [type]: val }));
   },

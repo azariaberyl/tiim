@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { postReports, setReports, toSeconds } from '../../utils/timer';
+import { toSeconds } from '../../utils/timer';
 import useTimerCountdown from '../../hooks/useTimerCountdown';
 import TimersContext from '../../contexts/TimerStore';
 import useReportStore from '../../contexts/ReportStore';
@@ -30,18 +30,18 @@ function Timer({ isStart, seconds, minutes, isStartHandler, tab }: props) {
 
   if (tab === 1) {
     const initialValue = toSeconds(minutes, seconds);
-    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id, tab, true);
+    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report?.id_timer, tab, true);
     return <DisplayTimer time={time} />;
   }
 
   if (tab === 2) {
     const initialValue = toSeconds(shortBreak.min, shortBreak.sec);
-    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id, tab);
+    const time = useTimerCountdown(initialValue, isStart, isStartHandler, report?.id_timer, tab);
     return <DisplayTimer time={time} />;
   }
 
   const initialValue = toSeconds(longBreak.min, longBreak.sec);
-  const time = useTimerCountdown(initialValue, isStart, isStartHandler, report.id, tab);
+  const time = useTimerCountdown(initialValue, isStart, isStartHandler, report?.id_timer, tab);
   return <DisplayTimer time={time} />;
 }
 

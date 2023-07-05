@@ -1,3 +1,5 @@
+import { Reports } from './report';
+
 interface Timer {
   seconds: number;
   minutes: number;
@@ -5,16 +7,10 @@ interface Timer {
   id: string;
 }
 
-interface TimerReport {
-  id: string;
-  name: string;
-  report: { date: string; report: number }[];
-}
-
 interface ITimerColectionLS {
   timers: Timer[];
   selected: string; // Select string id
-  reports: TimerReport[];
+  reports: Reports;
 }
 
 interface BreakTime {
@@ -27,4 +23,4 @@ export type tab = 1 | 2 | 3;
 
 type ModalType = 'edit' | 'report' | '';
 
-export type { Timer, ITimerColectionLS, ModalType, BreakTime, TimerReport };
+export type { Timer, ITimerColectionLS, ModalType, BreakTime };

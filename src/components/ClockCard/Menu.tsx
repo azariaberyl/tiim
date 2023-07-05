@@ -15,7 +15,6 @@ function Menu(): JSX.Element {
   return (
     <>
       <ModalComponent />
-
       <MenuContainer>
         <EditButton editButtonHandler={isModalOpenHandler} />
       </MenuContainer>
@@ -32,7 +31,7 @@ function EditButton({ editButtonHandler }: { editButtonHandler: (val: ModalType)
 }
 
 function MenuContainer({ children }: { children: React.ReactNode }) {
-  return <div className='w-full flex justify-end px-2 mb-6'>{children}</div>
+  return <div className='w-full flex justify-end px-2 mb-6'>{children}</div>;
 }
 
 export default memo(Menu);
