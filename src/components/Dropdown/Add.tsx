@@ -23,7 +23,7 @@ function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
       date: new Date().toDateString(),
       id: '' + +new Date(),
     };
-    const newReports = [...reports, newReport];
+    const newReports = [newReport,...reports];
     setIsOpen(false);
 
     // Update TimerColectionStore

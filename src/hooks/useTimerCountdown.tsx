@@ -31,18 +31,19 @@ function useTimerCountdown(
 
   const reportUpdateHandler = useCallback(() => {
     onReportUpdate((newReport) => {
-      const isReportExist = reports.some((val) => val.id_timer === newReport.id_timer);
+      const isReportExist = reports.some((val) => val.id === newReport.id);
+      // console.log(reports, isReportExist, newReport)
 
       if (isReportExist) {
         const newReports = reports.map((val) => {
-          return val.id_timer !== newReport.id_timer ? val : newReport;
+          return val.id !== newReport.id ? val : newReport;
         });
         onChangeTimerColection('reports', newReports);
         postReports(newReports);
         return;
       }
 
-      const newReports = [...reports, newReport];
+      const newReports = [newReport, ...reports];
       // Update the cloud and local storage
       onChangeTimerColection('reports', newReports);
     }, timer);

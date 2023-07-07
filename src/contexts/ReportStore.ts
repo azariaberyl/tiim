@@ -7,7 +7,11 @@ interface IReport {
   report: Report;
   today: string;
 
-  onReportChange: (onUpdateReport: (newReport: Report) => void, timer: Timer, num?: number) => void;
+  onReportChange: (
+    onUpdateReport: (newReport: Report) => void,
+    timer: Timer,
+    num?: number
+  ) => void;
   reportChange1: (val: Report) => void;
 }
 
@@ -18,9 +22,8 @@ const useReportStore = create<IReport>()((set, get) => ({
   onReportChange: (onUpdateReport, timer, num = 1) => {
     const today = TODAY_STRING_DATE;
     const prevReport = get().report;
-    console.log(prevReport);
     const isTodayReportExist = prevReport?.date === today;
-
+    
     if (isTodayReportExist) {
       set(() => {
         const newState: { report: Report } = {
@@ -34,16 +37,21 @@ const useReportStore = create<IReport>()((set, get) => ({
       });
       return;
     }
-
-    set((s) => ({
-      report: {
-        date: new Date().toDateString(),
+    
+    // console.log(isTodayReportExist)
+    set((s) => {
+      const newReport: Report = {
+        date: TODAY_STRING_DATE,
         id_timer: timer.id,
         report: 0,
         title: timer.title,
         id: '' + +new Date(),
-      },
-    }));
+      };
+      onUpdateReport(newReport);
+      return {
+        report: newReport,
+      };
+    });
   },
 
   reportChange1(val) {
