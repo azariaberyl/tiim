@@ -4,7 +4,7 @@ import { DEFAULT_TIMER } from '../../utils/constants';
 import useTimerStore from '../../contexts/TimerStore';
 import useReportStore from '../../contexts/ReportStore';
 import { Report } from '../../types';
-import { postSelected } from '../../utils/timer';
+import { postSelected, postTimers } from '../../utils/timer';
 
 function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
   const [onChangeTimerColection, timers, reports] = useTimerColectionStore((s) => [s.onChange, s.timers, s.reports]);
@@ -23,7 +23,7 @@ function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
       date: new Date().toDateString(),
       id: '' + +new Date(),
     };
-    const newReports = [newReport,...reports];
+    const newReports = [newReport, ...reports];
     setIsOpen(false);
 
     // Update TimerColectionStore
@@ -35,6 +35,8 @@ function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
     onReportChange1(newReport);
     //Update Selected
     postSelected(newTimer.id);
+    postTimers(newTimers);
+    document.title = 'Pomodoro Timer';
   };
 
   return (

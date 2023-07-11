@@ -1,10 +1,10 @@
 import React, { useRef, useCallback, HTMLProps, InputHTMLAttributes, forwardRef } from 'react';
 import { ModalType, Reports, Timer } from '../../types';
 import useTimerStore from '../../contexts/TimerStore';
-import { postReports, postTimers } from '../../utils/timer';
+import { postReports, postSelected, postTimers } from '../../utils/timer';
 import useTimerColectionStore from '../../contexts/TimerColectionStore';
 import useReportStore from '../../contexts/ReportStore';
-import { DEFAULT_REPORT } from '../../utils/constants';
+import { DEFAULT_REPORT, DEFAULT_TIMER } from '../../utils/constants';
 import useTimerBreakStore from '../../contexts/TimeBreakStore';
 import useIntervalStore from '../../contexts/IntervalStore';
 
@@ -15,11 +15,7 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
   const { shortBreak, longBreak, changeBreak } = useTimerBreakStore();
   const { interval, updateInterval } = useIntervalStore();
 
-  const [title, minutes, seconds] = [
-    useRef<HTMLInputElement>(null),
-    useRef<HTMLInputElement>(null),
-    useRef<HTMLInputElement>(null),
-  ];
+  const [title, minutes, seconds] = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
 
   const [longbreakMin, longbreakSec] = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
   const [shortbreakMin, shortbreakSec] = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
@@ -28,19 +24,32 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
 
   const onRemoveTimerClick = useCallback(
     (selected: string) => {
+      const defaultTimer: Timer = { ...DEFAULT_TIMER, id: '' + +new Date() };
       const newTimers = timers.filter((timer) => timer.id !== selected);
       const newReports = reports.filter((report) => report.id_timer !== selected);
-      const newSelected = newTimers[0].id;
-      console.log(newTimers, newReports, newSelected);
+      newTimers[0] ? newTimers : newTimers.push(defaultTimer);
+      newReports[0] ? newReports : newReports.push({ ...DEFAULT_REPORT, id_timer: newTimers[0].id, id: '' + +new Date(), title: newTimers[0].title });
       //Update Colection
-      onChangeTimerColection('selected', newSelected);
+      console.log(newTimers, newReports);
       onChangeTimerColection('timers', newTimers);
       onChangeTimerColection('reports', newReports);
-      // Change timer and report store
-      const newTimer = timers[0];
-      const newReport = newReports.find((report) => report.id_timer == newSelected);
-      onTimerChange(newTimer);
-      onReportChange(newReport || { ...DEFAULT_REPORT, id_timer: newSelected });
+      // Update cloud
+      postTimers(newTimers);
+      postReports(newReports);
+
+      // If timers[0] exists
+      if (newTimers[0]) {
+        const newTimer = newTimers[0];
+        const newSelected = newTimer.id;
+        //Update Colection
+        onChangeTimerColection('selected', newSelected);
+        // Change timer and report store
+        const newReport = newReports.find((report) => report.id_timer == newSelected);
+        onTimerChange(newTimer);
+        onReportChange(newReport || { ...DEFAULT_REPORT, id_timer: newSelected, id: '' + +new Date(), title: newTimer.title });
+        // Update cloud
+        postSelected(newSelected);
+      }
       closeModal('');
     },
     [timer]
@@ -56,9 +65,7 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
       seconds: seconds.current?.value ? +seconds.current?.value : 0,
       id: timer.id,
     };
-    const newReports: Reports = reports.map((val) =>
-      val.id_timer === newTimer.id ? { ...val, title: newTimer.title } : val
-    );
+    const newReports: Reports = reports.map((val) => (val.id_timer === newTimer.id ? { ...val, title: newTimer.title } : val));
     const newTimers = timers.map((val) => (val.id === newTimer.id ? newTimer : val));
 
     // Cloud
@@ -83,10 +90,7 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className='bg-white flex flex-col w-[450px] py-5 px-10 gap-2 rounded overflow-y-scroll max-h-full'
-    >
+    <form onSubmit={onSubmit} className='bg-white flex flex-col w-[450px] py-5 px-10 gap-2 rounded overflow-y-scroll max-h-full'>
       <p className='w-full text-center text-xl font-semibold mb-2'>EDIT TIMER</p>
       <div className='flex flex-col'>
         <div className='flex items-center py-5'>
@@ -97,27 +101,11 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
           <Input type='number' ref={seconds} defaultValue={timer.seconds} min={0} max={59} step={1} />
         </div>
         <div className='flex items-center py-5'>
-          <Input
-            type='number'
-            title='Short Break'
-            ref={shortbreakMin}
-            defaultValue={shortBreak.min}
-            min={0}
-            max={59}
-            step={1}
-          />
+          <Input type='number' title='Short Break' ref={shortbreakMin} defaultValue={shortBreak.min} min={0} max={59} step={1} />
           <Input type='number' ref={shortbreakSec} defaultValue={shortBreak.sec} min={0} max={59} step={1} />
         </div>
         <div className='flex items-center py-5'>
-          <Input
-            type='number'
-            title='Long Break'
-            ref={longbreakMin}
-            defaultValue={longBreak.min}
-            min={0}
-            max={59}
-            step={1}
-          />
+          <Input type='number' title='Long Break' ref={longbreakMin} defaultValue={longBreak.min} min={0} max={59} step={1} />
           <Input type='number' ref={longbreakSec} defaultValue={longBreak.sec} min={0} max={59} step={1} />
         </div>
         <div className='flex items-center py-5'>
@@ -146,12 +134,7 @@ const Input = forwardRef<HTMLInputElement, Input>((props, ref) => {
         <label className='w-1/3 tracking-wide font-semibold text-gray-800' htmlFor={props.title}>
           {props.title}
         </label>
-        <input
-          id={props.title}
-          className='text-base outline-none p-1 border border-gray-200 rounded ml-auto'
-          ref={ref}
-          {...props}
-        />
+        <input id={props.title} className='text-base outline-none p-1 border border-gray-200 rounded ml-auto' ref={ref} {...props} />
       </>
       // </div>
     );
