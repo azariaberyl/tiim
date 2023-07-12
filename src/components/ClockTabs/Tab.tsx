@@ -21,7 +21,7 @@ function Tab({ id, name }: props) {
     if (!isCurrentTab) {
       onChangeTab(id);
       onStartChange(false);
-      document.title = 'Tiimz';
+      document.title = 'Pomodoro Timer';
     }
   };
 

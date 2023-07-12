@@ -111,11 +111,11 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
         <div className='flex items-center py-5'>
           <Input type='number' title='Interval' ref={intervalRef} defaultValue={interval} step={1} min={0} max={99} />
         </div>
-        <button type='button' onClick={() => onRemoveTimerClick(timer.id)} className='p-1 bg-red-600 text-white'>
+        <button type='button' onClick={() => onRemoveTimerClick(timer.id)} className='p-1 bg-red-600 text-white rounded shadow-md'>
           DELETE
         </button>
       </div>
-      <button type='submit'>Ok</button>
+      <button className='bg-slate-200 p-1 rounded shadow-md font-semibold' type='submit'>OK</button>
     </form>
   );
 }

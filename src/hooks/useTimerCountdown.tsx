@@ -65,7 +65,7 @@ function useTimerCountdown(
   //Handle if the timer finish and reporting
   useEffect(() => {
     if (time === 0) {
-      document.title = 'Tiimz - Finish!!';
+      document.title = 'Finish!!';
       if (tab === 1) onTimerFinish(onChangeTab, updateInterval, interval);
       else onChangeTab(1);
       setTime(sec);
