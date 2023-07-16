@@ -13,8 +13,8 @@ function ClockCard(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedR
   const tab = useTabStore((s) => s.tab);
 
   return (
-    <div ref={ref} {...props}>
-      <div className='w-[600px] bg-[#CCFFDE]/90 flex flex-col items-center p-3 rounded-xl overflow-hidden shadow-xl shadow-default-light'>
+    <div className='w-screen md:w-auto' ref={ref} {...props}>
+      <div className='md:w-[600px] md:m-0 mx-auto w-[95%] bg-[#CCFFDE]/90 flex flex-col items-center p-3 rounded-xl overflow-hidden shadow-xl shadow-default-light'>
         <Menu />
         <Timer
           isStart={isStartTimer}

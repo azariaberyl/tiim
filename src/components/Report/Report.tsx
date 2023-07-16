@@ -67,8 +67,8 @@ function Report() {
           </Button>
         </div>
         {isChart ? (
-          <div className='h-[500px] w-[400px] relative'>
-            <Bar style={{ height: '100%' }} options={options} data={data} />
+          <div className='md:h-[500px] md:w-[400px] h-[400px] relative'>
+            <Bar options={options} data={data} />
           </div>
         ) : (
           <Element />

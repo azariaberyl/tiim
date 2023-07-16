@@ -5,14 +5,11 @@ import { Homepage, Tiimz } from './pages';
 
 function App() {
   return (
-    <div className='w-full items-center h-screen flex flex-col'>
-      <TopBar />
       <Routes>
         <Route path='/' element={<Tiimz />} />
         <Route path='/home' element={<Homepage />} />
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
-    </div>
   );
 }
 

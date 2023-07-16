@@ -90,10 +90,10 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
   };
 
   return (
-    <form onSubmit={onSubmit} className='bg-white flex flex-col w-[450px] py-5 px-10 gap-2 rounded overflow-y-scroll max-h-full'>
+    <form onSubmit={onSubmit} className='bg-white flex flex-col md:w-[450px] py-5 px-10 gap-2 rounded overflow-y-scroll max-h-full'>
       <p className='w-full text-center text-xl font-semibold mb-2'>EDIT TIMER</p>
       <div className='flex flex-col'>
-        <div className='flex items-center py-5'>
+        <div className='flex gap-2 items-center py-5 '>
           <Input title='Title' ref={title} defaultValue={timer.title} />
         </div>
         <div className='flex items-center py-5'>
@@ -141,6 +141,7 @@ const Input = forwardRef<HTMLInputElement, Input>((props, ref) => {
   }
   return <input className='text-base outline-none ml-1 p-1 border border-gray-200 rounded ' ref={ref} {...props} />;
 });
+
 interface props {
   editButtonHandler: (val: ModalType) => void;
   closeModal: (val: ModalType) => void;
