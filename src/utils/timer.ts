@@ -1,5 +1,6 @@
-import { Timer, ITimerColectionLS, Reports } from '../types';
-import { DEFAULT_REPORT, DEFAULT_TIMER } from './constants';
+import { child, getDatabase, push, ref, set } from 'firebase/database';
+import { Timer, Reports } from '../types';
+import { User } from 'firebase/auth';
 
 const toMilliseconds = (hrs: number = 0, min: number = 0, sec: number = 0) => (hrs * 60 * 60 + min * 60 + sec) * 1000;
 
@@ -15,45 +16,53 @@ const secondToString = (sec: number) => {
 };
 
 // Cloud, mock fetch data
-export async function fetchReports(): Promise<Reports | null> {
+export function fetchReports(): Reports | null {
   const data = localStorage.getItem('reports');
   const dataJson: Reports | null = data === null ? null : JSON.parse(data);
   return dataJson;
 }
 
-export async function fetchTimers() {
+export function fetchTimers() {
   const dataSjon = localStorage.getItem('timers');
   const data: Timer[] | null = dataSjon === null ? null : JSON.parse(dataSjon);
   return data;
 }
 
-export async function fetchSelectedTimer() {
+export function fetchSelectedTimer() {
   const data: string | null = localStorage.getItem('selectedTimer');
   return data;
 }
 
-export async function postReports(reports: Reports) {
+export function postReports(reports: Reports) {
   const dataString = JSON.stringify(reports);
   localStorage.setItem('reports', dataString);
 }
 
-export async function postSelected(id: string) {
+export function postSelected(id: string) {
   localStorage.setItem('selectedTimer', id);
 }
 
-export async function postTimers(timers: Timer[]) {
+export function postTimers(timers: Timer[]) {
   const timersString = JSON.stringify(timers);
   localStorage.setItem('timers', timersString);
 }
 
-export async function postInterval(interval: number) {
+export function postInterval(interval: number) {
   localStorage.setItem('interval', String(interval));
 }
 
-export async function fetchInterval() {
+export function fetchInterval() {
   const intervalString = localStorage.getItem('interval');
   if (intervalString !== null) return Number(intervalString);
   return false;
+}
+/**
+ * Write data to firebase realtime database
+ */
+export function postReportsFirebase(user: User | null, reports: Reports) {
+  if (user === null) return;
+  const db = getDatabase();
+  set(ref(db, `${user?.uid}/reports`), reports);
 }
 
 export { toMilliseconds, toSeconds, secondToString };

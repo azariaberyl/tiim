@@ -30,7 +30,6 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
       newTimers[0] ? newTimers : newTimers.push(defaultTimer);
       newReports[0] ? newReports : newReports.push({ ...DEFAULT_REPORT, id_timer: newTimers[0].id, id: '' + +new Date(), title: newTimers[0].title });
       //Update Colection
-      console.log(newTimers, newReports);
       onChangeTimerColection('timers', newTimers);
       onChangeTimerColection('reports', newReports);
       // Update cloud
@@ -56,7 +55,6 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
   );
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('onSubmit');
     e.preventDefault();
     editButtonHandler('');
     const newTimer: Timer = {
@@ -81,7 +79,6 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
     const shortbreakVal = shortbreakMin.current?.value;
     const longbreakVal = longbreakMin.current?.value;
     if (longbreakVal !== undefined && shortbreakVal !== undefined) {
-      console.log(shortbreakVal, longBreak);
       changeBreak('shortBreak', +shortbreakVal);
       changeBreak('longBreak', +longbreakVal);
     }

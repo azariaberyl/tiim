@@ -38,7 +38,6 @@ const useReportStore = create<IReport>()((set, get) => ({
       return;
     }
     
-    // console.log(isTodayReportExist)
     set((s) => {
       const newReport: Report = {
         date: TODAY_STRING_DATE,

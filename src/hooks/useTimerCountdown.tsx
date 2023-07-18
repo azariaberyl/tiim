@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { postReports, secondToString } from '../utils/timer';
+import { fetchReports, postReports, postReportsFirebase, secondToString } from '../utils/timer';
 import useReportStore from '../contexts/ReportStore';
-import { tab } from '../types';
+import { Reports, tab } from '../types';
 import useTimerColectionStore from '../contexts/TimerColectionStore';
 import useIntervalStore from '../contexts/IntervalStore';
 import useTabStore from '../contexts/TabStore';
 import useTimerStore from '../contexts/TimerStore';
+import useUserStore from '../contexts/UserStore';
 
 /**
  * Count down logic
@@ -23,6 +24,7 @@ function useTimerCountdown(
   isReportChange: boolean = false
 ) {
   const [time, setTime] = useState(sec);
+  const user = useUserStore((s) => s.user);
   const [onReportUpdate] = useReportStore((s) => [s.onReportChange]);
   const onChangeTab = useTabStore((s) => s.onChangeTab);
   const [onChangeTimerColection, reports] = useTimerColectionStore((s) => [s.onChange, s.reports]);
@@ -32,7 +34,6 @@ function useTimerCountdown(
   const reportUpdateHandler = useCallback(() => {
     onReportUpdate((newReport) => {
       const isReportExist = reports.some((val) => val.id === newReport.id);
-      // console.log(reports, isReportExist, newReport)
 
       if (isReportExist) {
         const newReports = reports.map((val) => {
@@ -51,6 +52,7 @@ function useTimerCountdown(
 
   // Handle timer countdown when it is started
   useEffect(() => {
+    postReportsFirebase(user, reports);
     if (!isStart) return;
     const interval = setInterval(() => {
       setTime((prev) => {
@@ -62,7 +64,7 @@ function useTimerCountdown(
     return () => clearInterval(interval);
   }, [isStart]);
 
-  //Handle if the timer finish and reporting
+  //Handle if the timer finish and update report
   useEffect(() => {
     if (time === 0) {
       document.title = 'Finish!!';
@@ -92,7 +94,6 @@ function useTimerCountdown(
 export default useTimerCountdown;
 
 function onTimerFinish(onChangeTab: (val: tab) => void, updateInterval: (val?: number) => void, interval: number) {
-  console.log(interval);
   if (interval <= 1) {
     onChangeTab(3);
     updateInterval(4);

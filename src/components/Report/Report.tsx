@@ -23,7 +23,6 @@ function Report() {
   const reports = useTimerColectionStore((state) => state.reports);
   const timers = useTimerColectionStore((s) => s.timers);
   const [isChart, setIsChart] = useState(true);
-  console.log(reports)
 
   const data = {
     labels: DAYS_IN_WEEK,
