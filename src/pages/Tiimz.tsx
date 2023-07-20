@@ -1,7 +1,7 @@
 import ClockCard from '../components/ClockCard';
 import ClockTabs from '../components/ClockTabs';
 import ReportButton from '../components/Report/ReportButton';
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import TopBar from '../components/TopBar/TopBar';
 
 const Tiimz = () => {

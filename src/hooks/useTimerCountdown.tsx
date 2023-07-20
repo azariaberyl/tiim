@@ -24,7 +24,6 @@ function useTimerCountdown(
   isReportChange: boolean = false
 ) {
   const [time, setTime] = useState(sec);
-  const user = useUserStore((s) => s.user);
   const [onReportUpdate] = useReportStore((s) => [s.onReportChange]);
   const onChangeTab = useTabStore((s) => s.onChangeTab);
   const [onChangeTimerColection, reports] = useTimerColectionStore((s) => [s.onChange, s.reports]);
@@ -52,7 +51,7 @@ function useTimerCountdown(
 
   // Handle timer countdown when it is started
   useEffect(() => {
-    postReportsFirebase(user, reports);
+    postReportsFirebase(reports);
     if (!isStart) return;
     const interval = setInterval(() => {
       setTime((prev) => {

@@ -1,6 +1,6 @@
-import { child, getDatabase, push, ref, set } from 'firebase/database';
+import { child, get, getDatabase, push, ref, set } from 'firebase/database';
 import { Timer, Reports } from '../types';
-import { User } from 'firebase/auth';
+import { User, getAuth } from 'firebase/auth';
 
 const toMilliseconds = (hrs: number = 0, min: number = 0, sec: number = 0) => (hrs * 60 * 60 + min * 60 + sec) * 1000;
 
@@ -56,13 +56,39 @@ export function fetchInterval() {
   if (intervalString !== null) return Number(intervalString);
   return false;
 }
+
+// Firebase Function
 /**
  * Write data to firebase realtime database
  */
-export function postReportsFirebase(user: User | null, reports: Reports) {
+export function postReportsFirebase(reports: Reports | null) {
+  if (reports === null) return;
+  const user = getAuth().currentUser;
   if (user === null) return;
   const db = getDatabase();
   set(ref(db, `${user?.uid}/reports`), reports);
 }
+
+export function postTimersFirebase(timers: Timer[] | null) {
+  if (timers === null) return;
+  const user = getAuth().currentUser;
+  if (user === null) return;
+  const db = getDatabase();
+  set(ref(db, `${user?.uid}/timers`), timers);
+}
+
+export function postSelectedFirebase(selected: string | null) {
+  if (selected === null) return;
+  const user = getAuth().currentUser;
+  if (user === null) return;
+  const db = getDatabase();
+  set(ref(db, `${user?.uid}/selected`), selected);
+}
+
+export function fetchReportsFirebase() {}
+
+export function fetchTimersFirebase() {}
+
+export function fetchSelectedFirebase() {}
 
 export { toMilliseconds, toSeconds, secondToString };

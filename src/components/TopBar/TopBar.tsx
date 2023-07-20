@@ -27,23 +27,6 @@ function TopBar() {
       });
   }, []);
 
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        const uid = user.uid;
-        // ...
-        updateUser(user);
-      } else {
-        // User is signed out
-        // ...
-        updateUser(null);
-      }
-    });
-  }, []);
-
   return (
     <div className='z-10 md:w-[650px] w-full flex align-middle justify-between rounded-b-lg bg-[#CCFFDE]/10 pt-2 pb-3 px-6'>
       <h1 className='text-2xl font-bold text-white'>Pomodoro Timer</h1>

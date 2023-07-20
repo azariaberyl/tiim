@@ -1,12 +1,21 @@
 import React, { useRef, useCallback, HTMLProps, InputHTMLAttributes, forwardRef } from 'react';
 import { ModalType, Reports, Timer } from '../../types';
 import useTimerStore from '../../contexts/TimerStore';
-import { postReports, postSelected, postTimers } from '../../utils/timer';
+import {
+  postInterval,
+  postReports,
+  postReportsFirebase,
+  postSelected,
+  postSelectedFirebase,
+  postTimers,
+  postTimersFirebase,
+} from '../../utils/timer';
 import useTimerColectionStore from '../../contexts/TimerColectionStore';
 import useReportStore from '../../contexts/ReportStore';
 import { DEFAULT_REPORT, DEFAULT_TIMER } from '../../utils/constants';
 import useTimerBreakStore from '../../contexts/TimeBreakStore';
 import useIntervalStore from '../../contexts/IntervalStore';
+import useUserStore from '../../contexts/UserStore';
 
 function EditTimer({ editButtonHandler, closeModal }: props) {
   const { timer, onTimerChange } = useTimerStore();
@@ -15,7 +24,11 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
   const { shortBreak, longBreak, changeBreak } = useTimerBreakStore();
   const { interval, updateInterval } = useIntervalStore();
 
-  const [title, minutes, seconds] = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
+  const [title, minutes, seconds] = [
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+  ];
 
   const [longbreakMin, longbreakSec] = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
   const [shortbreakMin, shortbreakSec] = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
@@ -28,10 +41,20 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
       const newTimers = timers.filter((timer) => timer.id !== selected);
       const newReports = reports.filter((report) => report.id_timer !== selected);
       newTimers[0] ? newTimers : newTimers.push(defaultTimer);
-      newReports[0] ? newReports : newReports.push({ ...DEFAULT_REPORT, id_timer: newTimers[0].id, id: '' + +new Date(), title: newTimers[0].title });
+      newReports[0]
+        ? newReports
+        : newReports.push({
+            ...DEFAULT_REPORT,
+            id_timer: newTimers[0].id,
+            id: '' + +new Date(),
+            title: newTimers[0].title,
+          });
       //Update Colection
       onChangeTimerColection('timers', newTimers);
       onChangeTimerColection('reports', newReports);
+      // Post to firebase
+      postTimersFirebase(newTimers);
+      postReportsFirebase(newReports);
       // Update cloud
       postTimers(newTimers);
       postReports(newReports);
@@ -45,9 +68,12 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
         // Change timer and report store
         const newReport = newReports.find((report) => report.id_timer == newSelected);
         onTimerChange(newTimer);
-        onReportChange(newReport || { ...DEFAULT_REPORT, id_timer: newSelected, id: '' + +new Date(), title: newTimer.title });
+        onReportChange(
+          newReport || { ...DEFAULT_REPORT, id_timer: newSelected, id: '' + +new Date(), title: newTimer.title }
+        );
         // Update cloud
         postSelected(newSelected);
+        postSelectedFirebase(newSelected);
       }
       closeModal('');
     },
@@ -63,12 +89,16 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
       seconds: seconds.current?.value ? +seconds.current?.value : 0,
       id: timer.id,
     };
-    const newReports: Reports = reports.map((val) => (val.id_timer === newTimer.id ? { ...val, title: newTimer.title } : val));
+    const newReports: Reports = reports.map((val) =>
+      val.id_timer === newTimer.id ? { ...val, title: newTimer.title } : val
+    );
     const newTimers = timers.map((val) => (val.id === newTimer.id ? newTimer : val));
 
     // Cloud
     postTimers(newTimers);
     postReports(newReports);
+    postTimersFirebase(newTimers);
+    postReportsFirebase(newReports);
     // Update current timer and report
     onTimerChange(newTimer);
     onReportChange({ ...report, title: newTimer.title });
@@ -83,11 +113,16 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
       changeBreak('longBreak', +longbreakVal);
     }
     // Interval Change
-    updateInterval(Number(intervalRef.current?.value));
+    const interval = Number(intervalRef.current?.value);
+    updateInterval(interval);
+    postInterval(interval);
   };
 
   return (
-    <form onSubmit={onSubmit} className='bg-white flex flex-col md:w-[450px] py-5 px-10 gap-2 rounded overflow-y-scroll max-h-full'>
+    <form
+      onSubmit={onSubmit}
+      className='bg-white flex flex-col md:w-[450px] py-5 px-10 gap-2 rounded overflow-y-scroll max-h-full'
+    >
       <p className='w-full text-center text-xl font-semibold mb-2'>EDIT TIMER</p>
       <div className='flex flex-col'>
         <div className='flex gap-2 items-center py-5 '>
@@ -98,21 +133,43 @@ function EditTimer({ editButtonHandler, closeModal }: props) {
           <Input type='number' ref={seconds} defaultValue={timer.seconds} min={0} max={59} step={1} />
         </div>
         <div className='flex items-center py-5'>
-          <Input type='number' title='Short Break' ref={shortbreakMin} defaultValue={shortBreak.min} min={0} max={59} step={1} />
+          <Input
+            type='number'
+            title='Short Break'
+            ref={shortbreakMin}
+            defaultValue={shortBreak.min}
+            min={0}
+            max={59}
+            step={1}
+          />
           <Input type='number' ref={shortbreakSec} defaultValue={shortBreak.sec} min={0} max={59} step={1} />
         </div>
         <div className='flex items-center py-5'>
-          <Input type='number' title='Long Break' ref={longbreakMin} defaultValue={longBreak.min} min={0} max={59} step={1} />
+          <Input
+            type='number'
+            title='Long Break'
+            ref={longbreakMin}
+            defaultValue={longBreak.min}
+            min={0}
+            max={59}
+            step={1}
+          />
           <Input type='number' ref={longbreakSec} defaultValue={longBreak.sec} min={0} max={59} step={1} />
         </div>
         <div className='flex items-center py-5'>
           <Input type='number' title='Interval' ref={intervalRef} defaultValue={interval} step={1} min={0} max={99} />
         </div>
-        <button type='button' onClick={() => onRemoveTimerClick(timer.id)} className='p-1 bg-red-600 text-white rounded shadow-md'>
+        <button
+          type='button'
+          onClick={() => onRemoveTimerClick(timer.id)}
+          className='p-1 bg-red-600 text-white rounded shadow-md'
+        >
           DELETE
         </button>
       </div>
-      <button className='bg-slate-200 p-1 rounded shadow-md font-semibold' type='submit'>OK</button>
+      <button className='bg-slate-200 p-1 rounded shadow-md font-semibold' type='submit'>
+        OK
+      </button>
     </form>
   );
 }
@@ -131,7 +188,12 @@ const Input = forwardRef<HTMLInputElement, Input>((props, ref) => {
         <label className='w-1/3 tracking-wide font-semibold text-gray-800' htmlFor={props.title}>
           {props.title}
         </label>
-        <input id={props.title} className='text-base outline-none p-1 border border-gray-200 rounded ml-auto' ref={ref} {...props} />
+        <input
+          id={props.title}
+          className='text-base outline-none p-1 border border-gray-200 rounded ml-auto'
+          ref={ref}
+          {...props}
+        />
       </>
       // </div>
     );

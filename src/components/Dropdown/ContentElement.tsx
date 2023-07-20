@@ -3,7 +3,7 @@ import useTimerStore from '../../contexts/TimerStore';
 import useReportStore from '../../contexts/ReportStore';
 import { DEFAULT_REPORT } from '../../utils/constants';
 import useTimerColectionStore from '../../contexts/TimerColectionStore';
-import { postSelected } from '../../utils/timer';
+import { postSelected, postSelectedFirebase } from '../../utils/timer';
 
 interface ContentElementI {
   children: React.ReactNode;
@@ -26,6 +26,8 @@ function ContentElement({ children, id, openDropdownHandler }: ContentElementI) 
     openDropdownHandler(false);
     // Update selected
     postSelected(newTimer.id);
+    // Post selected to firebase database
+    postSelectedFirebase(newTimer.id);
   };
 
   return (

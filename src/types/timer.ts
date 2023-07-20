@@ -19,8 +19,14 @@ interface BreakTime {
   sec: number;
 }
 
+interface FetchedData {
+  timers: Timer[] | null;
+  selected: string | null; // Select string id
+  reports: Reports | null;
+}
+
 export type tab = 1 | 2 | 3;
 
 type ModalType = 'edit' | 'report' | '';
 
-export type { Timer, ITimerColectionLS, ModalType, BreakTime };
+export type { Timer, ITimerColectionLS, ModalType, BreakTime, FetchedData };
