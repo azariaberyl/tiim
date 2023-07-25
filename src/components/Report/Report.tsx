@@ -31,7 +31,8 @@ function Report() {
       data: DAYS_IN_WEEK.map((day) => {
         const theDateReport = reports.find((r) => r.id_timer === timer.id && r.date === day);
         if (theDateReport) {
-          return (theDateReport.report / 3600).toFixed(1);
+          // return (theDateReport.report / 3600).toFixed(1);
+          return theDateReport.report;
         }
         return 0;
       }),
@@ -79,7 +80,15 @@ function Report() {
 
 export default Report;
 
-function Button({ disabled = false, children, onClick }: { disabled?: boolean; children: React.ReactNode; onClick: () => void }) {
+function Button({
+  disabled = false,
+  children,
+  onClick,
+}: {
+  disabled?: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
   if (disabled) {
     return (
       <button disabled className='bg-slate-200 py-1 px-3 rounded'>
