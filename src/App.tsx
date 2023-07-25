@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import TopBar from './components/TopBar';
 import { Tiimz } from './pages';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import useUserStore from './contexts/UserStore';

@@ -31,8 +31,7 @@ function Report() {
       data: DAYS_IN_WEEK.map((day) => {
         const theDateReport = reports.find((r) => r.id_timer === timer.id && r.date === day);
         if (theDateReport) {
-          // return (theDateReport.report / 3600).toFixed(1);
-          return theDateReport.report;
+          return (theDateReport.report / 3600).toFixed(1);
         }
         return 0;
       }),

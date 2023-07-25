@@ -39,7 +39,6 @@ function useTimers() {
         if (selected) onColectionChange('selected', selected);
         if (reports) onColectionChange('reports', reports); // Update reports
         if (timersData === null) {
-          console.log(timersData);
           postTimers([DEFAULT_TIMER]);
           return;
         }
