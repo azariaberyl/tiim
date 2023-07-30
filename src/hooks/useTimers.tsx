@@ -1,6 +1,14 @@
 import { useEffect } from 'react';
 import useTimerColectionStore from '../contexts/TimerColectionStore';
-import { fetchInterval, fetchReports, fetchSelectedTimer, fetchTimers, postSelected, postTimers } from '../utils/timer';
+import {
+  fetchInterval,
+  fetchReports,
+  fetchSelectedTimer,
+  fetchTimers,
+  postReports,
+  postSelected,
+  postTimers,
+} from '../utils/timer';
 import useTimerStore from '../contexts/TimerStore';
 import useReportStore from '../contexts/ReportStore';
 import { findValueBasedOnId } from '../utils';
@@ -34,11 +42,13 @@ function useTimers() {
         const selected = fetchSelectedTimer();
         const reports = fetchReports();
         const interval = fetchInterval();
+        console.log(timersData, selected, reports, interval);
 
         if (interval) updateInterval(interval);
         if (selected) onColectionChange('selected', selected);
         if (reports) onColectionChange('reports', reports); // Update reports
         if (timersData === null) {
+          console.log('timersData null');
           postTimers([DEFAULT_TIMER]);
           return;
         }
@@ -101,6 +111,7 @@ function useTimers() {
                   id_timer: newTimer.id,
                 };
                 onReportChange1(newReport); // update ReportStore
+                if (newReports) postReports(newReports);
               } else {
                 console.log('No data available');
               }
@@ -118,6 +129,7 @@ function useTimers() {
                 onColectionChange('timers', newTimers); // Update reports
                 const newTimer = findValueBasedOnId(newTimers, newSelected) || timersData[0];
                 onTimerChange(newTimer); // update ReportStore
+                if (newTimers) postTimers(newTimers);
               } else {
                 console.log('No data available');
               }
