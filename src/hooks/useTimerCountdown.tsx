@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { fetchReports, postReports, postReportsFirebase, secondToString } from '../utils/timer';
 import useReportStore from '../contexts/ReportStore';
 import { Reports, tab } from '../types';
@@ -29,6 +29,11 @@ function useTimerCountdown(
   const [onChangeTimerColection, reports] = useTimerColectionStore((s) => [s.onChange, s.reports]);
   const [updateInterval, interval] = useIntervalStore((s) => [s.updateInterval, s.interval]);
   const timer = useTimerStore((s) => s.timer);
+
+  const bell = useMemo(() => {
+    const audio = new Audio('../../mixkit-achievement-bell-600.wav');
+    return audio;
+  }, []);
 
   const reportUpdateHandler = useCallback(() => {
     onReportUpdate((newReport) => {
@@ -72,6 +77,7 @@ function useTimerCountdown(
       setTime(sec);
       isStartHandler(false);
       reportUpdateHandler();
+      bell.play();
       return;
     }
     if (isStart && isReportChange) {

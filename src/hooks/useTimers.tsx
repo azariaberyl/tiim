@@ -42,13 +42,11 @@ function useTimers() {
         const selected = fetchSelectedTimer();
         const reports = fetchReports();
         const interval = fetchInterval();
-        console.log(timersData, selected, reports, interval);
 
         if (interval) updateInterval(interval);
         if (selected) onColectionChange('selected', selected);
         if (reports) onColectionChange('reports', reports); // Update reports
         if (timersData === null) {
-          console.log('timersData null');
           postTimers([DEFAULT_TIMER]);
           return;
         }
