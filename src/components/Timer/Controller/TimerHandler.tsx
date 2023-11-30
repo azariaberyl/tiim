@@ -20,20 +20,26 @@ const TimerHandler: TimerHandler = (initialSecond = 1500) => {
   const formattedSeconds = String(remainingSeconds).padStart(2, '0');
 
   const time = { minutes: formattedMinutes, seconds: formattedSeconds };
+  const start = useMemo(() => ({ isStart, Handler }), [isStart]);
 
   useEffect(() => {
     let timerId: any;
 
     if (isStart) {
+      let timeLeft = second;
       timerId = setInterval(() => {
-        setSecond((val) => val - 1);
+        setSecond((val) => {
+          timeLeft = val - 1;
+          return timeLeft <= 0 ? 0 : timeLeft;
+        });
+        if (timeLeft <= 0) {
+          Handler(false);
+        }
       }, 1000); // Update every second
     }
 
     return () => clearInterval(timerId); // Cleanup interval on component unmount or when isStart is toggled off
   }, [isStart]);
-
-  const start = useMemo(() => ({ isStart, Handler }), [isStart]);
 
   return [start, time];
 };

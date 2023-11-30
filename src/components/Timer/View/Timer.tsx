@@ -5,7 +5,8 @@ import Setting from './Setting';
 import TimerHandler from '../Controller';
 
 function Timer(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>) {
-  const [start, time] = TimerHandler();
+  const [start, time] = TimerHandler(5);
+  // console.log(time);
 
   return (
     <div className='w-screen md:w-auto' ref={ref} {...props}>

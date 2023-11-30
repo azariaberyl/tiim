@@ -1,4 +1,4 @@
-describe('template spec', () => {
+describe('timer', () => {
   beforeEach(() => {});
 
   it('should display correct time', () => {
@@ -27,6 +27,8 @@ describe('template spec', () => {
     cy.visit('http://localhost:3000/');
     cy.get('.px-20').should('have.text', 'START').click().should('have.text', 'PAUSE');
     cy.tick(1501_000);
+    cy.getDataTest('display-timer').should('have.text', '00:00');
+    cy.get('.px-20').should('have.text', 'START');
     cy.getDataTest('display-timer').should('have.text', '00:00');
   });
 });
