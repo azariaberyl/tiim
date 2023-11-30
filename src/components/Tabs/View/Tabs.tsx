@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
+import React from 'react';
 import Tab from './Tab';
 
-function ClockTabs() {
+function Tabs() {
   return (
     <div className='flex justify-center'>
       <Tab name='Pomodoro' id={1} />
@@ -11,4 +11,4 @@ function ClockTabs() {
   );
 }
 
-export default memo(ClockTabs);
+export default Tabs;

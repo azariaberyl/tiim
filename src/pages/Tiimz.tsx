@@ -1,9 +1,8 @@
-import ClockCard from '../components/ClockCard';
-import ClockTabs from '../components/ClockTabs';
 import ReportButton from '../components/Report/ReportButton';
 import { useRef, useEffect } from 'react';
 import TopBar from '../components/TopBar/TopBar';
 import Timer from '../components/Timer/View/Timer';
+import Tabs from '../components/Tabs/View/Tabs';
 
 const Tiimz = () => {
   // Testing
@@ -17,7 +16,7 @@ const Tiimz = () => {
         {/* Section 1 */}
         <div>
           <ReportButton />
-          <ClockTabs />
+          <Tabs />
         </div>
 
         {/* Section 2 */}

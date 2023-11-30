@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import useBoolean from '../../../hooks/useBoolean';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { decrement, startChange } from '../../../features/timerSlice';
+import { decrement } from '../../../features/timerSlice';
 
 type TimerHandler = () => {
   minutes: string;
@@ -28,9 +27,6 @@ const TimerHandler: TimerHandler = () => {
     if (isStart) {
       timerId = setInterval(() => {
         dispatch(decrement());
-        if (second <= 0) {
-          dispatch(startChange(false));
-        }
       }, 1000); // Update every second
     }
 

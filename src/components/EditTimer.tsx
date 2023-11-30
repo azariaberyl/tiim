@@ -1,6 +1,6 @@
 import React, { useRef, useCallback, HTMLProps, InputHTMLAttributes, forwardRef } from 'react';
-import { ModalType, Reports, Timer } from '../../types';
-import useTimerStore from '../../contexts/TimerStore';
+import { ModalType, Reports, Timer } from '../types';
+import useTimerStore from '../contexts/TimerStore';
 import {
   postInterval,
   postReports,
@@ -9,13 +9,13 @@ import {
   postSelectedFirebase,
   postTimers,
   postTimersFirebase,
-} from '../../utils/timer';
-import useTimerColectionStore from '../../contexts/TimerColectionStore';
-import useReportStore from '../../contexts/ReportStore';
-import { DEFAULT_REPORT, DEFAULT_TIMER } from '../../utils/constants';
-import useTimerBreakStore from '../../contexts/TimeBreakStore';
-import useIntervalStore from '../../contexts/IntervalStore';
-import useUserStore from '../../contexts/UserStore';
+} from '../utils/timer';
+import useTimerColectionStore from '../contexts/TimerColectionStore';
+import useReportStore from '../contexts/ReportStore';
+import { DEFAULT_REPORT, DEFAULT_TIMER } from '../utils/constants';
+import useTimerBreakStore from '../contexts/TimeBreakStore';
+import useIntervalStore from '../contexts/IntervalStore';
+import useUserStore from '../contexts/UserStore';
 
 function EditTimer({ editButtonHandler, closeModal }: props) {
   const { timer, onTimerChange } = useTimerStore();

@@ -1,14 +1,31 @@
-describe('timer', () => {
-  beforeEach(() => {});
+describe('Timer Visual', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:3000/');
+  });
 
   it('should display correct time', () => {
-    cy.visit('http://localhost:3000/');
     cy.getDataTest('display-timer').contains('25:00');
   });
 
-  it('should countdown', () => {
+  it('should can change tab', () => {
+    cy.getDataTest('timer-tab').eq(0).should('have.class', 'text-white bg-default-light/40');
+    cy.getDataTest('timer-tab').eq(1).should('not.have.class', 'text-white bg-default-light/40');
+    cy.getDataTest('timer-tab').eq(2).should('not.have.class', 'text-white bg-default-light/40');
+
+    cy.getDataTest('timer-tab').eq(1).click().should('have.class', 'text-white bg-default-light/40');
+    cy.getDataTest('display-timer').contains('05:00');
+
+    cy.getDataTest('timer-tab').eq(2).click().should('have.class', 'text-white bg-default-light/40');
+    cy.getDataTest('display-timer').contains('10:00');
+  });
+});
+
+describe('Countdown test', () => {
+  beforeEach(() => {
     cy.clock();
     cy.visit('http://localhost:3000/');
+  });
+  it('should countdown', () => {
     cy.get('.px-20').should('have.text', 'START').click().should('have.text', 'PAUSE');
     cy.tick(1000);
     cy.getDataTest('display-timer').should('have.text', '24:59');
@@ -22,12 +39,27 @@ describe('timer', () => {
     cy.getDataTest('display-timer').should('have.text', '24:55');
   });
 
-  it('should be zero if the timer is up', async () => {
-    cy.clock();
-    cy.visit('http://localhost:3000/');
+  it('should be zero if the timer is up', () => {
     cy.get('.px-20').should('have.text', 'START').click().should('have.text', 'PAUSE');
-    cy.tick(1501_000);
+    cy.tick(1502_000);
     cy.getDataTest('display-timer').should('have.text', '00:00');
+    cy.get('.px-20').should('have.text', 'START');
+  });
+
+  it('should countdown to zero in short break tab', () => {
+    cy.getDataTest('timer-tab').eq(1).click().should('have.class', 'text-white bg-default-light/40');
+    cy.getDataTest('display-timer').contains('05:00');
+    cy.get('.px-20').should('have.text', 'START').click().should('have.text', 'PAUSE');
+    cy.tick(301_000);
+    cy.get('.px-20').should('have.text', 'START');
+    cy.getDataTest('display-timer').should('have.text', '00:00');
+  });
+
+  it('should countdown to zero in long break tab', () => {
+    cy.getDataTest('timer-tab').eq(2).click().should('have.class', 'text-white bg-default-light/40');
+    cy.getDataTest('display-timer').contains('10:00');
+    cy.get('.px-20').should('have.text', 'START').click().should('have.text', 'PAUSE');
+    cy.tick(601_000);
     cy.get('.px-20').should('have.text', 'START');
     cy.getDataTest('display-timer').should('have.text', '00:00');
   });

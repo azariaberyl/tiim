@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ModalType } from '../types';
-import EditTimer from '../components/ClockCard/EditTimer';
+import EditTimer from '../components/EditTimer';
 import Report from '../components/Report/Report';
 import Modal from '../components/Modal';
 
