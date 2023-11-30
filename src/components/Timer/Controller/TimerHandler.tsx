@@ -1,17 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import useBoolean from '../../../hooks/useBoolean';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { decrement, startChange } from '../../../features/timerSlice';
 
-type TimerHandler = (initialSecond?: number) => [
-  { isStart: boolean; Handler: (val?: boolean | undefined) => void },
-  {
-    minutes: string;
-    seconds: string;
-  }
-];
+type TimerHandler = () => {
+  minutes: string;
+  seconds: string;
+};
 
-const TimerHandler: TimerHandler = (initialSecond = 1500) => {
-  const [isStart, Handler] = useBoolean(false);
-  const [second, setSecond] = useState(initialSecond); // Timer in second
+const TimerHandler: TimerHandler = () => {
+  const second = useAppSelector((state) => state.timer.second);
+  const isStart = useAppSelector((state) => state.timer.start);
+  const dispatch = useAppDispatch();
 
   const minutes = Math.floor(second / 60);
   const remainingSeconds = second % 60;
@@ -20,20 +20,16 @@ const TimerHandler: TimerHandler = (initialSecond = 1500) => {
   const formattedSeconds = String(remainingSeconds).padStart(2, '0');
 
   const time = { minutes: formattedMinutes, seconds: formattedSeconds };
-  const start = useMemo(() => ({ isStart, Handler }), [isStart]);
+  // const start = useMemo(() => ({ isStart, Handler }), [isStart]);
 
   useEffect(() => {
     let timerId: any;
 
     if (isStart) {
-      let timeLeft = second;
       timerId = setInterval(() => {
-        setSecond((val) => {
-          timeLeft = val - 1;
-          return timeLeft <= 0 ? 0 : timeLeft;
-        });
-        if (timeLeft <= 0) {
-          Handler(false);
+        dispatch(decrement());
+        if (second <= 0) {
+          dispatch(startChange(false));
         }
       }, 1000); // Update every second
     }
@@ -41,7 +37,7 @@ const TimerHandler: TimerHandler = (initialSecond = 1500) => {
     return () => clearInterval(timerId); // Cleanup interval on component unmount or when isStart is toggled off
   }, [isStart]);
 
-  return [start, time];
+  return time;
 };
 
 export default TimerHandler;
