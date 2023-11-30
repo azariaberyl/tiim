@@ -1,8 +1,6 @@
 import React, { forwardRef, useEffect } from 'react';
-import TimersContext from '../../contexts/TimerStore';
 import Timer from './Timer';
 import Menu from './Menu';
-import useBoolean from '../../hooks/useBoolean';
 import Description from './Description';
 import Control from './Control';
 import useTimerStore from '../../contexts/TimerStore';
