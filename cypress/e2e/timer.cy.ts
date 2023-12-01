@@ -31,7 +31,7 @@ describe('Timer Visual', () => {
   });
 });
 
-describe.only('Countdown test', () => {
+describe('Countdown test', () => {
   beforeEach(() => {
     cy.clock();
     cy.visit('http://localhost:3000/');
@@ -76,18 +76,58 @@ describe.only('Countdown test', () => {
   });
 });
 
-describe('Edit Test', () => {
+describe.only('Edit Test', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
   });
   it('should edit timer and it should be corresponding', () => {
     cy.getDataTest('edit-button').click();
     cy.getDataTest('modal').should('exist');
-    cy.getDataTest('input-timermin').should('exist').should('have.value', '25');
-    cy.getDataTest('input-timersec').should('exist').should('have.value', '00');
-    cy.getDataTest('input-shortBreakmin').should('exist').should('have.value', '05');
-    cy.getDataTest('input-shortBreaksec').should('exist').should('have.value', '00');
-    cy.getDataTest('input-longBreakmin').should('exist').should('have.value', '10');
-    cy.getDataTest('input-longBreaksec').should('exist').should('have.value', '00');
+    cy.getDataTest('input-title').clear().type('Testing');
+    cy.getDataTest('input-timermin').clear().type('60');
+    cy.getDataTest('input-timersec').clear().type('10');
+    cy.getDataTest('input-shortBreakmin').clear().type('15');
+    cy.getDataTest('input-shortBreaksec').clear().type('10');
+    cy.getDataTest('input-longBreakmin').clear().type('20');
+    cy.getDataTest('input-longBreaksec').clear().type('10');
+    cy.getDataTest('edit-submit').click();
+
+    cy.getDataTest('timer-title').should('have.text', 'Testing');
+    cy.getDataTest('display-timer').should('have.text', '60:10');
+    cy.getDataTest('timer-tab').eq(1).click();
+    cy.getDataTest('display-timer').should('have.text', '15:10');
+    cy.getDataTest('timer-tab').eq(2).click();
+    cy.getDataTest('display-timer').should('have.text', '20:10');
   });
+
+  it('should countdown after edit', () => {
+    cy.getDataTest('edit-button').click();
+    cy.getDataTest('input-title').clear().type('Testing');
+    cy.getDataTest('input-timermin').clear().type('60');
+    cy.getDataTest('input-timersec').clear().type('10');
+    cy.getDataTest('edit-submit').click();
+
+    cy.clock();
+    cy.get('.px-20').click();
+    cy.tick(3660 * 1000); // 61min
+    cy.getDataTest('display-timer').should('have.text', '00:00');
+  });
+
+  it('should shortbreak countdown after edit', () => {
+    cy.getDataTest('edit-button').click();
+    cy.getDataTest('input-title').clear().type('Testing');
+    cy.getDataTest('input-shortBreakmin').clear().type('15');
+    cy.getDataTest('input-shortBreaksec').clear().type('10');
+    cy.getDataTest('edit-submit').click();
+    cy.getDataTest('timer-tab').eq(1).click();
+    cy.getDataTest('display-timer').should('have.text', '15:10');
+
+    cy.clock();
+    cy.get('.px-20').click();
+    cy.tick(3660 * 1000); // 61min
+    cy.getDataTest('display-timer').should('have.text', '00:00');
+  });
+
+  //TODO: Create test for longBreak after update
+  it('should longbreak countdown after edit', () => {});
 });
