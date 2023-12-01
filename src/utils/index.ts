@@ -10,3 +10,13 @@ export function findValueBasedOnId<T extends { id: string }>(dataArray: T[] | nu
   if (id === null) return;
   return dataArray.find((val) => val.id === id);
 }
+
+export function toMinutesAndString(val: number) {
+  const value = val;
+  const minutes = Math.floor(value / 60);
+  const remainingValues = value % 60;
+
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedValues = String(remainingValues).padStart(2, '0');
+  return { min: formattedMinutes, sec: formattedValues };
+}

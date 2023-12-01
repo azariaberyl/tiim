@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ModalType } from '../types';
-import EditTimer from '../components/EditTimer';
+import EditTimer from '../components/EditTimer/View';
 import Report from '../components/Report/Report';
 import Modal from '../components/Modal';
 
@@ -20,7 +20,7 @@ function useModal(initial: ModalType = ''): [() => JSX.Element | null, (val: Mod
       case 'edit':
         return (
           <Modal onClose={onChange}>
-            <EditTimer editButtonHandler={onChange} closeModal={onChange} />
+            <EditTimer closeModal={onChange} />
           </Modal>
         );
       case 'report':

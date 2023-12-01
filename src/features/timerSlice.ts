@@ -1,9 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { Timer1 } from '../types/timer';
 
 type initialState = {
   second: number;
   start: boolean;
   pomodoroTimer: number;
+  title: string;
   shortBreak: number;
   longBreak: number;
   tab: 1 | 2 | 3;
@@ -16,6 +18,7 @@ const initialState: initialState = {
   shortBreak: 300,
   longBreak: 600,
   tab: 1,
+  title: 'My Project',
 };
 
 export const timerSlice = createSlice({
@@ -29,9 +32,12 @@ export const timerSlice = createSlice({
       }
       state.start = false;
     },
-    changeTime: (state, action: PayloadAction<number>) => {
-      state.second = action.payload;
-      state.pomodoroTimer = action.payload;
+    changeTimer: (state, action: PayloadAction<Timer1>) => {
+      state.second = action.payload.seconds;
+      state.pomodoroTimer = action.payload.seconds;
+      state.shortBreak = action.payload.shortBreak;
+      state.longBreak = action.payload.longBreak;
+      state.title = action.payload.title;
     },
     startChange: (state, action: PayloadAction<boolean | undefined>) => {
       state.start = action.payload ?? !state.start;
@@ -61,6 +67,6 @@ export const timerSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { decrement, changeTime, startChange, changeTab } = timerSlice.actions;
+export const { decrement, changeTimer, startChange, changeTab } = timerSlice.actions;
 
 export default timerSlice.reducer;

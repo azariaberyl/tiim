@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import Start from './Start';
 import ProjectTitle from './ProjectTitle';
-import Setting from './Setting';
+import Edit from './EditButton';
 import TimerHandler from '../Controller';
 
 function Timer(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>) {
@@ -10,9 +10,9 @@ function Timer(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedRef<H
   return (
     <div className='w-screen md:w-auto' ref={ref} {...props}>
       <div className='md:w-[600px] md:m-0 mx-auto w-[95%] bg-[#CCFFDE]/90 flex flex-col items-center p-3 rounded-xl overflow-hidden shadow-xl shadow-default-light'>
-        <Setting />
+        <Edit />
         <DisplayTimer time={`${time.minutes}:${time.seconds}`} />
-        <ProjectTitle id='1' />
+        <ProjectTitle id='-1' />
         <Start />
       </div>
     </div>

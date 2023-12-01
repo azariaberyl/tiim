@@ -1,8 +1,8 @@
 import ReportButton from '../components/Report/ReportButton';
 import { useRef, useEffect } from 'react';
-import TopBar from '../components/TopBar/TopBar';
-import Timer from '../components/Timer/View/Timer';
-import Tabs from '../components/Tabs/View/Tabs';
+import TopBar from '../components/TopBar';
+import Timer from '../components/Timer/View';
+import Tabs from '../components/Tabs/View';
 
 const Tiimz = () => {
   // Testing

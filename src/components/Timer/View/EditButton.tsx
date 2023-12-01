@@ -5,13 +5,13 @@ import { memo } from 'react';
 
 function EditButton({ editButtonHandler }: { editButtonHandler: (val: ModalType) => void }) {
   return (
-    <button onClick={() => editButtonHandler('edit')} title='Edit Timer' type='button'>
+    <button data-test='edit-button' onClick={() => editButtonHandler('edit')} title='Edit Timer' type='button'>
       <AiFillSetting className='text-2xl text-primary-dark hover:text-black' />
     </button>
   );
 }
 
-function Setting() {
+function Edit() {
   const [ModalComponent, isModalOpenHandler] = useModal();
 
   return (
@@ -24,4 +24,4 @@ function Setting() {
   );
 }
 
-export default memo(Setting);
+export default memo(Edit);

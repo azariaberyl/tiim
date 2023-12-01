@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import Dropdown from '../../Dropdown';
 import ContentElement from '../../Dropdown/ContentElement';
+import { useAppSelector } from '../../../app/hooks';
 
 interface projectProps {
   id: string;
@@ -11,10 +12,11 @@ interface projectProps {
  * @param category The category of the component
  */
 const ProjectTitle = memo(({ id }: projectProps) => {
+  const timers = useAppSelector((s) => s.data.timers);
   return (
     <div className='gap-1 mb-4 h-16 flex justify-center flex-col items-center'>
       {/* <p className='w-fit font-medium text-3xl capitalize'>{title}</p> */}
-      <Dropdown currentId={id} data={[{ title: 'My Project', id: '1' }]} ContentElement={ContentElement} />
+      <Dropdown currentId={id} data={timers} ContentElement={ContentElement} />
     </div>
   );
 });

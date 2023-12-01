@@ -2,6 +2,8 @@ import React, { memo } from 'react';
 import useBoolean from '../../hooks/useBoolean';
 import ContentContainer from './ContentContainer';
 import Add from './Add';
+import { useAppSelector } from '../../app/hooks';
+import { Timer1 } from '../../types/timer';
 
 interface IContentElement {
   children: React.ReactNode;
@@ -9,7 +11,7 @@ interface IContentElement {
   openDropdownHandler: (val?: boolean) => void;
 }
 
-interface props<T extends { title: string; id: string }> {
+interface props<T> {
   data: T[];
   currentId: string;
   ContentElement: ({ children, id, openDropdownHandler }: IContentElement) => JSX.Element;
@@ -20,7 +22,7 @@ interface props<T extends { title: string; id: string }> {
  * @param currentId is the current id to make sure what to display
  * @param ContentElement is function that return jsx element for dropdown content elemen type
  */
-function Dropwdown<T extends { title: string; id: string }>({ data, ContentElement, currentId }: props<T>) {
+function Dropwdown<T extends Timer1>({ data, ContentElement, currentId }: props<T>) {
   const [isOpen, setIsOpen] = useBoolean(false);
 
   return (

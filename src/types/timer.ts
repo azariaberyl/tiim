@@ -7,6 +7,14 @@ interface Timer {
   id: string;
 }
 
+interface Timer1 {
+  seconds: number;
+  shortBreak: number;
+  longBreak: number;
+  title: string;
+  id: string;
+}
+
 interface ITimerColectionLS {
   timers: Timer[];
   selected: string; // Select string id
@@ -29,4 +37,4 @@ export type tab = 1 | 2 | 3;
 
 type ModalType = 'edit' | 'report' | '';
 
-export type { Timer, ITimerColectionLS, ModalType, BreakTime, FetchedData };
+export type { Timer, ITimerColectionLS, ModalType, BreakTime, FetchedData, Timer1 };
