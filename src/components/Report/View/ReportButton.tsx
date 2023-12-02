@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
-import useModal from '../../hooks/useModal';
-import { ModalType } from '../../types';
+import useModal from '../../../hooks/useModal';
+import { ModalType } from '../../../types';
 
 function ReportButton() {
   const [ModalComponent, isModalOpenHandler] = useModal();

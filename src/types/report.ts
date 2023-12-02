@@ -1,11 +1,22 @@
-type Reports = Report[];
-
 interface Report {
-  date: string;
-  report: number;
-  title: string;
   id_timer: string;
-  id: string;
+  // date -> new Date().toLocaleDateString()
+  reports: { date: string; report: number }[];
 }
 
-export type { Report, Reports };
+interface DetailData {
+  title: string;
+  date: string;
+  report: number; // Second
+}
+
+const map = new Map([
+  ['1', 1],
+  ['1', 1],
+  ['1', 1],
+  ['1', 1],
+]);
+
+map.get('1');
+
+export type { Report, DetailData };

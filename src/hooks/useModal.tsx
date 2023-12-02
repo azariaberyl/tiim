@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { ModalType } from '../types';
-import EditTimer from '../components/EditTimer/View';
-import Report from '../components/Report/Report';
+import EditTimer from '../components/EditTimer';
 import Modal from '../components/Modal';
+import Report from '../components/Report';
 
 /**
  * Handle modal component
  * @param initial
- * @returns
+ * @returnsView/Report
  */
 
 function useModal(initial: ModalType = ''): [() => JSX.Element | null, (val: ModalType) => void] {

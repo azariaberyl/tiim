@@ -29,7 +29,7 @@ const TimerHandler: TimerHandler = () => {
         dispatch(decrement());
       }, 1000); // Update every second
     }
-
+    // TODO: Update the report in here, basically when the button pressed it will be updated
     return () => clearInterval(timerId); // Cleanup interval on component unmount or when isStart is toggled off
   }, [isStart]);
 

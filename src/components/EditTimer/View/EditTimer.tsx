@@ -11,7 +11,7 @@ function EditTimer({ closeModal }: { closeModal: (val: ModalType) => void }) {
   const title = useAppSelector((s) => s.timer.title);
   const shortBreakValue = useAppSelector((s) => s.timer.shortBreak);
   const longBreakValue = useAppSelector((s) => s.timer.longBreak);
-  const timeValue = useAppSelector((s) => s.timer.second);
+  const timeValue = useAppSelector((s) => s.timer.pomodoroTimer);
   const shortBreak = useMemo(() => toMinutesAndString(shortBreakValue), [shortBreakValue]);
   const longBreak = useMemo(() => toMinutesAndString(longBreakValue), [longBreakValue]);
   const time = useMemo(() => toMinutesAndString(timeValue), [timeValue]);
@@ -25,6 +25,7 @@ function EditTimer({ closeModal }: { closeModal: (val: ModalType) => void }) {
   const [titleForm, setTitleForm] = useState(title);
   const [interval, setInterval] = useState(4);
 
+  // When input change handler
   const onTimerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const [formattedTime, timeUnit] = name.split('.');
