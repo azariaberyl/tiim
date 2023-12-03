@@ -19,6 +19,7 @@ function StartButton() {
   const dispatch = useAppDispatch();
   return (
     <button
+      data-test='start-button'
       onClick={() => dispatch(startChange())}
       className='px-20 py-3 font-semibold bg-default-dark rounded text-default-light text-3xl hover:bg-black hover:drop-shadow-xl'
     >

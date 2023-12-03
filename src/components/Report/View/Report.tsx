@@ -35,7 +35,6 @@ function Report() {
         const theDateReport = reports.map((r) => {
           if (r.id_timer === timer.id) return r.reports.find((val) => val.date === day);
         });
-        console.log(theDateReport);
         if (theDateReport[0] !== undefined) {
           return theDateReport[0].report === -1 ? 0 : (theDateReport[0].report / 3600).toFixed(1);
         }
@@ -43,7 +42,6 @@ function Report() {
       }),
     })),
   };
-  console.log(data);
 
   const Element = () => (
     <>
@@ -53,8 +51,10 @@ function Report() {
       </div>
       {formattedData.map((val) => (
         <div key={val.date} className='flex text-primary-dark text-base gap-3 justify-between p-1 w-80'>
-          <p>{`${val.title} (${val.date})`}</p>
-          <p className=' text-end px-5'>{Math.round(val.report / 60)}</p>
+          <p data-test='report-detail-label'>{`${val.title} (${val.date})`}</p>
+          <p className=' text-end px-5' data-test='report-detail-value'>
+            {Math.round(val.report / 60)}
+          </p>
         </div>
       ))}
     </>
@@ -97,13 +97,13 @@ function Button({
 }) {
   if (disabled) {
     return (
-      <button disabled className='bg-slate-200 py-1 px-3 rounded'>
+      <button data-test='report-tab' disabled className='bg-slate-200 py-1 px-3 rounded'>
         {children}
       </button>
     );
   }
   return (
-    <button onClick={onClick} className='bg-slate-50 py-1 px-3 rounded hover:bg-slate-200'>
+    <button data-test='report-tab' onClick={onClick} className='bg-slate-50 py-1 px-3 rounded hover:bg-slate-200'>
       {children}
     </button>
   );
