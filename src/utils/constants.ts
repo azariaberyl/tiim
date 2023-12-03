@@ -14,19 +14,25 @@ export const DEFAULT_REPORT: Report = {
   id: '' + +new Date(),
 };
 
-function getDaysInWeek() {
+function getDaysInWeek(options?: any) {
   const date = new Date();
   date.setDate(date.getDate() - 6);
 
   const DAYS_IN_WEEK: String[] = [];
   for (let index = 0; index < 7; index++) {
-    DAYS_IN_WEEK.push(date.toDateString());
+    if (options !== undefined) {
+      DAYS_IN_WEEK.push(date.toLocaleDateString(undefined, options));
+    } else {
+      DAYS_IN_WEEK.push(date.toLocaleDateString());
+    }
     date.setDate(date.getDate() + 1);
   }
   return DAYS_IN_WEEK;
 }
+const options = { day: 'numeric', month: 'short', weekday: 'short' };
 
 export const DAYS_IN_WEEK = getDaysInWeek();
+export const DAYS_IN_WEEK_LABEL = getDaysInWeek(options);
 
 export const TODAY_STRING_DATE = new Date().toDateString();
 

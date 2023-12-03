@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useTimerColectionStore from '../../../contexts/TimerColectionStore';
-import { DAYS_IN_WEEK } from '../../../utils/constants';
+import { DAYS_IN_WEEK, DAYS_IN_WEEK_LABEL } from '../../../utils/constants';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Legend, Colors } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useAppSelector } from '../../../app/hooks';
@@ -26,36 +26,39 @@ function Report() {
   const timers = useAppSelector((s) => s.data.timers);
   const [isChart, setIsChart] = useState(true);
   const formattedData = ReportHandler();
-  console.log(formattedData);
 
-  // const data = {
-  //   labels: DAYS_IN_WEEK,
-  //   datasets: timers.map((timer) => ({
-  //     label: timer.title,
-  //     data: DAYS_IN_WEEK.map((day) => {
-  //       const theDateReport = reports.find((r) => r.id_timer === timer.id && r.date === day);
-  //       if (theDateReport) {
-  //         return (theDateReport.reports[0].report / 3600).toFixed(1);
-  //       }
-  //       return 0;
-  //     }),
-  //   })),
-  // };
+  const data = {
+    labels: DAYS_IN_WEEK_LABEL,
+    datasets: timers.map((timer) => ({
+      label: timer.title,
+      data: DAYS_IN_WEEK.map((day) => {
+        const theDateReport = reports.map((r) => {
+          if (r.id_timer === timer.id) return r.reports.find((val) => val.date === day);
+        });
+        console.log(theDateReport);
+        if (theDateReport[0] !== undefined) {
+          return theDateReport[0].report === -1 ? 0 : (theDateReport[0].report / 3600).toFixed(1);
+        }
+        return 0;
+      }),
+    })),
+  };
+  console.log(data);
 
-  // const Element = () => (
-  //   <>
-  //     <div className='flex text-primary-dark text-base gap-3 justify-between px-4 w-80'>
-  //       <p>TITLE</p>
-  //       <p>MIN</p>
-  //     </div>
-  //     {reports.map((val) => (
-  //       <div key={val.id} className='flex text-primary-dark text-base gap-3 justify-between p-1 w-80'>
-  //         <p>{`${val.title} (${val.date})`}</p>
-  //         <p className=' text-end px-5'>{Math.round(val.report / 60)}</p>
-  //       </div>
-  //     ))}
-  //   </>
-  // );
+  const Element = () => (
+    <>
+      <div className='flex text-primary-dark text-base gap-3 justify-between px-4 w-80'>
+        <p>TITLE</p>
+        <p>MIN</p>
+      </div>
+      {formattedData.map((val) => (
+        <div key={val.date} className='flex text-primary-dark text-base gap-3 justify-between p-1 w-80'>
+          <p>{`${val.title} (${val.date})`}</p>
+          <p className=' text-end px-5'>{Math.round(val.report / 60)}</p>
+        </div>
+      ))}
+    </>
+  );
 
   return (
     <div className='bg-white px-5 py-3 rounded'>
@@ -69,13 +72,13 @@ function Report() {
             Detail
           </Button>
         </div>
-        {/* {isChart ? (
+        {isChart ? (
           <div className='md:h-[500px] md:w-[400px] h-[400px] relative'>
             <Bar options={options} data={data} />
           </div>
         ) : (
           <Element />
-        )} */}
+        )}
       </div>
     </div>
   );

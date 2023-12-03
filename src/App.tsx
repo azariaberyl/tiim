@@ -4,6 +4,8 @@ import { Tiimz } from './pages';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import useUserStore from './contexts/UserStore';
 
+// TODO: Create initialize data when the app started
+
 function App() {
   const [user, updateUser] = useUserStore((state) => [state.user, state.updateUser]);
 
