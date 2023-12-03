@@ -40,14 +40,20 @@ const dataSlice = createSlice({
         report: number;
       }>
     ) => {
+      // Find the related timer
       const report = state.timerReports.find((report) => report.id_timer === state.activeTimerId);
+      // If no report create new report if the timer exists
       if (report === undefined) return;
 
       const newReports = report?.reports.map((val) => (val.date === action.payload.date ? action.payload : val));
       const newReport: Report = { ...report, reports: newReports };
       state.timerReports = state.timerReports.map((val) => (val.id_timer === newReport.id_timer ? newReport : val));
     },
+    addTimer: (state, action: PayloadAction<Timer1>) => {
+      state.timers.push(action.payload);
+      state.activeTimerId = action.payload.id;
+    },
   },
 });
-export const { changeTimer: dataChangeTimer, updateReport } = dataSlice.actions;
+export const { changeTimer: dataChangeTimer, updateReport, addTimer } = dataSlice.actions;
 export default dataSlice.reducer;

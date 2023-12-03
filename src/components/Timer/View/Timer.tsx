@@ -12,7 +12,7 @@ function Timer(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedRef<H
       <div className='md:w-[600px] md:m-0 mx-auto w-[95%] bg-[#CCFFDE]/90 flex flex-col items-center p-3 rounded-xl overflow-hidden shadow-xl shadow-default-light'>
         <Edit />
         <DisplayTimer time={`${time.minutes}:${time.seconds}`} />
-        <ProjectTitle id='-1' />
+        <ProjectTitle />
         <Start />
       </div>
     </div>

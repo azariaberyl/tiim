@@ -1,4 +1,5 @@
 import { Timer, Report } from '../types';
+import { Timer1 } from '../types/timer';
 
 export const DEFAULT_TIMER: Timer = {
   id: '-1',
@@ -13,6 +14,14 @@ export const DEFAULT_REPORT: Report = {
   report: 0,
   id: '' + +new Date(),
 };
+
+export const DEFAULT_TIMER1 = (id: any): Timer1 => ({
+  id,
+  shortBreak: 5 * 60,
+  longBreak: 10 * 60,
+  seconds: 25 * 60,
+  title: 'My Project',
+});
 
 function getDaysInWeek(options?: any) {
   const date = new Date();

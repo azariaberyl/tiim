@@ -15,6 +15,7 @@ function EditTimer({ closeModal }: { closeModal: (val: ModalType) => void }) {
   const shortBreak = useMemo(() => toMinutesAndString(shortBreakValue), [shortBreakValue]);
   const longBreak = useMemo(() => toMinutesAndString(longBreakValue), [longBreakValue]);
   const time = useMemo(() => toMinutesAndString(timeValue), [timeValue]);
+  const id = useAppSelector((s) => s.data.activeTimerId);
 
   // Control the form
   const [timer, setTimer] = useState({
@@ -45,7 +46,7 @@ function EditTimer({ closeModal }: { closeModal: (val: ModalType) => void }) {
   return (
     <form
       onSubmit={(e) => {
-        onSubmit(e, dispatch, timer, titleForm, 4, '-1');
+        onSubmit(e, dispatch, timer, titleForm, 4, id);
         closeModal('');
       }}
       className='bg-white flex flex-col md:w-[450px] py-5 px-10 gap-2 rounded overflow-y-scroll max-h-full'
