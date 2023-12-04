@@ -53,7 +53,7 @@ describe('Report Test', () => {
   });
 });
 
-describe.only('Add Timer Report Test', () => {
+describe('Add Timer Report Test', () => {
   beforeEach(() => {
     cy.visit('localhost:3000');
   });
@@ -135,5 +135,48 @@ describe.only('Add Timer Report Test', () => {
     cy.getDataTest('report-tab').eq(1).click();
     cy.getDataTest('report-detail-value').eq(2).should('have.text', '25');
     cy.getDataTest('report-detail-label').eq(2).should('contain.text', 'Testing4');
+  });
+
+  it('should change timer', () => {
+    // Edit timer
+    cy.getDataTest('edit-button').click();
+    cy.getDataTest('modal').should('exist');
+    cy.getDataTest('input-title').clear().type('Testing');
+    cy.getDataTest('input-timermin').clear().type('60');
+    cy.getDataTest('edit-submit').click();
+
+    // Countdown
+    cy.clock(now);
+    cy.getDataTest('start-button').click();
+    cy.tick(60 * 60 * 1000);
+    cy.tick(1 * 1000);
+    cy.clock().invoke('restore');
+
+    // Check the report
+    cy.getDataTest('report-button').click();
+    cy.getDataTest('report-tab').eq(1).click();
+    cy.getDataTest('report-detail-value').should('have.text', '60');
+    cy.getDataTest('report-detail-label').should('contain.text', 'Testing');
+    cy.get('.fixed').click();
+
+    // Add timer
+    cy.getDataTest('timer-title').click();
+    cy.getDataTest('add-timer').should('exist').click();
+    cy.getDataTest('timer-title').should('contain', 'My Project');
+    cy.getDataTest('display-timer').should('contain', '25:00');
+
+    // Countdown
+    cy.clock(now);
+    cy.getDataTest('start-button').click();
+    cy.tick(25 * 60 * 1000);
+    cy.tick(1 * 1000);
+    cy.clock().invoke('restore');
+
+    // Check the report
+    cy.getDataTest('report-button').click();
+    cy.getDataTest('report-tab').eq(1).click();
+    cy.getDataTest('report-detail-value').eq(1).should('have.text', '25');
+    cy.getDataTest('report-detail-label').eq(1).should('contain.text', 'My Project');
+    cy.get('.fixed').click();
   });
 });

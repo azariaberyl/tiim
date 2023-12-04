@@ -1,4 +1,4 @@
-import { dataChangeTimer } from '../../../features/dataSlice';
+import { updateTimers } from '../../../features/dataSlice';
 import { changeTimer } from '../../../features/timerSlice';
 import { toSeconds } from '../../../utils/timer';
 interface Props {
@@ -33,7 +33,7 @@ const onSubmit: Props = (e, dispatch, timer, title, inverval, activeTimerId) => 
   const timerObject = { id: activeTimerId, longBreak, shortBreak, seconds, title };
 
   dispatch(changeTimer(timerObject));
-  dispatch(dataChangeTimer(timerObject));
+  dispatch(updateTimers(timerObject));
 };
 
 export default onSubmit;

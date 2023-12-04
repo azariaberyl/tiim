@@ -32,11 +32,11 @@ function Report() {
     datasets: timers.map((timer) => ({
       label: timer.title,
       data: DAYS_IN_WEEK.map((day) => {
-        const theDateReport = reports.map((r) => {
-          if (r.id_timer === timer.id) return r.reports.find((val) => val.date === day);
-        });
-        if (theDateReport[0] !== undefined) {
-          return theDateReport[0].report === -1 ? 0 : (theDateReport[0].report / 3600).toFixed(1);
+        const theReports = reports.find((val) => val.id_timer === timer.id);
+        if (theReports === undefined) return;
+        const theDateReport = theReports.reports.find((val) => val.date === day);
+        if (theDateReport !== undefined) {
+          return theDateReport.report === -1 ? 0 : (theDateReport.report / 3600).toFixed(1);
         }
         return 0;
       }),
