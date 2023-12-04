@@ -58,7 +58,10 @@ const dataSlice = createSlice({
       state.timers.push(action.payload);
       state.activeTimerId = action.payload.id;
     },
+    changeTimerId: (state, action: PayloadAction<string>) => {
+      state.activeTimerId = action.payload;
+    },
   },
 });
-export const { changeTimer: dataChangeTimer, updateReport, addTimer } = dataSlice.actions;
+export const { changeTimer: dataChangeTimer, updateReport, addTimer, changeTimerId } = dataSlice.actions;
 export default dataSlice.reducer;

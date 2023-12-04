@@ -4,30 +4,31 @@ import useReportStore from '../../contexts/ReportStore';
 import { DEFAULT_REPORT } from '../../utils/constants';
 import useTimerColectionStore from '../../contexts/TimerColectionStore';
 import { postSelected, postSelectedFirebase } from '../../utils/timer';
+import { Timer1 } from '../../types/timer';
+import { useAppDispatch } from '../../app/hooks';
+import { changeTimer, changeTimerReport } from '../../features/timerSlice';
+import { Report } from '../../types';
+import { changeTimerId } from '../../features/dataSlice';
 
 interface ContentElementI {
   children: React.ReactNode;
-  id: string;
   openDropdownHandler: (val?: boolean) => void;
+  data: Timer1;
+  reports: Report;
 }
 
-function ContentElement({ children, id, openDropdownHandler }: ContentElementI) {
-  const [onTimerChange, onStartChange] = useTimerStore((s) => [s.onTimerChange, s.onStartChange]);
-  const [timers, reports] = useTimerColectionStore((s) => [s.timers, s.reports]);
-  const onReportChange1 = useReportStore((s) => s.reportChange1);
+function ContentElement({ children, data, openDropdownHandler, reports }: ContentElementI) {
+  const dispatch = useAppDispatch();
 
   const onClick = () => {
-    onStartChange(false);
-    // Change TimerStore to new selected timer
-    const newTimer = timers.find((val) => val.id === id) || timers[0];
-    onTimerChange(newTimer);
-    // Change report to current timer
-    onReportChange1(reports.find((val) => val.id_timer === id) || { ...DEFAULT_REPORT, id_timer: timers[0].id });
+    const curretReport = reports.reports.find((val) => val.date === new Date().toLocaleDateString()) || {
+      date: new Date().toLocaleDateString(),
+      report: -1,
+    };
+    dispatch(changeTimer(data));
+    dispatch(changeTimerId(data.id));
+    dispatch(changeTimerReport(curretReport));
     openDropdownHandler(false);
-    // Update selected
-    postSelected(newTimer.id);
-    // Post selected to firebase database
-    postSelectedFirebase(newTimer.id);
   };
 
   return (
