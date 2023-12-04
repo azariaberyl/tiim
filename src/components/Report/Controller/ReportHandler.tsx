@@ -11,6 +11,7 @@ export default function ReportHandler() {
     report.reports.map((reportEntry) => {
       const timer = timers.find((timer) => timer.id === report.id_timer);
       return {
+        id: timer?.id || new Date().toISOString(),
         title: timer?.title || 'Unknown Timer',
         date: reportEntry.date,
         report: reportEntry.report,

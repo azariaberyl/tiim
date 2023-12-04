@@ -79,10 +79,13 @@ export const timerSlice = createSlice({
           break;
       }
     },
+    resetReport: (state) => {
+      state.report = { date: new Date().toLocaleDateString(), report: -1 };
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { decrement, changeTimer, startChange, changeTab } = timerSlice.actions;
+export const { decrement, changeTimer, startChange, changeTab, resetReport } = timerSlice.actions;
 
 export default timerSlice.reducer;

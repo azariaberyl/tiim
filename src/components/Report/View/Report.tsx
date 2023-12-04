@@ -50,7 +50,7 @@ function Report() {
         <p>MIN</p>
       </div>
       {formattedData.map((val) => (
-        <div key={val.date} className='flex text-primary-dark text-base gap-3 justify-between p-1 w-80'>
+        <div key={val.id} className='flex text-primary-dark text-base gap-3 justify-between p-1 w-80'>
           <p data-test='report-detail-label'>{`${val.title} (${val.date})`}</p>
           <p className=' text-end px-5' data-test='report-detail-value'>
             {Math.round(val.report / 60)}

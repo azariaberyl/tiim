@@ -26,7 +26,7 @@ function Dropwdown<T extends Timer1>({ data, ContentElement, currentId }: props<
   const [isOpen, setIsOpen] = useBoolean(false);
 
   return (
-    <div className='relative'>
+    <div className='relative' data-test='timer-title-dropdown'>
       <button data-test='timer-title' onClick={() => setIsOpen()} className='p-1 w-40'>
         {data.find((val) => val.id === currentId)?.title}
       </button>

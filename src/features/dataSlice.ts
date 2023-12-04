@@ -43,8 +43,13 @@ const dataSlice = createSlice({
       // Find the related timer
       const report = state.timerReports.find((report) => report.id_timer === state.activeTimerId);
       // If no report create new report if the timer exists
-      if (report === undefined) return;
+      if (report === undefined) {
+        state.timerReports.push({ id_timer: state.activeTimerId, reports: [action.payload] });
+        return;
+      }
+      // TODO: Add if the day changes
 
+      // Update today's report
       const newReports = report?.reports.map((val) => (val.date === action.payload.date ? action.payload : val));
       const newReport: Report = { ...report, reports: newReports };
       state.timerReports = state.timerReports.map((val) => (val.id_timer === newReport.id_timer ? newReport : val));

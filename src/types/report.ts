@@ -5,6 +5,7 @@ interface Report {
 }
 
 interface DetailData {
+  id: string;
   title: string;
   date: string;
   report: number; // Second

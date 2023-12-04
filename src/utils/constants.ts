@@ -15,8 +15,8 @@ export const DEFAULT_REPORT: Report = {
   id: '' + +new Date(),
 };
 
-export const DEFAULT_TIMER1 = (id: any): Timer1 => ({
-  id,
+export const DEFAULT_TIMER1 = (): Timer1 => ({
+  id: new Date().toISOString(),
   shortBreak: 5 * 60,
   longBreak: 10 * 60,
   seconds: 25 * 60,
@@ -43,6 +43,6 @@ const options = { day: 'numeric', month: 'short', weekday: 'short' };
 export const DAYS_IN_WEEK = getDaysInWeek();
 export const DAYS_IN_WEEK_LABEL = getDaysInWeek(options);
 
-export const TODAY_STRING_DATE = new Date().toDateString();
+export const TODAY_STRING_DATE = new Date().toLocaleDateString();
 
 export const DEFAULT_INTERVAL = 4;
