@@ -44,3 +44,11 @@ export function init() {
   );
   return { activeTimerId, timerReports, timers };
 }
+export function init1() {
+  const timerReportsString = localStorage.getItem('timerReports');
+  const timersString = localStorage.getItem('timers');
+  const activeTimerId: string = localStorage.getItem('activeTimerId') || '-1';
+  const timerReports: Report[] | undefined = timerReportsString ? JSON.parse(timerReportsString) : undefined;
+  const timers: Timer1[] | undefined = timersString ? JSON.parse(timersString) : undefined;
+  return { activeTimerId, timerReports, timers };
+}

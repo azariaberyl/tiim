@@ -10,7 +10,7 @@ type initialState = {
   shortBreak: number;
   longBreak: number;
   tab: 1 | 2 | 3;
-  report: { date: string; report: number };
+  report: { date: string; report: number } | undefined;
 };
 
 const initialState: initialState = {
@@ -22,7 +22,7 @@ const initialState: initialState = {
   tab: 1,
   title: 'My Project',
   // TODO: This will create a new object whenever the app is opened, not when the day changes.
-  report: { date: new Date().toLocaleDateString(), report: -1 },
+  report: undefined,
 };
 
 export const timerSlice = createSlice({
@@ -32,7 +32,9 @@ export const timerSlice = createSlice({
     decrement: (state) => {
       if (state.second > 0) {
         state.second -= 1;
-        state.report.report === -1 ? (state.report.report = 1) : (state.report.report += 1);
+        state.report === undefined
+          ? (state.report = { date: new Date().toLocaleDateString(), report: 1 })
+          : (state.report.report += 1);
         return;
       }
       state.start = false;

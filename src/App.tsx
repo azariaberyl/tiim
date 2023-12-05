@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { Tiimz } from './pages';
 import useUserStore from './contexts/UserStore';
 import { useAppDispatch } from './app/hooks';
-import { init } from './utils';
+import { init, init1 } from './utils';
 import { changeTimerId, changeTimerReports, changeTimers } from './features/dataSlice';
 import { changeTimer, changeTimerReport } from './features/timerSlice';
 
@@ -28,23 +28,25 @@ function App() {
     //     updateUser(null);
     //   }
     // });
-    const { activeTimerId, timerReports, timers } = init();
+    // const { activeTimerId, timerReports, timers } = init();
+    const { activeTimerId, timerReports, timers } = init1();
     // Update the data
     dispatch(changeTimerId(activeTimerId));
     dispatch(changeTimerReports(timerReports));
     dispatch(changeTimers(timers));
     // Update the timer
-    const theTimer = timers.find((val) => val.id === activeTimerId) || {
+    const theTimer = timers?.find((val) => val.id === activeTimerId) || {
       id: '-1',
       longBreak: 600,
       seconds: 1500,
       shortBreak: 300,
       title: 'My Project',
     };
-    const theReports = timerReports.find((val) => val.id_timer === activeTimerId)?.reports;
+    const theReports = timerReports?.find((val) => val.id_timer === activeTimerId)?.reports;
     const theReport = theReports?.find((val) => val.date === new Date().toLocaleDateString());
     dispatch(changeTimer(theTimer));
     dispatch(changeTimerReport(theReport));
+    // const initialize = init1();
   }, []);
 
   return (

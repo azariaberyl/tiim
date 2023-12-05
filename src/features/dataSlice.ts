@@ -22,7 +22,7 @@ const initialState: initialState = {
     },
   ],
   activeTimerId: '-1',
-  timerReports: [{ id_timer: '-1', reports: [{ date: new Date().toLocaleDateString(), report: -1 }] }],
+  timerReports: [],
 };
 
 const dataSlice = createSlice({
@@ -37,11 +37,15 @@ const dataSlice = createSlice({
     //Create a reducer to update the D-day report only; it should update when the timer finishes.
     updateReport: (
       state,
-      action: PayloadAction<{
-        date: string;
-        report: number;
-      }>
+      action: PayloadAction<
+        | {
+            date: string;
+            report: number;
+          }
+        | undefined
+      >
     ) => {
+      if (action.payload === undefined) return;
       // Find the related timer
       const report = state.timerReports.find((report) => report.id_timer === state.activeTimerId);
       // If no report create new report if the timer exists
@@ -50,14 +54,14 @@ const dataSlice = createSlice({
         localStorage.setItem(
           // Save to local storage
           'timerReports',
-          JSON.stringify([...state.timerReports, { id_timer: state.activeTimerId, reports: [action.payload] }])
+          JSON.stringify([...state.timerReports])
         );
         return;
       }
       // TODO: Add if the day changes
 
       // Update today's report
-      const newReports = report?.reports.map((val) => (val.date === action.payload.date ? action.payload : val));
+      const newReports = report?.reports.map((val) => (val.date === action.payload?.date ? action.payload : val));
       const newReport: Report = { ...report, reports: newReports };
       const newTimerReports = state.timerReports.map((val) => (val.id_timer === newReport.id_timer ? newReport : val));
       state.timerReports = newTimerReports;
