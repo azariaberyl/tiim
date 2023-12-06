@@ -5,7 +5,7 @@ import useUserStore from './contexts/UserStore';
 import { useAppDispatch } from './app/hooks';
 import { init, init1 } from './utils';
 import { changeTimerId, changeTimerReports, changeTimers } from './features/dataSlice';
-import { changeTimer, changeTimerReport } from './features/timerSlice';
+import { changeSecond, changeTimer, changeTimerReport } from './features/timerSlice';
 
 // TODO: Create initialize data when the app started
 
@@ -15,7 +15,7 @@ function App() {
 
   useEffect(() => {
     // const { activeTimerId, timerReports, timers } = init();
-    const { activeTimerId, timerReports, timers } = init1();
+    const { activeTimerId, timerReports, timers, timerSecondState } = init1();
     // Update the data
     dispatch(changeTimerId(activeTimerId));
     dispatch(changeTimerReports(timerReports));
@@ -32,6 +32,7 @@ function App() {
     const theReport = theReports?.find((val) => val.date === new Date().toLocaleDateString());
     dispatch(changeTimer(theTimer));
     dispatch(changeTimerReport(theReport));
+    dispatch(changeSecond(timerSecondState));
   }, []);
 
   return (

@@ -261,4 +261,6 @@ describe('save localstorage', () => {
       });
     });
   });
+
+  it('should continue from paused timer', () => {});
 });

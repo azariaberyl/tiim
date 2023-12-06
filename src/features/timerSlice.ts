@@ -35,6 +35,7 @@ export const timerSlice = createSlice({
         state.report === undefined
           ? (state.report = { date: new Date().toLocaleDateString(), report: 1 })
           : (state.report.report += 1);
+        localStorage.setItem('timerSecondState', state.second.toString());
         return;
       }
       state.start = false;
@@ -88,10 +89,15 @@ export const timerSlice = createSlice({
       if (action.payload === undefined) return;
       state.report = action.payload;
     },
+    changeSecond: (state, action: PayloadAction<number | undefined>) => {
+      if (action.payload === undefined) return;
+      state.second = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { decrement, changeTimer, startChange, changeTab, resetReport, changeTimerReport } = timerSlice.actions;
+export const { decrement, changeTimer, startChange, changeTab, resetReport, changeTimerReport, changeSecond } =
+  timerSlice.actions;
 
 export default timerSlice.reducer;
