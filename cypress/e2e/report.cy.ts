@@ -1,5 +1,4 @@
 const now = new Date();
-
 describe('Report Test', () => {
   beforeEach(() => {
     cy.visit('localhost:3000');
@@ -86,8 +85,8 @@ describe('Add Timer Report Test', () => {
     // Check the report
     cy.getDataTest('report-button').click();
     cy.getDataTest('report-tab').eq(1).click();
-    cy.getDataTest('report-detail-value').eq(1).should('have.text', '25');
-    cy.getDataTest('report-detail-label').eq(1).should('contain.text', 'My Project');
+    cy.getDataTest('report-detail-value').should('have.text', '25');
+    cy.getDataTest('report-detail-label').should('contain.text', 'My Project');
 
     // Try to change the timer and it should stay the same
     cy.get('.fixed').click(); // Close report's modal
@@ -99,8 +98,8 @@ describe('Add Timer Report Test', () => {
     // Check the report
     cy.getDataTest('report-button').click();
     cy.getDataTest('report-tab').eq(1).click();
-    cy.getDataTest('report-detail-value').eq(1).should('have.text', '25');
-    cy.getDataTest('report-detail-label').eq(1).should('contain.text', 'Testing3');
+    cy.getDataTest('report-detail-value').should('have.text', '25');
+    cy.getDataTest('report-detail-label').should('contain.text', 'Testing3');
     cy.get('.fixed').click();
 
     // Add another timer
@@ -120,8 +119,8 @@ describe('Add Timer Report Test', () => {
     // Check the report
     cy.getDataTest('report-button').click();
     cy.getDataTest('report-tab').eq(1).click();
-    cy.getDataTest('report-detail-value').eq(2).should('have.text', '25');
-    cy.getDataTest('report-detail-label').eq(2).should('contain.text', 'My Project');
+    cy.getDataTest('report-detail-value').eq(1).should('have.text', '25');
+    cy.getDataTest('report-detail-label').eq(1).should('contain.text', 'My Project');
 
     // Try to change the timer and it should stay the same
     cy.get('.fixed').click(); // Close report's modal
@@ -133,8 +132,8 @@ describe('Add Timer Report Test', () => {
     // Check the report
     cy.getDataTest('report-button').click();
     cy.getDataTest('report-tab').eq(1).click();
-    cy.getDataTest('report-detail-value').eq(2).should('have.text', '25');
-    cy.getDataTest('report-detail-label').eq(2).should('contain.text', 'Testing4');
+    cy.getDataTest('report-detail-value').eq(1).should('have.text', '25');
+    cy.getDataTest('report-detail-label').eq(1).should('contain.text', 'Testing4');
   });
 
   it('should change timer', () => {

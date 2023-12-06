@@ -82,7 +82,7 @@ export const timerSlice = createSlice({
       }
     },
     resetReport: (state) => {
-      state.report = { date: new Date().toLocaleDateString(), report: -1 };
+      state.report = undefined;
     },
     changeTimerReport: (state, action: PayloadAction<{ date: string; report: number } | undefined>) => {
       if (action.payload === undefined) return;

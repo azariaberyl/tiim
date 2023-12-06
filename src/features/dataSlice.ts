@@ -71,7 +71,7 @@ const dataSlice = createSlice({
       state.timers.push(action.payload);
       state.activeTimerId = action.payload.id;
 
-      localStorage.setItem('timers', JSON.stringify([...state.timers, action.payload]));
+      localStorage.setItem('timers', JSON.stringify([...state.timers]));
       localStorage.setItem('activeTimerId', action.payload.id);
     },
     changeTimerId: (state, action: PayloadAction<string>) => {

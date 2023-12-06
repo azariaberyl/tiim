@@ -14,20 +14,6 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // const auth = getAuth();
-    // onAuthStateChanged(auth, (user) => {
-    //   if (user) {
-    //     // User is signed in, see docs for a list of available properties
-    //     // https://firebase.google.com/docs/reference/js/auth.user
-    //     const uid = user.uid;
-    //     // ...
-    //     updateUser(user);
-    //   } else {
-    //     // User is signed out
-    //     // ...
-    //     updateUser(null);
-    //   }
-    // });
     // const { activeTimerId, timerReports, timers } = init();
     const { activeTimerId, timerReports, timers } = init1();
     // Update the data
@@ -46,7 +32,6 @@ function App() {
     const theReport = theReports?.find((val) => val.date === new Date().toLocaleDateString());
     dispatch(changeTimer(theTimer));
     dispatch(changeTimerReport(theReport));
-    // const initialize = init1();
   }, []);
 
   return (
