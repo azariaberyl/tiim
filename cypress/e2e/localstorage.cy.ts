@@ -8,17 +8,16 @@ const finishedTimerOnce = () => {
       cy.getDataTest('start-button').click();
       cy.tick(25 * 60 * 1000);
       cy.tick(1 * 1000);
-      cy.clock().invoke('restore');
       // Check the local storage
       cy.getDataTest('start-button').should('exist');
     },
     {
       validate() {
-        cy.getAllLocalStorage().should('deep.equal', {
-          'http://localhost:3000': {
+        cy.getAllLocalStorage().then((val) => {
+          expect(val['http://localhost:3000']).to.deep.contain({
             activeTimerId: '-1',
             timerReports: JSON.stringify([{ id_timer: '-1', reports: [{ date: '1/1/1970', report: 1500 }] }]),
-          },
+          });
         });
       },
     }
@@ -33,11 +32,11 @@ describe('save localstorage', () => {
 
   it('should have local storage', () => {
     // Check the local storage
-    cy.getAllLocalStorage().should('deep.equal', {
-      'http://localhost:3000': {
+    cy.getAllLocalStorage().then((val) => {
+      expect(val['http://localhost:3000']).to.deep.contain({
         activeTimerId: '-1',
         timerReports: JSON.stringify([{ id_timer: '-1', reports: [{ date: '1/1/1970', report: 1500 }] }]),
-      },
+      });
     });
   });
 
@@ -50,11 +49,11 @@ describe('save localstorage', () => {
     cy.clock().invoke('restore');
     // Check the local storage
     cy.getDataTest('start-button').should('exist');
-    cy.getAllLocalStorage().should('deep.equal', {
-      'http://localhost:3000': {
+    cy.getAllLocalStorage().then((val) => {
+      expect(val['http://localhost:3000']).to.deep.contain({
         activeTimerId: '-1',
         timerReports: JSON.stringify([{ id_timer: '-1', reports: [{ date: '1/1/1970', report: 3000 }] }]),
-      },
+      });
     });
     // Check the report
     cy.getDataTest('report-button').click();
@@ -82,12 +81,12 @@ describe('save localstorage', () => {
     cy.getDataTest('report-detail-label').should('contain.text', 'Testing2');
     // Check the local storage
     cy.getDataTest('start-button').should('exist');
-    cy.getAllLocalStorage().should('deep.equal', {
-      'http://localhost:3000': {
+    cy.getAllLocalStorage().then((val) => {
+      expect(val['http://localhost:3000']).to.deep.contain({
         activeTimerId: '-1',
         timerReports: JSON.stringify([{ id_timer: '-1', reports: [{ date: '1/1/1970', report: 1500 }] }]),
         timers: JSON.stringify([{ id: '-1', longBreak: 600, shortBreak: 300, seconds: 1500, title: 'Testing2' }]),
-      },
+      });
     });
   });
 
@@ -262,5 +261,28 @@ describe('save localstorage', () => {
     });
   });
 
-  it('should continue from paused timer', () => {});
+  it('should continue from paused timer', () => {
+    // Countdown
+    cy.clock();
+    cy.getDataTest('start-button').click();
+    cy.tick(15 * 1000 * 60); // min
+    cy.getDataTest('start-button').click();
+    cy.tick(1 * 1000); // sec
+    cy.getDataTest('display-timer').should('have.text', '10:00');
+    // Reload
+    cy.reload();
+    // Check if the timer still in same state
+    cy.getDataTest('display-timer').should('have.text', '10:00');
+    // Continue the timer
+    cy.clock();
+    cy.getDataTest('start-button').click();
+    cy.tick(10 * 1000 * 60); // min
+    cy.tick(1 * 1000); // sec
+    cy.getDataTest('display-timer').should('have.text', '00:00');
+    // Check the report
+    cy.getDataTest('report-button').click();
+    cy.getDataTest('report-tab').eq(1).click();
+    cy.getDataTest('report-detail-value').should('have.text', '50');
+    cy.getDataTest('report-detail-label').should('contain.text', 'My Project');
+  });
 });

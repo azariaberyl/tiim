@@ -3,15 +3,14 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { Tiimz } from './pages';
 import useUserStore from './contexts/UserStore';
 import { useAppDispatch } from './app/hooks';
-import { init, init1 } from './utils';
+import { init1 } from './utils';
 import { changeTimerId, changeTimerReports, changeTimers } from './features/dataSlice';
 import { changeSecond, changeTimer, changeTimerReport } from './features/timerSlice';
-
-// TODO: Create initialize data when the app started
 
 function App() {
   const [user, updateUser] = useUserStore((state) => [state.user, state.updateUser]);
   const dispatch = useAppDispatch();
+  console.log(new Date().toLocaleDateString());
 
   useEffect(() => {
     // const { activeTimerId, timerReports, timers } = init();

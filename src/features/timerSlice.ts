@@ -21,7 +21,6 @@ const initialState: initialState = {
   longBreak: 600,
   tab: 1,
   title: 'My Project',
-  // TODO: This will create a new object whenever the app is opened, not when the day changes.
   report: undefined,
 };
 
@@ -39,6 +38,7 @@ export const timerSlice = createSlice({
         return;
       }
       state.start = false;
+      localStorage.setItem('timerSecondState', state.pomodoroTimer.toString());
     },
     changeTimer: (state, action: PayloadAction<Timer1>) => {
       state.pomodoroTimer = action.payload.seconds;
@@ -86,7 +86,9 @@ export const timerSlice = createSlice({
       state.report = undefined;
     },
     changeTimerReport: (state, action: PayloadAction<{ date: string; report: number } | undefined>) => {
-      if (action.payload === undefined) return;
+      if (action.payload === undefined) {
+        state.report = undefined;
+      }
       state.report = action.payload;
     },
     changeSecond: (state, action: PayloadAction<number | undefined>) => {

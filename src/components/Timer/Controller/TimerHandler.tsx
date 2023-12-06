@@ -21,7 +21,6 @@ const TimerHandler: TimerHandler = () => {
   const formattedSeconds = String(remainingSeconds).padStart(2, '0');
 
   const time = { minutes: formattedMinutes, seconds: formattedSeconds };
-  // const start = useMemo(() => ({ isStart, Handler }), [isStart]);
 
   useEffect(() => {
     let timerId: any;
@@ -32,6 +31,7 @@ const TimerHandler: TimerHandler = () => {
       }, 1000); // Update every second
     }
     // Update the report in here, basically when the button pressed it will be updated
+    // console.log(report);
     dispatch(updateReport(report));
     return () => clearInterval(timerId); // Cleanup interval on component unmount or when isStart is toggled off
   }, [isStart]);

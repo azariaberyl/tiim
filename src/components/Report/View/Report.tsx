@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import useTimerColectionStore from '../../../contexts/TimerColectionStore';
 import { DAYS_IN_WEEK, DAYS_IN_WEEK_LABEL } from '../../../utils/constants';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Legend, Colors } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
@@ -21,7 +20,7 @@ const options = {
   maintainAspectRatio: false,
 };
 
-function Report() {
+export default function Report() {
   const reports = useAppSelector((s) => s.data.timerReports);
   const timers = useAppSelector((s) => s.data.timers);
   const [isChart, setIsChart] = useState(true);
@@ -50,7 +49,10 @@ function Report() {
         <p>MIN</p>
       </div>
       {formattedData.map((val) => (
-        <div key={val.id} className='flex text-primary-dark text-base gap-3 justify-between p-1 w-80'>
+        <div
+          key={val.id.toString() + val.date}
+          className='flex text-primary-dark text-base gap-3 justify-between p-1 w-80'
+        >
           <p data-test='report-detail-label'>{`${val.title} (${val.date})`}</p>
           <p className=' text-end px-5' data-test='report-detail-value'>
             {Math.round(val.report / 60)}
@@ -84,7 +86,7 @@ function Report() {
   );
 }
 
-export default Report;
+// export default Report;
 
 function Button({
   disabled = false,
