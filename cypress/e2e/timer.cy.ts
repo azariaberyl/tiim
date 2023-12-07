@@ -186,4 +186,27 @@ describe('Edit Test', () => {
     cy.getDataTest('timer-tab').eq(1).click();
     cy.getDataTest('display-timer').should('have.text', '15:10');
   });
+
+  it.only('should stop the timer when the timer changed', () => {
+    cy.get('.px-20').click();
+    cy.getDataTest('edit-button').click();
+    cy.getDataTest('input-title').clear().type('Testing');
+    cy.getDataTest('input-timermin').clear().type('60');
+    cy.getDataTest('input-timersec').clear().type('10');
+    cy.getDataTest('input-shortBreakmin').clear().type('15');
+    cy.getDataTest('input-shortBreaksec').clear().type('10');
+    cy.getDataTest('input-longBreakmin').clear().type('20');
+    cy.getDataTest('input-longBreaksec').clear().type('10');
+    cy.getDataTest('edit-submit').click();
+    cy.getDataTest('start-button').should('have.text', 'START');
+
+    cy.get('.px-20').click();
+    cy.getDataTest('timer-title').click();
+    cy.getDataTest('add-timer').click();
+    cy.getDataTest('start-button').should('have.text', 'START').click();
+
+    cy.getDataTest('timer-title').click();
+    cy.getDataTest('timer').click();
+    cy.getDataTest('start-button').should('have.text', 'START');
+  });
 });

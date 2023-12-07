@@ -6,7 +6,7 @@ import useTimerColectionStore from '../../contexts/TimerColectionStore';
 import { postSelected, postSelectedFirebase } from '../../utils/timer';
 import { Timer1 } from '../../types/timer';
 import { useAppDispatch } from '../../app/hooks';
-import { changeTimer, changeTimerReport } from '../../features/timerSlice';
+import { changeTimer, changeTimerReport, startChange } from '../../features/timerSlice';
 import { Report } from '../../types';
 import { changeTimerId } from '../../features/dataSlice';
 
@@ -28,11 +28,12 @@ function ContentElement({ children, data, openDropdownHandler, reports }: Conten
     dispatch(changeTimer(data));
     dispatch(changeTimerId(data.id));
     dispatch(changeTimerReport(curretReport));
+    dispatch(startChange(false));
     openDropdownHandler(false);
   };
 
   return (
-    <button className='w-full border-b border-b-default-light' onClick={onClick}>
+    <button className='w-full border-b border-b-default-light' data-test='timer' onClick={onClick}>
       {children}
     </button>
   );

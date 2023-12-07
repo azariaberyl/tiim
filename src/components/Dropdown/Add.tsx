@@ -2,7 +2,7 @@ import { memo, useId } from 'react';
 import { useAppDispatch } from '../../app/hooks';
 import { addTimer } from '../../features/dataSlice';
 import { DEFAULT_TIMER1 } from '../../utils/constants';
-import { changeTimer, resetReport } from '../../features/timerSlice';
+import { changeTimer, resetReport, startChange } from '../../features/timerSlice';
 function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
   const dispatch = useAppDispatch();
 
@@ -11,6 +11,7 @@ function Add({ setIsOpen }: { setIsOpen: (val?: boolean) => void }) {
     dispatch(addTimer(newTimer));
     dispatch(changeTimer(newTimer));
     dispatch(resetReport());
+    dispatch(startChange(false));
     setIsOpen(false);
     document.title = 'Pomodoro Timer';
   };

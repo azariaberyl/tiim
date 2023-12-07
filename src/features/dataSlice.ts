@@ -95,8 +95,27 @@ const dataSlice = createSlice({
       if (action.payload === undefined) return;
       state.timers = action.payload;
     },
+
+    deleteTimer: (state) => {
+      const newTimers = state.timers.filter((timer) => timer.id !== state.activeTimerId);
+      if (newTimers.length === 0) {
+        state.timers = [
+          {
+            id: '-1',
+            longBreak: 600,
+            seconds: 1500,
+            shortBreak: 300,
+            title: 'My Project',
+          },
+        ];
+        state.activeTimerId = '-1';
+        return;
+      }
+      state.timers = newTimers;
+      state.activeTimerId = newTimers[0].id;
+    },
   },
 });
-export const { updateTimers, updateReport, addTimer, changeTimerId, changeTimerReports, changeTimers } =
+export const { updateTimers, updateReport, addTimer, changeTimerId, changeTimerReports, changeTimers, deleteTimer } =
   dataSlice.actions;
 export default dataSlice.reducer;

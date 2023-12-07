@@ -40,7 +40,9 @@ export const timerSlice = createSlice({
       state.start = false;
       localStorage.setItem('timerSecondState', state.pomodoroTimer.toString());
     },
-    changeTimer: (state, action: PayloadAction<Timer1>) => {
+    changeTimer: (state, action: PayloadAction<Timer1 | undefined>) => {
+      if (action.payload === undefined) return;
+      localStorage.setItem('timerSecondState', action.payload.seconds.toString());
       state.pomodoroTimer = action.payload.seconds;
       state.shortBreak = action.payload.shortBreak;
       state.longBreak = action.payload.longBreak;

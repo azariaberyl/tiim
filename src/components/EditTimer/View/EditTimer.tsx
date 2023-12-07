@@ -4,6 +4,9 @@ import Input from './Input';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { toMinutesAndString } from '../../../utils';
 import onSubmit from '../Controller/EditTimerSubmit';
+import { deleteTimer } from '../../../features/dataSlice';
+import { changeTimer } from '../../../features/timerSlice';
+import onDelete from '../Controller/DeleteTimer';
 
 function EditTimer({ closeModal }: { closeModal: (val: ModalType) => void }) {
   const dispatch = useAppDispatch();
@@ -16,6 +19,8 @@ function EditTimer({ closeModal }: { closeModal: (val: ModalType) => void }) {
   const longBreak = useMemo(() => toMinutesAndString(longBreakValue), [longBreakValue]);
   const time = useMemo(() => toMinutesAndString(timeValue), [timeValue]);
   const id = useAppSelector((s) => s.data.activeTimerId);
+  const timers = useAppSelector((s) => s.data.timers);
+  const timerReports = useAppSelector((s) => s.data.timerReports);
 
   // Control the form
   const [timer, setTimer] = useState({
@@ -130,16 +135,27 @@ function EditTimer({ closeModal }: { closeModal: (val: ModalType) => void }) {
             step={1}
           />
         </div>
-        {/* <div className='flex items-center py-5'>
-          <Input type='number' title='Interval' ref={intervalRef} defaultValue={interval} step={1} min={0} max={99} />
-        </div> */}
-        {/* <button
+        <div className='flex items-center py-5'>
+          <Input
+            type='number'
+            title='Interval'
+            onChange={(e) => setInterval(parseInt(e.target.value))}
+            defaultValue={interval}
+            step={1}
+            min={0}
+            max={99}
+          />
+        </div>
+        <button
           type='button'
-          onClick={() => onRemoveTimerClick(timer.id)}
+          onClick={() => {
+            onDelete(dispatch, id, timers, timerReports);
+            closeModal('');
+          }}
           className='p-1 bg-red-600 text-white rounded shadow-md'
         >
           DELETE
-        </button> */}
+        </button>
       </div>
       <button className='bg-slate-200 p-1 rounded shadow-md font-semibold' data-test='edit-submit' type='submit'>
         OK
