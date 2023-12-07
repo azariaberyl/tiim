@@ -8,12 +8,9 @@ import { changeTimerId, changeTimerReports, changeTimers } from './features/data
 import { changeSecond, changeTimer, changeTimerReport } from './features/timerSlice';
 
 function App() {
-  const [user, updateUser] = useUserStore((state) => [state.user, state.updateUser]);
   const dispatch = useAppDispatch();
-  console.log(new Date().toLocaleDateString());
 
   useEffect(() => {
-    // const { activeTimerId, timerReports, timers } = init();
     const { activeTimerId, timerReports, timers, timerSecondState } = init1();
     // Update the data
     dispatch(changeTimerId(activeTimerId));

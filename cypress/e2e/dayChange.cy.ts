@@ -1,7 +1,7 @@
-const finishedTimerOnce = (date: number) => {
+const finishedTimerOnce = (name: string, date: number) => {
   const tanggal = new Date(date);
   cy.session(
-    'finishedTimerOnce',
+    name,
     () => {
       cy.clock(date);
       cy.visit('http://localhost:3000');
@@ -37,7 +37,7 @@ describe('Day change', () => {
     const secondDay = new Date(today.setDate(today.getDate() + 1));
     const thirdDay = new Date(today.setDate(today.getDate() + 1));
     console.log(firstDay, secondDay, thirdDay);
-    finishedTimerOnce(firstDay.getTime());
+    finishedTimerOnce('first', firstDay.getTime());
     // Next day
     cy.clock(secondDay.getTime());
     cy.visit('http://localhost:3000/');
@@ -52,7 +52,9 @@ describe('Day change', () => {
     cy.getDataTest('report-button').click();
     cy.getDataTest('report-tab').eq(1).click();
     cy.getDataTest('report-detail-value').eq(1).should('have.text', '25');
-    cy.getDataTest('report-detail-label').eq(1).should('contain.text', 'My Project (12/5/2023)');
+    cy.getDataTest('report-detail-label')
+      .eq(1)
+      .should('contain.text', `My Project (${secondDay.toLocaleDateString()})`);
     cy.get('.fixed').click();
     // // Next day
     cy.clock(thirdDay.getTime());
@@ -68,15 +70,15 @@ describe('Day change', () => {
     cy.getDataTest('report-button').click();
     cy.getDataTest('report-tab').eq(1).click();
     cy.getDataTest('report-detail-value').eq(2).should('have.text', '25');
-    cy.getDataTest('report-detail-label').eq(2).should('contain.text', 'My Project (12/6/2023)');
+    cy.getDataTest('report-detail-label').eq(2).should('contain.text', `My Project (${thirdDay.toLocaleDateString()})`);
     cy.get('.fixed').click();
     cy.clock().invoke('restore');
     cy.visit('http://localhost:3000/');
   });
 
-  it.only('should create new report with new timer as well', () => {
+  it('should create new report with new timer as well', () => {
     const yesterday = new Date(today.setDate(today.getDate() - 1));
-    finishedTimerOnce(yesterday.getTime());
+    finishedTimerOnce('second', yesterday.getTime());
     //
     cy.clock(yesterday.getTime());
     cy.visit('http://localhost:3000/');
@@ -99,8 +101,29 @@ describe('Day change', () => {
     cy.getDataTest('start-button').click();
     cy.tick(60 * 60 * 1000);
     cy.tick(1 * 1000);
-    // Next day
     cy.clock().invoke('restore');
+    cy.getDataTest('start-button').should('exist');
+    // Next day
+    cy.clock(today.setDate(today.getDate() + 1));
     cy.visit('http://localhost:3000/');
+    // Countdown
+    cy.getDataTest('start-button').click();
+    cy.tick(60 * 60 * 1000);
+    cy.tick(1 * 1000);
+    cy.clock().invoke('restore');
+    cy.getDataTest('start-button').should('exist');
+    // Check the report
+    cy.getDataTest('report-button').click();
+    cy.getDataTest('report-tab').eq(1).click();
+    cy.getDataTest('report-detail-value').eq(1).should('have.text', '60');
+    cy.getDataTest('report-detail-label').eq(1).should('contain.text', `Testing (${yesterday.toLocaleDateString()})`);
+    cy.getDataTest('report-detail-value').eq(2).should('have.text', '60');
+    cy.getDataTest('report-detail-label').eq(2).should('contain.text', `Testing (${today.toLocaleDateString()})`);
+    cy.get('.fixed').click();
+    cy.visit('http://localhost:3000/');
+  });
+
+  it('should remove old timer from report if there is no report about that timer.', () => {
+    cy.visit('http://localhost:3000');
   });
 });

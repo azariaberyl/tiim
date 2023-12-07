@@ -26,20 +26,27 @@ export default function Report() {
   const [isChart, setIsChart] = useState(true);
   const formattedData = ReportHandler();
 
+  const datasets = timers.flatMap((timer) => {
+    const data = DAYS_IN_WEEK.flatMap((day) => {
+      const theReports = reports.find((val) => val.id_timer === timer.id);
+      if (theReports === undefined) return [];
+      const theDateReport = theReports.reports.find((val) => val.date === day);
+      if (theDateReport !== undefined) {
+        return (theDateReport.report / 3600).toFixed(1);
+      }
+      return [];
+    });
+    if (data.length === 0) return [];
+    return {
+      label: timer.title,
+      data,
+    };
+  });
+  console.log(datasets);
+
   const data = {
     labels: DAYS_IN_WEEK_LABEL,
-    datasets: timers.map((timer) => ({
-      label: timer.title,
-      data: DAYS_IN_WEEK.map((day) => {
-        const theReports = reports.find((val) => val.id_timer === timer.id);
-        if (theReports === undefined) return;
-        const theDateReport = theReports.reports.find((val) => val.date === day);
-        if (theDateReport !== undefined) {
-          return theDateReport.report === -1 ? 0 : (theDateReport.report / 3600).toFixed(1);
-        }
-        return 0;
-      }),
-    })),
+    datasets,
   };
 
   const Element = () => (
