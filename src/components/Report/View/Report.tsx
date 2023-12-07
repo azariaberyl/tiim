@@ -4,6 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Lege
 import { Bar } from 'react-chartjs-2';
 import { useAppSelector } from '../../../app/hooks';
 import ReportHandler from '../Controller/ReportHandler';
+import { AiFillClockCircle } from 'react-icons/ai';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, Colors);
 
@@ -34,15 +35,14 @@ export default function Report() {
       if (theDateReport !== undefined) {
         return (theDateReport.report / 3600).toFixed(1);
       }
-      return [];
+      return 0;
     });
-    if (data.length === 0) return [];
+    if (data.every((val) => val == 0)) return [];
     return {
       label: timer.title,
       data,
     };
   });
-  console.log(datasets);
 
   const data = {
     labels: DAYS_IN_WEEK_LABEL,

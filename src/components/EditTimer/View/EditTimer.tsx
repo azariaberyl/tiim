@@ -147,6 +147,7 @@ function EditTimer({ closeModal }: { closeModal: (val: ModalType) => void }) {
           />
         </div>
         <button
+          data-test='delete-button'
           type='button'
           onClick={() => {
             onDelete(dispatch, id, timers, timerReports);

@@ -98,6 +98,7 @@ const dataSlice = createSlice({
 
     deleteTimer: (state) => {
       const newTimers = state.timers.filter((timer) => timer.id !== state.activeTimerId);
+      const newReports = state.timerReports.filter((timer) => timer.id_timer !== state.activeTimerId);
       if (newTimers.length === 0) {
         state.timers = [
           {
@@ -109,10 +110,15 @@ const dataSlice = createSlice({
           },
         ];
         state.activeTimerId = '-1';
-        return;
+        state.timerReports = newReports;
+      } else {
+        state.timers = newTimers;
+        state.activeTimerId = newTimers[0].id;
+        state.timerReports = newReports;
       }
-      state.timers = newTimers;
-      state.activeTimerId = newTimers[0].id;
+      localStorage.setItem('timers', JSON.stringify(state.timers));
+      localStorage.setItem('activeTimerId', JSON.stringify(state.activeTimerId));
+      localStorage.setItem('timerReports', JSON.stringify(state.timerReports));
     },
   },
 });

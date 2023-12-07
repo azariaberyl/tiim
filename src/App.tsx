@@ -9,7 +9,6 @@ import { changeSecond, changeTimer, changeTimerReport } from './features/timerSl
 
 function App() {
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     const { activeTimerId, timerReports, timers, timerSecondState } = init1();
     // Update the data

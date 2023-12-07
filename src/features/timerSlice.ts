@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Timer1 } from '../types/timer';
-import { Report } from '../types';
 
 type initialState = {
   second: number;
