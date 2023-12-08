@@ -133,7 +133,6 @@ describe.only('3 Timer 10 Days but one of the timer not used after ninth day', (
       cy.addTimer();
       cy.editTimer({ title: 'Testing3' });
       cy.countdown({ date: new Date(dateArray[9]), tick: 25 * 60 * 1000 });
-      // TODO: Fix the problems
       // 2
       cy.changeTimer(0);
       cy.countdown({ date: new Date(dateArray[8]), tick: 60 * 60 * 1000 });

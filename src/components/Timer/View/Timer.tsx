@@ -20,6 +20,11 @@ function Timer(props: React.HTMLProps<HTMLDivElement>, ref: React.ForwardedRef<H
 }
 
 function DisplayTimer({ time }: { time: string }) {
+  if (time === '00:00') {
+    document.title = 'Break! - Pomodoro';
+  } else {
+    document.title = `${time} - Pomodoro`;
+  }
   return (
     <p data-test='display-timer' className='w-fit font-medium text-8xl my-4'>
       {time}

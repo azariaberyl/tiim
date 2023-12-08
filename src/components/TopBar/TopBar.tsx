@@ -3,6 +3,7 @@ import { provider } from '../../utils/firebase';
 import { useCallback, useEffect, useState } from 'react';
 import useUserStore from '../../contexts/UserStore';
 
+// TODO: Fix this shit
 function TopBar() {
   const [user, updateUser] = useUserStore((state) => [state.user, state.updateUser]);
 

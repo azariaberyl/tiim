@@ -179,3 +179,10 @@ describe('Add Timer Report Test', () => {
     cy.get('.fixed').click();
   });
 });
+
+describe('Paging', () => {
+  it('should cant go anywere if it is the only page', () => {});
+  it('should can click and get next page', () => {});
+  it('should can back previous page', () => {});
+  it('should cant go next if it reaches the last page', () => {});
+});

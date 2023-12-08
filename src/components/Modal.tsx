@@ -7,9 +7,9 @@ interface Modal {
 
 function Modal({ children, onClose }: Modal) {
   return (
-    <div className='fixed z-50 top-0 left-0 w-screen h-screen bg-[#00000059]' onClick={() => onClose('')}>
+    <div className='fixed z-50 top-0 left-0 w-screen h-screen py-4 bg-[#00000059]' onClick={() => onClose('')}>
       <div
-        className='overflow-auto max-h-full mt-4 w-fit mx-auto'
+        className='overflow-y-auto overflow-x-hidden max-h-full w-fit mx-auto rounded'
         data-test='modal'
         onClick={(e) => e.stopPropagation()}
       >
