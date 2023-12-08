@@ -31,8 +31,14 @@ declare namespace Cypress {
     addTimer(): Chainable<JQuery<HTMLElement>>;
     countdown(clock: Countdown): Chainable<JQuery<HTMLElement>>;
     goToReportDetail(): Chainable<JQuery<HTMLElement>>;
+    changeTimer(index: number): Chainable<JQuery<HTMLElement>>;
   }
 }
+
+Cypress.Commands.add('changeTimer', (index) => {
+  cy.getDataTest('timer-title').click();
+  cy.getDataTest('timer').eq(index).click();
+});
 
 Cypress.Commands.add('goToReportDetail', () => {
   cy.getDataTest('report-button').click();

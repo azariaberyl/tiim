@@ -1,4 +1,3 @@
-// TODO: Create deleteTimer test
 describe('Delete Timer', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
