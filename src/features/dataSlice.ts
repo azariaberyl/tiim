@@ -120,8 +120,19 @@ const dataSlice = createSlice({
       localStorage.setItem('activeTimerId', JSON.stringify(state.activeTimerId));
       localStorage.setItem('timerReports', JSON.stringify(state.timerReports));
     },
+    updateUser: (state, action: PayloadAction<User | null>) => {
+      state.user = action.payload;
+    },
   },
 });
-export const { updateTimers, updateReport, addTimer, changeTimerId, changeTimerReports, changeTimers, deleteTimer } =
-  dataSlice.actions;
+export const {
+  updateTimers,
+  updateReport,
+  addTimer,
+  changeTimerId,
+  changeTimerReports,
+  changeTimers,
+  deleteTimer,
+  updateUser,
+} = dataSlice.actions;
 export default dataSlice.reducer;

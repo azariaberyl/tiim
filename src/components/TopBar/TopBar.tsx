@@ -1,17 +1,19 @@
-import { getAuth, signInWithPopup, onAuthStateChanged, User, signOut } from 'firebase/auth';
+import { getAuth, signInWithPopup, signOut } from 'firebase/auth';
 import { provider } from '../../utils/firebase';
-import { useCallback, useEffect, useState } from 'react';
-import useUserStore from '../../contexts/UserStore';
+import { useCallback, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { updateUser } from '../../features/dataSlice';
 
 // TODO: Fix this shit
 function TopBar() {
-  const [user, updateUser] = useUserStore((state) => [state.user, state.updateUser]);
+  const user = useAppSelector((s) => s.data.user);
+  const dispatch = useAppDispatch();
 
   const onLogin = useCallback(() => {
     const auth = getAuth();
     signInWithPopup(auth, provider)
       .then((result) => {
-        updateUser(result.user);
+        dispatch(updateUser(result.user));
       })
       .catch((error) => {});
   }, []);
@@ -20,7 +22,7 @@ function TopBar() {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
-        updateUser(null);
+        dispatch(updateUser(null));
         // Sign-out successful.
       })
       .catch((error) => {

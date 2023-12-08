@@ -3,11 +3,33 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { Tiimz } from './pages';
 import { useAppDispatch } from './app/hooks';
 import { init1 } from './utils';
-import { changeTimerId, changeTimerReports, changeTimers } from './features/dataSlice';
+import { changeTimerId, changeTimerReports, changeTimers, updateUser } from './features/dataSlice';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { changeSecond, changeTimer, changeTimerReport } from './features/timerSlice';
 
 function App() {
   const dispatch = useAppDispatch();
+
+  // Init from Firebase
+  useEffect(() => {
+    // Init user
+    const auth = getAuth();
+    const login = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid;
+        dispatch(updateUser(user));
+      } else {
+        // User is signed out
+        dispatch(updateUser(null));
+      }
+    });
+
+    return () => login();
+  }, []);
+
+  // Init data from local storage
   useEffect(() => {
     const { activeTimerId, timerReports, timers, timerSecondState } = init1();
     // Update the data
