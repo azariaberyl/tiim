@@ -11,13 +11,4 @@ interface DetailData {
   report: number; // Second
 }
 
-const map = new Map([
-  ['1', 1],
-  ['1', 1],
-  ['1', 1],
-  ['1', 1],
-]);
-
-map.get('1');
-
 export type { Report, DetailData };

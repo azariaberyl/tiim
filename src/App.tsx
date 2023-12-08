@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Tiimz } from './pages';
-import useUserStore from './contexts/UserStore';
 import { useAppDispatch } from './app/hooks';
 import { init1 } from './utils';
 import { changeTimerId, changeTimerReports, changeTimers } from './features/dataSlice';

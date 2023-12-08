@@ -11,7 +11,7 @@ const Tiimz = () => {
 
   return (
     <div className='w-full items-center md:h-screen flex flex-col'>
-      <TopBar />
+      {/* <TopBar /> */}
       <div className='w-full flex flex-col justify-center h-full absolute items-center lg:-mt-8'>
         {/* Section 1 */}
         <div>

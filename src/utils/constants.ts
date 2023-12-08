@@ -1,21 +1,6 @@
-import { Timer, Report } from '../types';
 import { Timer1 } from '../types/timer';
 
-export const DEFAULT_TIMER: Timer = {
-  id: '-1',
-  minutes: 10,
-  seconds: 0,
-  title: 'My Project',
-};
-export const DEFAULT_REPORT: Report = {
-  id_timer: '-1',
-  title: DEFAULT_TIMER.title,
-  date: new Date().toDateString(),
-  report: 0,
-  id: '' + +new Date(),
-};
-
-export const DEFAULT_TIMER1 = (): Timer1 => ({
+export const DEFAULT_TIMER = (): Timer1 => ({
   id: new Date().toISOString(),
   shortBreak: 5 * 60,
   longBreak: 10 * 60,
