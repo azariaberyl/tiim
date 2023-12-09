@@ -1,4 +1,4 @@
-interface Timer1 {
+interface Timer {
   seconds: number;
   shortBreak: number;
   longBreak: number;
@@ -16,4 +16,4 @@ export type tab = 1 | 2 | 3;
 
 type ModalType = 'edit' | 'report' | '';
 
-export type { ModalType, BreakTime, Timer1 };
+export type { ModalType, BreakTime, Timer as Timer1 };

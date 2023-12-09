@@ -65,7 +65,6 @@ const dataSlice = createSlice({
       if (!ifTodaysReport) {
         newReports.push(action.payload);
       }
-      // console.log(newReports);
       // Update today's report
       const newReport: Report = { ...report, reports: newReports }; // Update specific timer's reports
       const newTimerReports = state.timerReports.map((val) => (val.id_timer === newReport.id_timer ? newReport : val)); // Insert the new timer's report into timerReports

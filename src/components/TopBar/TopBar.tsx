@@ -4,7 +4,6 @@ import { useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { updateUser } from '../../features/dataSlice';
 
-// TODO: Fix this shit
 function TopBar() {
   const user = useAppSelector((s) => s.data.user);
   const dispatch = useAppDispatch();
