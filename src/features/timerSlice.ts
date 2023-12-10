@@ -37,8 +37,8 @@ export const timerSlice = createSlice({
         return;
       }
       state.start = false;
-      new Audio('../mixkit-achievement-bell-600.wav').play();
-      new Notification('Time to take a break!');
+      // new Audio('../mixkit-achievement-bell-600.wav').play();
+      // new Notification('Time to take a break!');
       localStorage.setItem('timerSecondState', state.pomodoroTimer.toString());
     },
     changeTimer: (state, action: PayloadAction<Timer1 | undefined>) => {

@@ -132,10 +132,7 @@ export default function Report() {
                     <td className='whitespace-nowrap px-6 py-4' data-test='report-detail-date'>
                       {val.date}
                     </td>
-                    <td
-                      className='whitespace-nowrap px-6 py-4'
-                      data-test='report-detail-label'
-                    >{`${val.title} (${val.date})`}</td>
+                    <td className='whitespace-nowrap px-6 py-4' data-test='report-detail-label'>{`${val.title}`}</td>
                     <td className='whitespace-nowrap px-6 py-4' data-test='report-detail-value'>
                       {Math.round(val.report / 60)}
                     </td>
@@ -146,6 +143,7 @@ export default function Report() {
             <div className='w-full flex justify-center gap-2'>
               {/* Paging */}
               <button
+                data-test='paging-left-button'
                 className={`p-1.5 text-2xl bg-slate-50 rounded-md mt-2 ${
                   page === 1 ? `text-slate-100` : 'hover:bg-slate-200'
                 }`}
@@ -157,6 +155,7 @@ export default function Report() {
                 <MdChevronLeft />
               </button>
               <button
+                data-test='paging-right-button'
                 className={`p-1.5 text-2xl bg-slate-50 rounded-md mt-2 ${
                   isLastPage ? `text-slate-100` : 'hover:bg-slate-200'
                 }`}

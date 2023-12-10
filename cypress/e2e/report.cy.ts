@@ -1,5 +1,5 @@
 const now = new Date();
-describe.only('Report Test', () => {
+describe('Report Test', () => {
   beforeEach(() => {
     cy.visit('localhost:3000');
   });
@@ -180,9 +180,165 @@ describe('Add Timer Report Test', () => {
   });
 });
 
+// TODO: Paging test
 describe('Paging', () => {
-  it('should cant go anywere if it is the only page', () => {});
-  it('should can click and get next page', () => {});
-  it('should can back previous page', () => {});
-  it('should cant go next if it reaches the last page', () => {});
+  const today = new Date();
+  const tenDayAgo = today.setDate(today.getDate() - 9);
+  const nineDayAgo = today.setDate(today.getDate() + 1);
+  const eightDayAgo = today.setDate(today.getDate() + 1);
+  const sevenDayAgo = today.setDate(today.getDate() + 1);
+  const sixDayAgo = today.setDate(today.getDate() + 1);
+  const fiveDayAgo = today.setDate(today.getDate() + 1);
+  const fourDayAgo = today.setDate(today.getDate() + 1);
+  const threeDayAgo = today.setDate(today.getDate() + 1);
+  const twoDayAgo = today.setDate(today.getDate() + 1);
+  const oneDayAgo = today.setDate(today.getDate() + 1);
+  const dateArray = [
+    today,
+    oneDayAgo,
+    twoDayAgo,
+    threeDayAgo,
+    fourDayAgo,
+    fiveDayAgo,
+    sixDayAgo,
+    sevenDayAgo,
+    eightDayAgo,
+    nineDayAgo,
+    tenDayAgo,
+  ];
+  const lotOfReports = () => {
+    cy.session('3timers', () => {
+      cy.visit('http://localhost:3000');
+      cy.editTimer({ title: 'Testing', timermin: '60' });
+      // 1
+      cy.countdown({ date: new Date(dateArray[9]), tick: 60 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.addTimer();
+      cy.editTimer({ title: 'Testing2' });
+      cy.countdown({ date: new Date(dateArray[9]), tick: 25 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.addTimer();
+      cy.editTimer({ title: 'Testing3' });
+      cy.countdown({ date: new Date(dateArray[9]), tick: 25 * 60 * 1000 });
+      // 2
+      cy.changeTimer(0);
+      cy.countdown({ date: new Date(dateArray[8]), tick: 60 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(0);
+      cy.countdown({ date: new Date(dateArray[8]), tick: 25 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[8]), tick: 25 * 60 * 1000 });
+      // 3
+      cy.changeTimer(0);
+      cy.countdown({ date: new Date(dateArray[7]), tick: 60 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(0);
+      cy.countdown({ date: new Date(dateArray[7]), tick: 25 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[7]), tick: 25 * 60 * 1000 });
+      // 4
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[6]), tick: 25 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[6]), tick: 25 * 60 * 1000 });
+      // 5
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[5]), tick: 25 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[5]), tick: 25 * 60 * 1000 });
+      // 6
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[4]), tick: 25 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[4]), tick: 25 * 60 * 1000 });
+      // 7
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[3]), tick: 25 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[3]), tick: 25 * 60 * 1000 });
+      // 8
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[2]), tick: 25 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[2]), tick: 25 * 60 * 1000 });
+      // 9
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[1]), tick: 25 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[1]), tick: 25 * 60 * 1000 });
+      // 10
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[0]), tick: 25 * 60 * 1000 });
+      cy.visit('http://localhost:3000');
+      cy.changeTimer(1);
+      cy.countdown({ date: new Date(dateArray[0]), tick: 25 * 60 * 1000 });
+    });
+  };
+
+  beforeEach(() => {
+    cy.visit('http://localhost:3000');
+  });
+
+  it('should cant go anywere if it is the only page', () => {
+    cy.goToReportDetail();
+    cy.getDataTest('paging-left-button').should('have.class', 'text-slate-100');
+    cy.getDataTest('paging-right-button').should('have.class', 'text-slate-100');
+  });
+  it('should can click and get next page', () => {
+    lotOfReports();
+    cy.visit('http://localhost:3000');
+    cy.goToReportDetail();
+    // Check the date
+    cy.getDataTest('report-detail-date').eq(0).should('have.text', `${today.toLocaleDateString()}`);
+    // Go to next page
+    cy.getDataTest('paging-right-button').should('not.have.class', 'text-slate-100');
+    cy.getDataTest('paging-right-button').should('have.class', 'hover:bg-slate-200').click();
+    // Check the if it is different
+    cy.getDataTest('report-detail-date').eq(0).should('not.have.text', `${today.toLocaleDateString()}`);
+  });
+  it('should can back previous page', () => {
+    lotOfReports();
+    cy.visit('http://localhost:3000');
+    cy.goToReportDetail();
+    // Go to next page
+    cy.getDataTest('paging-right-button').should('have.class', 'hover:bg-slate-200').click();
+    cy.getDataTest('report-detail-date').eq(0).should('not.have.text', `${today.toLocaleDateString()}`);
+    // Go to previous page
+    cy.getDataTest('paging-left-button').should('not.have.class', 'text-slate-100');
+    cy.getDataTest('paging-left-button').should('have.class', 'hover:bg-slate-200').click();
+    cy.getDataTest('report-detail-date').eq(0).should('have.text', `${today.toLocaleDateString()}`);
+  });
+  it('should cant go next if it reaches the last page', () => {
+    lotOfReports();
+    cy.visit('http://localhost:3000');
+    cy.goToReportDetail();
+    // Check the date
+    cy.getDataTest('report-detail-date').eq(0).should('have.text', `${today.toLocaleDateString()}`);
+    // Go to next page
+    cy.getDataTest('paging-right-button').should('have.class', 'hover:bg-slate-200').click();
+    cy.getDataTest('report-detail-date').eq(0).should('not.have.text', `${today.toLocaleDateString()}`);
+    // Go to next page
+    cy.getDataTest('paging-right-button').should('have.class', 'hover:bg-slate-200').click();
+    // Check the page
+    cy.getDataTest('report-detail-date')
+      .eq(0)
+      .should('have.text', `${new Date(nineDayAgo).toLocaleDateString()}`);
+    // Check next button
+    cy.getDataTest('paging-right-button').should('have.class', 'text-slate-100');
+  });
 });

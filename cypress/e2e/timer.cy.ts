@@ -187,7 +187,7 @@ describe('Edit Test', () => {
     cy.getDataTest('display-timer').should('have.text', '15:10');
   });
 
-  it.only('should stop the timer when the timer changed', () => {
+  it('should stop the timer when the timer changed', () => {
     cy.get('.px-20').click();
     cy.getDataTest('edit-button').click();
     cy.getDataTest('input-title').clear().type('Testing');

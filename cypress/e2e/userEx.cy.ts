@@ -105,7 +105,7 @@ describe('2 Timer 10 Days Report', () => {
   it('should display all the timer', () => {});
 });
 
-describe.only('3 Timer 10 Days but one of the timer not used after ninth day', () => {
+describe('3 Timer 10 Days but one of the timer not used after ninth day', () => {
   const dateArray = [
     today,
     oneDayAgo,
@@ -206,3 +206,6 @@ describe.only('3 Timer 10 Days but one of the timer not used after ninth day', (
     cy.visit('http://localhost:3000');
   });
 });
+
+// TODO:
+describe('Logging and cloud functionality', () => {});

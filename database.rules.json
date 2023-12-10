@@ -1,18 +1,6 @@
 {
   "rules": {
-    "$user_id": {
-      "reports": {
-        ".read": "$user_id === auth.uid",
-        ".write": "$user_id === auth.uid",
-      },
-      "selected": {
-        ".read": "$user_id === auth.uid",
-        ".write": "$user_id === auth.uid",
-      },
-      "timers" : {
-        ".read": "$user_id === auth.uid",
-        ".write": "$user_id === auth.uid",
-      },
-    },
+    ".read": "now < 1704560400000",  // 2024-1-7
+    ".write": "now < 1704560400000",  // 2024-1-7
   }
 }

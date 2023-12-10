@@ -36,7 +36,6 @@ describe('Day change', () => {
     const firstDay = new Date(today.setDate(today.getDate() - 2));
     const secondDay = new Date(today.setDate(today.getDate() + 1));
     const thirdDay = new Date(today.setDate(today.getDate() + 1));
-    console.log(firstDay, secondDay, thirdDay);
     finishedTimerOnce('first', firstDay.getTime());
     // Next day
     cy.clock(secondDay.getTime());
@@ -51,10 +50,9 @@ describe('Day change', () => {
     // Check report
     cy.getDataTest('report-button').click();
     cy.getDataTest('report-tab').eq(1).click();
-    cy.getDataTest('report-detail-value').eq(1).should('have.text', '25');
-    cy.getDataTest('report-detail-label')
-      .eq(1)
-      .should('contain.text', `My Project (${secondDay.toLocaleDateString()})`);
+    cy.getDataTest('report-detail-value').eq(0).should('have.text', '25');
+    cy.getDataTest('report-detail-date').eq(0).should('contain.text', `${secondDay.toLocaleDateString()}`);
+    cy.getDataTest('report-detail-label').eq(0).should('contain.text', `My Project`);
     cy.get('.fixed').click();
     // // Next day
     cy.clock(thirdDay.getTime());
@@ -69,8 +67,9 @@ describe('Day change', () => {
     // Check report
     cy.getDataTest('report-button').click();
     cy.getDataTest('report-tab').eq(1).click();
-    cy.getDataTest('report-detail-value').eq(2).should('have.text', '25');
-    cy.getDataTest('report-detail-label').eq(2).should('contain.text', `My Project (${thirdDay.toLocaleDateString()})`);
+    cy.getDataTest('report-detail-value').eq(0).should('have.text', '25');
+    cy.getDataTest('report-detail-date').eq(0).should('contain.text', `${thirdDay.toLocaleDateString()}`);
+    cy.getDataTest('report-detail-label').eq(0).should('contain.text', `My Project`);
     cy.get('.fixed').click();
     cy.clock().invoke('restore');
     cy.visit('http://localhost:3000/');
@@ -115,10 +114,12 @@ describe('Day change', () => {
     // Check the report
     cy.getDataTest('report-button').click();
     cy.getDataTest('report-tab').eq(1).click();
-    cy.getDataTest('report-detail-value').eq(1).should('have.text', '60');
-    cy.getDataTest('report-detail-label').eq(1).should('contain.text', `Testing (${yesterday.toLocaleDateString()})`);
-    cy.getDataTest('report-detail-value').eq(2).should('have.text', '60');
-    cy.getDataTest('report-detail-label').eq(2).should('contain.text', `Testing (${today.toLocaleDateString()})`);
+    cy.getDataTest('report-detail-value').eq(1).should('have.text', '50');
+    cy.getDataTest('report-detail-date').eq(1).should('have.text', `${yesterday.toLocaleDateString()}`);
+    cy.getDataTest('report-detail-label').eq(1).should('contain.text', `My Project`);
+    cy.getDataTest('report-detail-value').eq(0).should('have.text', '60');
+    cy.getDataTest('report-detail-date').eq(0).should('have.text', `${today.toLocaleDateString()}`);
+    cy.getDataTest('report-detail-label').eq(0).should('contain.text', `Testing`);
     cy.get('.fixed').click();
     cy.visit('http://localhost:3000/');
   });
