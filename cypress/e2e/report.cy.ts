@@ -1,5 +1,5 @@
 const now = new Date();
-describe('Report Test', () => {
+describe.only('Report Test', () => {
   beforeEach(() => {
     cy.visit('localhost:3000');
   });

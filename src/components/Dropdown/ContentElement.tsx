@@ -1,9 +1,4 @@
 import React from 'react';
-import useTimerStore from '../../contexts/TimerStore';
-import useReportStore from '../../contexts/ReportStore';
-import { DEFAULT_REPORT } from '../../utils/constants';
-import useTimerColectionStore from '../../contexts/TimerColectionStore';
-import { postSelected, postSelectedFirebase } from '../../utils/timer';
 import { Timer1 } from '../../types/timer';
 import { useAppDispatch } from '../../app/hooks';
 import { changeTimer, changeTimerReport, startChange } from '../../features/timerSlice';

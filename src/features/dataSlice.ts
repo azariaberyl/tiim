@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth';
 import { Timer1 } from '../types/timer';
 import { Report } from '../types';
+import { deleteTimerFirebase, updateActiveTimerIdFirebase, writeTimers } from '../utils/firebase';
 
 type initialState = {
   user: User | null;
@@ -33,6 +34,7 @@ const dataSlice = createSlice({
       const newTimers = state.timers.map((val) => (val.id === state.activeTimerId ? action.payload : val));
       state.timers = newTimers;
       localStorage.setItem('timers', JSON.stringify(newTimers));
+      writeTimers(state.user?.uid, state.timers);
     },
     //Create a reducer to update the D-day report only; it should update when the timer finishes.
     updateReport: (
@@ -77,12 +79,15 @@ const dataSlice = createSlice({
 
       localStorage.setItem('timers', JSON.stringify([...state.timers]));
       localStorage.setItem('activeTimerId', action.payload.id);
+      writeTimers(state.user?.uid, state.timers);
+      updateActiveTimerIdFirebase(state.user?.uid, action.payload.id);
     },
     changeTimerId: (state, action: PayloadAction<string>) => {
       state.activeTimerId = action.payload;
 
       // Save to local storage
       localStorage.setItem('activeTimerId', action.payload);
+      updateActiveTimerIdFirebase(state.user?.uid, action.payload);
     },
 
     changeTimerReports: (state, action: PayloadAction<Report[] | undefined>) => {
@@ -98,6 +103,7 @@ const dataSlice = createSlice({
     deleteTimer: (state) => {
       const newTimers = state.timers.filter((timer) => timer.id !== state.activeTimerId);
       const newReports = state.timerReports.filter((timer) => timer.id_timer !== state.activeTimerId);
+      const removedId = state.activeTimerId;
       if (newTimers.length === 0) {
         state.timers = [
           {
@@ -118,6 +124,7 @@ const dataSlice = createSlice({
       localStorage.setItem('timers', JSON.stringify(state.timers));
       localStorage.setItem('activeTimerId', JSON.stringify(state.activeTimerId));
       localStorage.setItem('timerReports', JSON.stringify(state.timerReports));
+      deleteTimerFirebase(state.user?.uid, removedId, state.activeTimerId, state.timers);
     },
     updateUser: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload;
