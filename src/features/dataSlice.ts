@@ -51,7 +51,6 @@ const dataSlice = createSlice({
       // Find the related timer
       const report = state.timerReports.find((report) => report.id_timer === state.activeTimerId);
       // If no report create new report if the timer exists
-      // console.log(report);
       if (report === undefined) {
         state.timerReports.push({ id_timer: state.activeTimerId, reports: [action.payload] });
         localStorage.setItem(

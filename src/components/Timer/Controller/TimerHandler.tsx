@@ -42,7 +42,6 @@ const TimerHandler: TimerHandler = () => {
       }, 1000); // Update every second
     }
     // Update the report in here, basically when the button pressed it will be updated
-    // console.log(report);
     dispatch(updateReport(report));
     updateReportFirebase(user?.uid, report, id);
     return () => clearInterval(timerId); // Cleanup interval on component unmount or when isStart is toggled off

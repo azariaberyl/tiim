@@ -35,7 +35,6 @@ function TopBar() {
   //     // This gives you a Google Access Token.
   //     const credential = GoogleAuthProvider.credentialFromResult(result);
   //     const token = credential?.accessToken;
-  //     console.log('user, credential, token', user, credential, token);
   //     dispatch(updateUser(result.user));
   //   }
   // }, []);

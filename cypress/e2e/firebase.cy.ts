@@ -5,7 +5,6 @@ const login = () => {
     // cy.getDataTest('logout').should('exist');
   });
 };
-// TODO:Firebase test
 describe('Write and Read', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000');

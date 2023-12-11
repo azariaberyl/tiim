@@ -74,7 +74,6 @@ export default function App() {
             const timer = timers
               ? timers.find((val: Timer1) => val.id == activeTimerId || '-1')
               : { id: '-1', longBreak: 600, seconds: 1500, shortBreak: 300, title: 'My Project' };
-            console.log('timer', timer);
             dispatch(changeTimer(timer));
           } else {
             dispatch(changeTimerId('-1'));
