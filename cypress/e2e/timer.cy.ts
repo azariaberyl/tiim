@@ -210,3 +210,36 @@ describe('Edit Test', () => {
     cy.getDataTest('start-button').should('have.text', 'START');
   });
 });
+
+describe('Remove Test', () => {
+  beforeEach(() => {
+    cy.session(
+      '1timer',
+      () => {
+        cy.visit('http://localhost:3000');
+        cy.editTimer({ title: 'Testing', timermin: '0', timersec: '50' });
+        cy.displayTimerShould({ timer: '00:50', title: 'Testing' });
+        cy.countdown({ tick: 50 * 1000 });
+      },
+      {
+        validate: () => {
+          cy.visit('http://localhost:3000');
+          cy.goToReportDetail();
+          cy.getDataTest('report-detail-value').should('exist');
+        },
+      }
+    );
+    cy.visit('http://localhost:3000');
+  });
+  it('should remove timer if only 1 timer', () => {
+    cy.deleteTimer();
+    cy.displayTimerShould({ timer: '25:00', title: 'My Project' });
+    cy.goToReportDetail();
+    cy.getDataTest('report-detail-value').should('not.exist');
+    cy.visit('http://localhost:3000');
+    cy.displayTimerShould({ timer: '25:00', title: 'My Project' });
+    cy.goToReportDetail();
+    cy.getDataTest('report-detail-value').should('not.exist');
+    cy.visit('http://localhost:3000');
+  });
+});

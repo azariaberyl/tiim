@@ -45,7 +45,6 @@ const TimerHandler: TimerHandler = () => {
     // console.log(report);
     dispatch(updateReport(report));
     updateReportFirebase(user?.uid, report, id);
-    // writeUserData();
     return () => clearInterval(timerId); // Cleanup interval on component unmount or when isStart is toggled off
   }, [isStart]);
 

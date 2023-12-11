@@ -61,3 +61,5 @@ export function deleteTimerFirebase(
   updates[`${userId}/${removedIdFormated}`] = null; // Delete report
   return update(ref(db), updates);
 }
+
+export default app;

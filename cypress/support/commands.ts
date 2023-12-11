@@ -17,8 +17,9 @@ interface DisplayTimer {
 
 interface Countdown {
   tick: number;
-  page?: string;
+  url?: string;
   date?: Date;
+  login?: boolean;
 }
 
 declare namespace Cypress {
@@ -87,11 +88,13 @@ Cypress.Commands.add('addTimer', () => {
 
 Cypress.Commands.add('countdown', (clock) => {
   const theDate = clock.date ?? new Date();
-  const page = clock.page ?? 'http://localhost:3000';
+  const page = clock.url ?? 'http://localhost:3000';
   cy.clock(theDate.getTime());
   cy.visit(page);
+  if (clock.login) cy.getDataTest('logout').should('exist');
   cy.getStartButton().click();
   cy.tick(clock.tick);
   cy.tick(1000);
   cy.clock().invoke('restore');
+  cy.getStartButton().should('have.text', 'START');
 });

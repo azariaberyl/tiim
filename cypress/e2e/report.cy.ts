@@ -180,7 +180,6 @@ describe('Add Timer Report Test', () => {
   });
 });
 
-// TODO: Paging test
 describe('Paging', () => {
   const today = new Date();
   const tenDayAgo = today.setDate(today.getDate() - 9);

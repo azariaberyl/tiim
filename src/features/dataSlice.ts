@@ -93,11 +93,13 @@ const dataSlice = createSlice({
     changeTimerReports: (state, action: PayloadAction<Report[] | undefined>) => {
       if (action.payload === undefined) return;
       state.timerReports = action.payload;
+      localStorage.setItem('timerReports', JSON.stringify(action.payload));
     },
 
     changeTimers: (state, action: PayloadAction<Timer1[] | undefined>) => {
       if (action.payload === undefined) return;
       state.timers = action.payload;
+      localStorage.setItem('timers', JSON.stringify(action.payload));
     },
 
     deleteTimer: (state) => {
@@ -122,7 +124,7 @@ const dataSlice = createSlice({
         state.timerReports = newReports;
       }
       localStorage.setItem('timers', JSON.stringify(state.timers));
-      localStorage.setItem('activeTimerId', JSON.stringify(state.activeTimerId));
+      localStorage.setItem('activeTimerId', state.activeTimerId);
       localStorage.setItem('timerReports', JSON.stringify(state.timerReports));
       deleteTimerFirebase(state.user?.uid, removedId, state.activeTimerId, state.timers);
     },

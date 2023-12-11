@@ -207,5 +207,10 @@ describe('3 Timer 10 Days but one of the timer not used after ninth day', () => 
   });
 });
 
-// TODO:
-describe('Logging and cloud functionality', () => {});
+// TODO: Loging user
+describe.only('Logging and cloud functionality', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:3000');
+  });
+  it('should login', () => {});
+});
