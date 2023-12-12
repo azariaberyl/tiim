@@ -35,7 +35,7 @@ const TimerHandler: TimerHandler = () => {
 
   useEffect(() => {
     let timerId: any;
-
+    window.onbeforeunload = (s) => (isStart ? 'You have unsaved changes which will not be saved.' : undefined);
     if (isStart) {
       timerId = setInterval(() => {
         dispatch(decrement());
