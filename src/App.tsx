@@ -72,7 +72,12 @@ export default function App() {
             }
             // Update timerSlice
             const timer = timers
-              ? timers.find((val: Timer1) => val.id == activeTimerId || '-1')
+              ? timers.find((val: Timer1) => {
+                  if (activeTimerId) {
+                    return val.id == activeTimerId;
+                  }
+                  return val.id === '-1';
+                })
               : { id: '-1', longBreak: 600, seconds: 1500, shortBreak: 300, title: 'My Project' };
             dispatch(changeTimer(timer));
           } else {
