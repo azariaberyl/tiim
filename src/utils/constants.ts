@@ -1,12 +1,16 @@
 import { Timer1 } from '../types/timer';
 
-export const DEFAULT_TIMER = (): Timer1 => ({
-  id: new Date().toISOString(),
-  shortBreak: 5 * 60,
-  longBreak: 10 * 60,
-  seconds: 25 * 60,
-  title: 'My Project',
-});
+export const DEFAULT_TIMER = (): Timer1 => {
+  const date = new Date().toISOString();
+  const id = date.replaceAll(':', '-').replaceAll('.', '-');
+  return {
+    id,
+    shortBreak: 5 * 60,
+    longBreak: 10 * 60,
+    seconds: 25 * 60,
+    title: 'My Project',
+  };
+};
 
 function getDaysInWeek(options?: any) {
   const date = new Date();
