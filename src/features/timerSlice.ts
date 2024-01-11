@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Timer1 } from '../types/timer';
+import { jsonComparer } from '../utils';
 
 type initialState = {
   second: number;
@@ -43,22 +44,24 @@ export const timerSlice = createSlice({
     },
     changeTimer: (state, action: PayloadAction<Timer1 | undefined>) => {
       if (action.payload === undefined) return;
-      localStorage.setItem('timerSecondState', action.payload.seconds.toString());
       state.pomodoroTimer = action.payload.seconds;
       state.shortBreak = action.payload.shortBreak;
       state.longBreak = action.payload.longBreak;
       state.title = action.payload.title;
-      if (state.tab === 1) {
-        state.second = action.payload.seconds;
-        return;
-      }
-      if (state.tab === 2) {
-        state.second = action.payload.shortBreak;
-        return;
-      }
-      if (state.tab === 3) {
-        state.second = action.payload.longBreak;
-        return;
+      if (action.payload.seconds !== state.pomodoroTimer) {
+        localStorage.setItem('timerSecondState', action.payload.seconds.toString());
+        if (state.tab === 1) {
+          state.second = action.payload.seconds;
+          return;
+        }
+        if (state.tab === 2) {
+          state.second = action.payload.shortBreak;
+          return;
+        }
+        if (state.tab === 3) {
+          state.second = action.payload.longBreak;
+          return;
+        }
       }
     },
     startChange: (state, action: PayloadAction<boolean | undefined>) => {

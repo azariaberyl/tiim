@@ -112,7 +112,6 @@ export default function App() {
   // Init data from local storage
   useEffect(() => {
     const { activeTimerId, timerReports, timers, timerSecondState } = init1();
-    debugger;
     // Update the data
     dispatch(changeTimerId(activeTimerId));
     dispatch(changeTimerReports(timerReports));
