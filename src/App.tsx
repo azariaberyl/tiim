@@ -8,7 +8,6 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { changeSecond, changeTimer, changeTimerReport } from './features/timerSlice';
 import { child, get, getDatabase, ref } from 'firebase/database';
 import { Timer1 } from './types/timer';
-import { Report } from './types';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -113,6 +112,7 @@ export default function App() {
   // Init data from local storage
   useEffect(() => {
     const { activeTimerId, timerReports, timers, timerSecondState } = init1();
+    debugger;
     // Update the data
     dispatch(changeTimerId(activeTimerId));
     dispatch(changeTimerReports(timerReports));

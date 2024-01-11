@@ -97,6 +97,7 @@ export const timerSlice = createSlice({
     changeSecond: (state, action: PayloadAction<number | undefined>) => {
       if (action.payload === undefined) return;
       state.second = action.payload;
+      localStorage.setItem('timerSecondState', action.payload.toString());
     },
   },
 });

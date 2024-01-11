@@ -135,17 +135,6 @@ function EditTimer({ closeModal }: { closeModal: (val: ModalType) => void }) {
             step={1}
           />
         </div>
-        <div className='flex items-center py-5'>
-          <Input
-            type='number'
-            title='Interval'
-            onChange={(e) => setInterval(parseInt(e.target.value))}
-            defaultValue={interval}
-            step={1}
-            min={0}
-            max={99}
-          />
-        </div>
         <button
           data-test='delete-button'
           type='button'
